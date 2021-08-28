@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\identity_projeto\\app\\build\\host\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
+        "source": "C:\\identity_projeto\\app\\.android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\identity_projeto\\app\\build\\host\\intermediates\\res\\merged\\debug\\drawable_launch_background.xml.flat",
+        "source": "C:\\identity_projeto\\app\\.android\\app\\src\\main\\res\\drawable\\launch_background.xml"
+    }
+]
