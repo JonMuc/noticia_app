@@ -1,0 +1,4 @@
+
+*.bin
+*.lock
+app/android/local.properties
