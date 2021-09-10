@@ -2,3 +2,8 @@
 *.bin
 *.lock
 app/android/local.properties
+app/android/.gradle/6.7/executionHistory/executionHistory.bin
+app/android/.gradle/6.7/executionHistory/executionHistory.bin
+app/android/.gradle/6.7/executionHistory/executionHistory.bin
+app/android/.gradle/6.7/javaCompile/taskHistory.bin
+*.bin
