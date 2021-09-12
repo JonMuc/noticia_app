@@ -1,3 +1,4 @@
+import 'package:app/views/widgerts/modal-widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,8 +36,9 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
             child: Text('Nagato Pain'),
           ),
           ListTile(
-            title: const Text('Item 1'),
+            title: const Text('Item 111'),
             onTap: () {
+              new ModalWidget();
               // Update the state of the app.
               // ...
             },

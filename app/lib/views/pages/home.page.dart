@@ -1,10 +1,17 @@
 import 'package:app/services/noticia.service.dart';
 import 'package:app/themes/style_app.dart';
+import 'package:app/views/widgerts/drawer-widget.dart';
 import 'package:app/views/widgerts/endDrawer-widget.dart';
 import 'package:app/views/widgerts/lista-manchetes.widget.dart';
+import 'package:app/views/widgerts/modal-widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+ThemeData _baseTheme = ThemeData(
+  fontFamily: "Roboto",
+  canvasColor: Colors.transparent,
+);
 
 class HomePage extends StatefulWidget {
   // const MyApp({Key key}) : super(key: key);
@@ -50,6 +57,9 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     return Scaffold(
       endDrawer:
       new EndDrawerWidget(),
+        drawer:
+        new ModalWidget(),
+
         body: new NestedScrollView(
           controller: _scrollViewController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) { //<-- headerSliverBuilder
@@ -65,6 +75,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                   ),
                 ],
                 title: Container(
+
                   height: 20,
                   child: new Text("Noticias APP"),
                 ),
@@ -88,6 +99,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
             ];
           },
           body: new TabBarView(
+
             children: <Widget>[
               new ListaManchetesWidget(),
               new ListaManchetesWidget(),
@@ -98,6 +110,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
         //floatingActionButton: [...]
     );
   }
+
 
 
 }
