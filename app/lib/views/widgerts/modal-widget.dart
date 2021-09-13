@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-ThemeData _baseTheme = ThemeData(
-  fontFamily: "Roboto",
-  canvasColor: Colors.transparent,
-);
+
 class ModalWidget extends StatefulWidget{
   @override
   _ModalWidget createState() => _ModalWidget();
@@ -54,7 +51,6 @@ class _ModalWidget extends State<ModalWidget>{
                 )
              ),
            ),
-
          ],
        ),
      ),

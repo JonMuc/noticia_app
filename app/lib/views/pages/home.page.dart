@@ -1,17 +1,12 @@
 import 'package:app/services/noticia.service.dart';
-import 'package:app/themes/style_app.dart';
-import 'package:app/views/widgerts/drawer-widget.dart';
 import 'package:app/views/widgerts/endDrawer-widget.dart';
 import 'package:app/views/widgerts/lista-manchetes.widget.dart';
+import 'package:app/views/widgerts/menu-inferior-widget.dart';
 import 'package:app/views/widgerts/modal-widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-ThemeData _baseTheme = ThemeData(
-  fontFamily: "Roboto",
-  canvasColor: Colors.transparent,
-);
 
 class HomePage extends StatefulWidget {
   // const MyApp({Key key}) : super(key: key);
@@ -107,10 +102,31 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
             controller: _tabController,
           ),
         ),
-        //floatingActionButton: [...]
+        bottomNavigationBar:
+            //new MenuInferiorWidget(),
+        BottomNavigationBar(
+          backgroundColor: Colors.blue,
+            items:
+            const <BottomNavigationBarItem>[
+
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.vpn_lock_rounded),
+                label: 'World',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.travel_explore_rounded),
+                label: 'Pesquisar',
+              ),
+
+            ],
+          //currentIndex: _selectedIndex,
+          selectedItemColor: Colors.white,
+          //onTap: _onItemTapped,
+        ),
     );
   }
-
-
-
 }
