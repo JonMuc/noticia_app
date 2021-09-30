@@ -1,6 +1,21 @@
-import 'package:app/views/widgerts/modal-widget.dart';
+import 'dart:convert';
+
+import 'package:app/themes/style_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import "package:http/http.dart" as http;
+
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  // Optional clientId
+  // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
+  scopes: <String>[
+    'email',
+    'https://www.googleapis.com/auth/userinfo.email',
+  ],
+);
+
 
 class EndDrawerWidget extends StatefulWidget{
   @override
@@ -8,52 +23,239 @@ class EndDrawerWidget extends StatefulWidget{
 }
 
 class _EndDrawerWidget extends State<EndDrawerWidget>{
+  GoogleSignInAccount _currentUser;
+  String _contactText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+      print(account);
+      setState(() {
+        _currentUser = account;
+      });
+      if (_currentUser != null) {
+        _handleGetContact(_currentUser);
+      }
+    });
+    _googleSignIn.signInSilently();
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return Theme(
+      data: Theme.of(context).copyWith(backgroundColor: Colors.black), //hex color
+      child: Drawer(
+        child: Container(
+          color: ThemeApp.test,
+          child: Column(
+            children: [
+              SizedBox(height: 40),
+              Align(
+                alignment: Alignment.center,
+                child: CircleAvatar(
+                  radius: 50.0,
+                  backgroundImage:
+                  NetworkImage("https://www.pinpng.com/pngs/m/131-1315114_png-pain-pain-akatsuki-black-and-white-transparent.png"),
+                ),
+              ),
+              SizedBox(height: 55), //distancia entre os itens
+              Container(
 
-    child: ListView(
-    // Important: Remove any padding from the ListView.
-    padding: EdgeInsets.zero,
-      children: <Widget>[
-        Align(
-          alignment: Alignment.center,
-          child: CircleAvatar(
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text("WNews",
+                    style: TextStyle(fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              // SizedBox.fromSize(
+              //   size: Size.fromRadius(10),
+              //   child: FittedBox(
+              //   ),
+              // ),
 
-            radius: 50.0,
-            backgroundColor: const Color(0xFF778899),
-            backgroundImage:
-            NetworkImage("https://www.pinpng.com/pngs/m/131-1315114_png-pain-pain-akatsuki-black-and-white-transparent.png"),
+              SizedBox(height: 30),
+              Column(
+                children:[
+                  TextButton.icon(
+                    icon:
+                    Icon(Icons.camera, color: Colors.red,),
+                    // ImageIcon(
+                    //     AssetImage("")
+                    // ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            EdgeInsets.all(15)
+                        )
+                    ),
+                    onPressed: (){},
+                    label:Text("Continuar com Google",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  _buildBody(),
+                  TextButton.icon(
+                    icon:
+                    Icon(Icons.camera, color: Colors.red,),
+                    // ImageIcon(
+                    //     AssetImage("")
+                    // ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            EdgeInsets.all(15)
+                        )
+                    ),
+                    onPressed: (){},
+                    label:Text("Continuar com Facebook",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+
+                    ),
+                  ),
+                  SizedBox(height: 10),
+
+                  TextButton.icon(
+                    icon:
+                    Icon(Icons.camera, color: Colors.red,),
+                    // ImageIcon(
+                    //     AssetImage("")
+                    // ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            EdgeInsets.all(15)
+                        )
+                    ),
+                    onPressed: (){},
+                    label:Text("Criar conta",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
-
-          const DrawerHeader(
-
-            margin: EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text('Nagato Pain'),
-          ),
-          ListTile(
-            title: const Text('Item 111'),
-            onTap: () {
-              new ModalWidget();
-              // Update the state of the app.
-              // ...
-            },
-          ),
-          ListTile(
-            title: const Text('Item 2'),
-            onTap: () {
-              // Update the state of the app.
-              // ...
-            },
-          ),
-      ],
-
-  ),
+      ),
     );
   }
 
+
+
+  Widget _buildBody() {
+    GoogleSignInAccount user = _currentUser;
+    if (user != null) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          ListTile(
+            leading: GoogleUserCircleAvatar(
+              identity: user,
+            ),
+            title: Text(user.displayName ?? ''),
+            subtitle: Text(user.email),
+          ),
+          const Text("Signed in successfully."),
+          Text("Carregando contato"),
+          ElevatedButton(
+            child: const Text('SIGN OUT'),
+            onPressed: _handleSignOut,
+          ),
+          ElevatedButton(
+            child: const Text('REFRESH'),
+            onPressed: () => _handleGetContact(user),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          const Text("You are not currently signed in."),
+          ElevatedButton(
+            child: const Text('SIGN IN'),
+            onPressed: _handleSignIn,
+          ),
+        ],
+      );
+    }
+  }
+
+  Future<void> _handleSignOut() => _googleSignIn.disconnect();
+
+  Future<void> _handleSignIn() async {
+    try {
+      print(2323);
+      var result = await _googleSignIn.signIn();
+      print(result.email);
+      print(result.displayName);
+      print(result.photoUrl);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _handleGetContact(GoogleSignInAccount user) async {
+    setState(() {
+      _contactText = "Loading contact info...";
+    });
+    print(user);
+    final http.Response response = await http.get(
+      Uri.parse('https://people.googleapis.com/v1/people/me/connections'
+          '?requestMask.includeField=person.names'),
+      headers: await user.authHeaders,
+    );
+    print(response.body);
+    if (response.statusCode != 200) {
+      setState(() {
+        _contactText = "People API gave a ${response.statusCode} "
+            "response. Check logs for details.";
+      });
+      print('People API ${response.statusCode} response: ${response.body}');
+      return;
+    }
+    final Map<String, dynamic> data = json.decode(response.body);
+    print(data);
+    final String namedContact = _pickFirstNamedContact(data);
+    setState(() {
+      if (namedContact != null) {
+        _contactText = "I see you know $namedContact!";
+      } else {
+        _contactText = "No contacts to display.";
+      }
+    });
+  }
+
+  String _pickFirstNamedContact(Map<String, dynamic> data) {
+    final List<dynamic> connections = data['connections'];
+    final Map<String, dynamic> contact = connections?.firstWhere(
+          (dynamic contact) => contact['names'] != null,
+      orElse: () => null,
+    );
+    if (contact != null) {
+      final Map<String, dynamic> name = contact['names'].firstWhere(
+            (dynamic name) => name['displayName'] != null,
+        orElse: () => null,
+      );
+      if (name != null) {
+        return name['displayName'];
+      }
+    }
+    return null;
+  }
+
+
 }
+

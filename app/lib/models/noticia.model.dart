@@ -1,10 +1,10 @@
 class NoticiaModel {
-  int? Id;
-  String? Titulo;
-  String? UrlImage;
-  String? Fonte;
-  String? Link;
-  String? HoraAtras;
+  int Id;
+  String Titulo;
+  String UrlImage;
+  String Fonte;
+  String Link;
+  String HoraAtras;
 
   NoticiaModel({this.Id , this.Titulo, this.UrlImage, this.Fonte, this.Link, this.HoraAtras});
 

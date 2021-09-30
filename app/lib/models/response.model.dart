@@ -1,5 +1,5 @@
 class ResponseModel {
-  bool? Sucesso;
+  bool Sucesso;
   dynamic Objeto;
 
   ResponseModel({this.Sucesso, this.Objeto});

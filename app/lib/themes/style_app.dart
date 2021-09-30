@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 class ThemeApp {
   static const Color branco = Color(0XFFFFFFFF);
   static const Color preto = Color(0xff040405);
+  static const Color test = Color(0xFFE7E8FB);
+
+  //endDrawer
+  static const Color botaoLoginGoogle = Colors.white;
+  static const Color botaoLoginFace = Colors.blue;
+
 
   static const Color corPrimariaEscuro = Color.fromRGBO(33, 54, 36, 1);
   static const Color corPrimaria = Color.fromRGBO(63, 104, 68, 1);
   static const Color corPrimariaClaro = Color.fromRGBO(63, 104, 68, 0.5);
   static const Color corPrimariaClaro2 = Color.fromRGBO(63, 104, 68, 0.1);
   static const Color corMenu = Color.fromRGBO(30, 73, 153, 1);
-
   static const Color btnLoginEscuro = Color.fromRGBO(32, 72, 161, 1);
   static const Color btnLoginClaro = Color.fromRGBO(32, 72, 232, 1);
 
