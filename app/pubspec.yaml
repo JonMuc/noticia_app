@@ -17,6 +17,7 @@ dependencies:
   dio: ^4.0.0
   google_sign_in: any
   http: any
+  url_launcher: ^6.0.10
 
 dev_dependencies:
   flutter_test:
