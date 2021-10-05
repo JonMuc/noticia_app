@@ -1,4 +1,5 @@
 import 'package:app/services/noticia.service.dart';
+import 'package:app/views/widgerts/cadastro2-widget.dart';
 import 'package:app/views/widgerts/endDrawer-widget.dart';
 import 'package:app/views/widgerts/lista-manchetes.widget.dart';
 import 'package:app/views/widgerts/modal-widget.dart';

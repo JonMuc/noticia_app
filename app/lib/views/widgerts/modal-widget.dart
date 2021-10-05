@@ -16,15 +16,10 @@ class _ModalWidget extends State<ModalWidget>{
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0)
       ),
-
       child: Container(
-
         constraints: BoxConstraints(maxHeight: 350),
         padding: const EdgeInsets.all(12.0),
-
-
         child: Column(
-
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -41,13 +36,7 @@ class _ModalWidget extends State<ModalWidget>{
                     fontSize: 14,
                     color: Colors.white,
                     wordSpacing: 1,
-                    // shadows: [
-                    //   Shadow(
-                    //     offset: Offset(1.0, 1.0),
-                    //     blurRadius: 8.0,
-                    //     color: Color.fromARGB(50, 0, 0, 255),
-                    //   )
-                    // ]
+
                   )
               ),
             ),

@@ -45,11 +45,9 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(backgroundColor: Colors.black), //hex color
-      child: Drawer(
+    return Drawer(
         child: Container(
-          color: ThemeApp.test,
+          color: ThemeApp.backGround,
           child: Column(
             children: [
               SizedBox(height: 140),
@@ -75,15 +73,15 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
               Column(
                 children:[
                   Container(
-                    width: 273.0,
+                    width: 260.0,
                     height: 50,
                     padding: EdgeInsets.all(5),
-                    child: TextFormField(  //textform https://om-m-mestry.medium.com/to-create-a-beautiful-text-box-with-in-flutter-a7a4d11ae13f
+                    child: TextFormField(
                       decoration: new InputDecoration(
                         labelText: "Email",
                         fillColor: Colors.white,
                         border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(15.0),
+                          borderRadius: new BorderRadius.circular(6.0),
                           borderSide: new BorderSide(
                           ),
                         ),
@@ -91,7 +89,7 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                     ),
                   ),
                   Container(
-                    width: 273.0,
+                    width: 260.0,
                     height: 50,
                     padding: EdgeInsets.all(5),
                     child: TextFormField(
@@ -99,7 +97,7 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                         labelText: "Senha",
                         fillColor: Colors.white,
                         border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(15.0),
+                          borderRadius: new BorderRadius.circular(6.0),
                           borderSide: new BorderSide(
                           ),
                         ),
@@ -108,7 +106,7 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                   ),
                   SizedBox(height: 10),
                   Container(
-                    width: 269.0,
+                    width: 260.0,
                     height: 50,
                     child: ElevatedButton(
                       style: ButtonStyle(
@@ -129,7 +127,6 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                     ),
                   ),
                   SizedBox(height: 50),
-
                   RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan (
@@ -179,14 +176,6 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                       ]
                     )
                   )
-                  // Align(
-                  //   alignment: Alignment.bottomCenter,
-                  //   child: Text(
-                  //       'Ao continuar, voce aceita os Termos de Uso e\n a Politica de Privacidade',
-                  //       style: TextStyle(fontSize: 10,),
-                  //       textAlign: TextAlign.center,
-                  //   ),
-                  // )
                 ],
 
               )
@@ -194,8 +183,7 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
 
