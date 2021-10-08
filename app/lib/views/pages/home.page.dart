@@ -2,6 +2,7 @@ import 'package:app/services/noticia.service.dart';
 import 'package:app/views/widgerts/cadastro2-widget.dart';
 import 'package:app/views/widgerts/endDrawer-widget.dart';
 import 'package:app/views/widgerts/lista-manchetes.widget.dart';
+import 'package:app/views/widgerts/menu-usuario-widget.dart';
 import 'package:app/views/widgerts/modal-widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     //tartTime();
     return Scaffold(
       endDrawer:
-      new EndDrawerWidget(),
+      new MenuUsuario(),
       drawer:
       new ModalWidget(),
       body: new NestedScrollView(
