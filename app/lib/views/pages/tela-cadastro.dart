@@ -1,23 +1,25 @@
 import 'package:app/themes/style_app.dart';
-import 'package:app/views/pages/tela-cadastro.dart';
-import 'package:app/views/widgerts/modal-widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app/views/pages/tela-cadastro2.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MenuUsuario extends StatefulWidget{
+class TelaCadastro extends StatefulWidget {
+  // const MyApp({Key key}) : super(key: key);
+
   @override
-  _MenuUsuarioWidget createState() => _MenuUsuarioWidget();
+  _TelaCadastro createState() => _TelaCadastro();
 }
 
-class _MenuUsuarioWidget extends State<MenuUsuario>{
+
+class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context){
-    return Drawer(
-      child: Container(
-        color: ThemeApp.backGround,
-        child: Column(
+  print("Tela Cadastro");
+  return Scaffold(
+      body: Container(
+          color: ThemeApp.backGround,
+          child: Column(
           children: [
             SizedBox(height: 140),
             Align(
@@ -28,52 +30,86 @@ class _MenuUsuarioWidget extends State<MenuUsuario>{
                 NetworkImage("https://www.pinpng.com/pngs/m/131-1315114_png-pain-pain-akatsuki-black-and-white-transparent.png"),
               ),
             ),
+            Text('Adcionar foto de perfil', style: TextStyle(fontSize: 10)),
             SizedBox(height: 50),
             Column(
               children:[
                 Container(
+                  color: ThemeApp.input,
                   width: 260.0,
                   height: 45,
-                  child: ElevatedButton.icon(
-                    icon: Image.asset('assets/images/google.png', height: 40, width: 30,),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.white),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7.0),
-                            )
-                        )
+                  padding: EdgeInsets.all(5),
+                  child: TextFormField(
+                    decoration: new InputDecoration(
+                      labelText: "Nome",
+                      fillColor: Colors.white,
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(6.0),
+                        borderSide: new BorderSide(
+                        ),
+                      ),
                     ),
-                    onPressed: (){},
-                    label:Text("  Continuar com o Google    ", style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15, color: Colors.black),),
+                  ),
+                ),
+                Container(
+                  color: ThemeApp.input,
+                  width: 260.0,
+                  height: 45,
+                  padding: EdgeInsets.all(5),
+                  child: TextFormField(
+                    decoration: new InputDecoration(
+                      labelText: "E-mail",
+                      fillColor: Colors.white,
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(6.0),
+                        borderSide: new BorderSide(
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: ThemeApp.input,
+                  width: 260.0,
+                  height: 45,
+                  padding: EdgeInsets.all(5),
+                  child: TextFormField(
+                    decoration: new InputDecoration(
+                      labelText: "Senha",
+                      fillColor: Colors.white,
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(6.0),
+                        borderSide: new BorderSide(
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  color: ThemeApp.input,
+                  width: 260.0,
+                  height: 45,
+                  padding: EdgeInsets.all(5),
+                  child: TextFormField(
+                    decoration: new InputDecoration(
+                      labelText: "Confirmar senha",
+                      fillColor: Colors.white,
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(6.0),
+                        borderSide: new BorderSide(
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 5),
                 Container(
-                  width: 260.0,
+                  width: 255.0,
                   height: 45,
-                  child: ElevatedButton.icon(
-                    icon: Image.asset('assets/images/facebook.png', height: 40, width: 41),
+                  child: ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.white),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7.0),
-                            )
-                        )
-                    ),
-                    onPressed: (){},
-                    label:Text("Continuar com o Facebook", style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15, color: Colors.black),),
-                  ),
-                ),
-                SizedBox(height: 5),
-                Container(
-                  width: 260.0,
-                  height: 45,
-                  child: ElevatedButton.icon(
-                    icon: Image.asset('assets/images/personplus.png', height: 35, width: 35,),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.white),
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(7.0),
@@ -82,14 +118,18 @@ class _MenuUsuarioWidget extends State<MenuUsuario>{
                     ),
                     onPressed: (){
                       Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (BuildContext context)
-                          => new TelaCadastro()
-                        )
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context)
+                              => new TelaCadastro2()
+                          )
                       );
                     },
-                    label:Text("        Criar Conta                 ", style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15, color: Colors.black),),
+                    child: Text("Avancar",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 50),
@@ -146,7 +186,10 @@ class _MenuUsuarioWidget extends State<MenuUsuario>{
             )
           ],
         ),
-      ),
-    );
+      )
+
+
+
+      );
   }
 }

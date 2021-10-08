@@ -27,9 +27,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   void initState() {
     // usuarioLogado = null;
     //startTime();
-
-    //super.initState();
-    //_tabController = TabController(vsync: this, length: 2);
     super.initState();
     _scrollViewController = new ScrollController();
     _tabController = new TabController(vsync: this, length: 2);
@@ -42,14 +39,14 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   }
 
   startTime() async {
-    print(2);
+    print("StartTime Noticia Service");
     NoticiaService service = Provider.of<NoticiaService>(context, listen: false);
     var asd = service.obterManchetes();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(1);
+    print("Home Page");
     //tartTime();
     return Scaffold(
       endDrawer:
