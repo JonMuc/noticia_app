@@ -1,5 +1,5 @@
 import 'package:app/themes/style_app.dart';
-import 'package:app/views/pages/tela-cadastro.dart';
+import 'package:app/views/pages/tela-cadastrostep1.dart';
 import 'package:app/views/widgerts/modal-widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -10,7 +10,7 @@ class MenuUsuario extends StatefulWidget{
   @override
   _MenuUsuarioWidget createState() => _MenuUsuarioWidget();
 }
-
+//            width:  MediaQuery.of(context).size.width * 0.7,
 class _MenuUsuarioWidget extends State<MenuUsuario>{
   @override
   Widget build(BuildContext context){

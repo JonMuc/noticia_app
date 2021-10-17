@@ -10,9 +10,8 @@ class ThemeApp {
   static const Color botaoLoginFace = Colors.blue;
 
   //cadastro2
-  static const Color backGround = Color(0xFFEFEFEF);
+  static const Color backGround = Color(0xFFE9E9E9);
   static const Color input = Color(0xFFEFEFEF);
-
 
   static const Color corPrimariaEscuro = Color.fromRGBO(33, 54, 36, 1);
   static const Color corPrimaria = Color.fromRGBO(63, 104, 68, 1);

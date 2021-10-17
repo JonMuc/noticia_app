@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:app/themes/style_app.dart';
+import 'package:app/views/pages/tela-cadastrostep1.dart';
+import 'package:app/views/pages/tela-cadastrostep2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -19,29 +21,14 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
 );
 
 
-class EndDrawerWidget extends StatefulWidget{
+class FazerLoginWidget extends StatefulWidget{
   @override
-  _EndDrawerWidget createState() => _EndDrawerWidget();
+  _FazerLoginWidget createState() => _FazerLoginWidget();
 }
 
-class _EndDrawerWidget extends State<EndDrawerWidget>{
+class _FazerLoginWidget extends State<FazerLoginWidget>{
   GoogleSignInAccount _currentUser;
   String _contactText = '';
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
-  //     print(account);
-  //     setState(() {
-  //       _currentUser = account;
-  //     });
-  //     if (_currentUser != null) {
-  //       _handleGetContact(_currentUser);
-  //     }
-  //   });
-  //   _googleSignIn.signInSilently();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +47,6 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                 ),
               ),
               Container(
-
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Text("Fazer login",
@@ -118,7 +104,16 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                         )
                         )
                       ),
-                      onPressed: (){},
+                      onPressed: (){
+                        print("TelaCadastro1");
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (BuildContext context)
+                                => new TelaCadastro()
+                            )
+                        );
+                      },
                       child: Text("Avancar",
                         style: TextStyle(
                           color: Colors.white,
@@ -139,7 +134,16 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                               style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
                               text: "Criar Conta",
                               recognizer: new TapGestureRecognizer()
-                                ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                                ..onTap = () {
+                                  print("TelaCadastro1");
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context)
+                                          => new TelaCadastro()
+                                      )
+                                  );
+
                                 },
                             )
                           ]
@@ -163,7 +167,6 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                         ) ,
                         TextSpan(
                           style: TextStyle(color: Colors.black, fontSize: 10),
-
                           text: "e a\n",
                         ),
                         TextSpan(
@@ -177,9 +180,7 @@ class _EndDrawerWidget extends State<EndDrawerWidget>{
                     )
                   )
                 ],
-
               )
-
             ],
           ),
         ),

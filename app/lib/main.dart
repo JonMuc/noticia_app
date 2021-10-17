@@ -1,9 +1,12 @@
 import 'package:app/services/noticia.service.dart';
 import 'package:app/views/pages/home.page.dart';
+import 'package:app/views/pages/tela-perfil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'services/usuario.service.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<NoticiaService>.value(value: NoticiaService()),
+        ChangeNotifierProvider<UsuarioService>.value(value: UsuarioService()),
       ],
       child: Main(),
     );

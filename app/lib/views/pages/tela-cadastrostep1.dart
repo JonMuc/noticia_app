@@ -1,7 +1,11 @@
+import 'package:app/models/criar-conta.model.dart';
+import 'package:app/models/usuario.model.dart';
+import 'package:app/services/usuario.service.dart';
 import 'package:app/themes/style_app.dart';
-import 'package:app/views/pages/tela-cadastro2.dart';
+import 'package:app/views/pages/tela-cadastrostep2.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TelaCadastro extends StatefulWidget {
@@ -40,6 +44,7 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                   height: 45,
                   padding: EdgeInsets.all(5),
                   child: TextFormField(
+                    controller: nomeController,
                     decoration: new InputDecoration(
                       labelText: "Nome",
                       fillColor: Colors.white,
@@ -57,6 +62,7 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                   height: 45,
                   padding: EdgeInsets.all(5),
                   child: TextFormField(
+                    controller: emailController,
                     decoration: new InputDecoration(
                       labelText: "E-mail",
                       fillColor: Colors.white,
@@ -74,6 +80,7 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                   height: 45,
                   padding: EdgeInsets.all(5),
                   child: TextFormField(
+                    controller: senhaController,
                     decoration: new InputDecoration(
                       labelText: "Senha",
                       fillColor: Colors.white,
@@ -83,6 +90,13 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                         ),
                       ),
                     ),
+                    // The validator receives the text that the user has entered.
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Enter last Name';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 Container(
@@ -91,6 +105,7 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                   height: 45,
                   padding: EdgeInsets.all(5),
                   child: TextFormField(
+                    controller: confirmarSenhaController,
                     decoration: new InputDecoration(
                       labelText: "Confirmar senha",
                       fillColor: Colors.white,
@@ -116,19 +131,16 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                             )
                         )
                     ),
-                    onPressed: (){
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context)
-                              => new TelaCadastro2()
-                          )
-                      );
+                    onPressed: () async {
+                     await criarConta(context);
+                     print(nomeController.text);
+                     criarConta(context);
                     },
-                    child: Text("Avancar",
+                    child: Text("Concluir",
                       style: TextStyle(
                         color: Colors.white,
                       ),
+
                     ),
                   ),
                 ),
@@ -187,9 +199,21 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
           ],
         ),
       )
-
-
-
       );
   }
+
+  Future UsuarioModel; criarConta(BuildContext context) async {
+    CriarContaModel usuarioModel;
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var criarUsuarioResponse = await service.criarUsuario(usuarioModel);
+    usuarioModel.Nome = nomeController.text;
+    usuarioModel.Email = emailController.text;
+    usuarioModel.Senha = senhaController.text;
+    usuarioModel.ConfirmarSenha = confirmarSenhaController.text;
+  }
+
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+  TextEditingController confirmarSenhaController = TextEditingController();
 }
