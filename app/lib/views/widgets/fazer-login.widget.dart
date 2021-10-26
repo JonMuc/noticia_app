@@ -1,12 +1,16 @@
 import 'dart:convert';
 
+import 'package:app/models/criar-conta.model.dart';
+import 'package:app/services/usuario.service.dart';
 import 'package:app/themes/style_app.dart';
-import 'package:app/views/pages/tela-cadastrostep1.dart';
-import 'package:app/views/pages/tela-cadastrostep2.dart';
+import 'package:app/views/pages/cadastro-step1.page.dart';
+import 'package:app/views/pages/cadastro-step2.page.dart';
+import 'package:app/views/pages/new-step1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import "package:http/http.dart" as http;
 
@@ -29,6 +33,8 @@ class FazerLoginWidget extends StatefulWidget{
 class _FazerLoginWidget extends State<FazerLoginWidget>{
   GoogleSignInAccount _currentUser;
   String _contactText = '';
+  TextEditingController  senhaController = TextEditingController();
+  TextEditingController  emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +65,11 @@ class _FazerLoginWidget extends State<FazerLoginWidget>{
               Column(
                 children:[
                   Container(
-                    width: 260.0,
-                    height: 50,
+                    width:  MediaQuery.of(context).size.width * 0.65,
+                    height:  MediaQuery.of(context).size.height * 0.06,
                     padding: EdgeInsets.all(5),
                     child: TextFormField(
+                      controller: emailController,
                       decoration: new InputDecoration(
                         labelText: "Email",
                         fillColor: Colors.white,
@@ -75,12 +82,13 @@ class _FazerLoginWidget extends State<FazerLoginWidget>{
                     ),
                   ),
                   Container(
-                    width: 260.0,
-                    height: 50,
+                    width:  MediaQuery.of(context).size.width * 0.55,
+                    height:  MediaQuery.of(context).size.height * 0.05,
                     padding: EdgeInsets.all(5),
                     child: TextFormField(
+                      controller: senhaController,
                       decoration: new InputDecoration(
-                        labelText: "Senha",
+                        labelText: "Senhaaaaa",
                         fillColor: Colors.white,
                         border: new OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(6.0),
@@ -92,8 +100,8 @@ class _FazerLoginWidget extends State<FazerLoginWidget>{
                   ),
                   SizedBox(height: 10),
                   Container(
-                    width: 260.0,
-                    height: 50,
+                    width:  MediaQuery.of(context).size.width * 0.65,
+                    height:  MediaQuery.of(context).size.height * 0.06,
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
@@ -104,15 +112,8 @@ class _FazerLoginWidget extends State<FazerLoginWidget>{
                         )
                         )
                       ),
-                      onPressed: (){
-                        print("TelaCadastro1");
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (BuildContext context)
-                                => new TelaCadastro()
-                            )
-                        );
+                      onPressed: () async {
+                        await fazerLogin(context);
                       },
                       child: Text("Avancar",
                         style: TextStyle(
@@ -135,15 +136,14 @@ class _FazerLoginWidget extends State<FazerLoginWidget>{
                               text: "Criar Conta",
                               recognizer: new TapGestureRecognizer()
                                 ..onTap = () {
-                                  print("TelaCadastro1");
+                                  print("TelaCadastroStep1");
                                   Navigator.push(
                                       context,
                                       new MaterialPageRoute(
                                           builder: (BuildContext context)
-                                          => new TelaCadastro()
+                                          => new TelaCadastroStep1()
                                       )
                                   );
-
                                 },
                             )
                           ]
@@ -186,111 +186,11 @@ class _FazerLoginWidget extends State<FazerLoginWidget>{
         ),
       );
   }
-
-
-  //
-  // Widget _buildBody() {
-  //   GoogleSignInAccount user = _currentUser;
-  //   if (user != null) {
-  //     return Column(
-  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //       children: <Widget>[
-  //         ListTile(
-  //           leading: GoogleUserCircleAvatar(
-  //             identity: user,
-  //           ),
-  //           title: Text(user.displayName ?? ''),
-  //           subtitle: Text(user.email),
-  //         ),
-  //         const Text("Signed in successfully."),
-  //         Text("Carregando contato"),
-  //         ElevatedButton(
-  //           child: const Text('SIGN OUT'),
-  //           onPressed: _handleSignOut,
-  //         ),
-  //         ElevatedButton(
-  //           child: const Text('REFRESH'),
-  //           onPressed: () => _handleGetContact(user),
-  //         ),
-  //       ],
-  //     );
-  //   } else {
-  //     return Column(
-  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //       children: <Widget>[
-  //         const Text("You are not currently signed in."),
-  //         ElevatedButton(
-  //           child: const Text('SIGN IN'),
-  //           onPressed: _handleSignIn,
-  //         ),
-  //       ],
-  //     );
-  //   }
-  // }
-  //
-  // Future<void> _handleSignOut() => _googleSignIn.disconnect();
-  //
-  // Future<void> _handleSignIn() async {
-  //   try {
-  //     print(2323);
-  //     var result = await _googleSignIn.signIn();
-  //     print(result.email);
-  //     print(result.displayName);
-  //     print(result.photoUrl);
-  //   } catch (error) {
-  //     print(error);
-  //   }
-  // }
-  //
-  // Future<void> _handleGetContact(GoogleSignInAccount user) async {
-  //   setState(() {
-  //     _contactText = "Loading contact info...";
-  //   });
-  //   print(user);
-  //   final http.Response response = await http.get(
-  //     Uri.parse('https://people.googleapis.com/v1/people/me/connections'
-  //         '?requestMask.includeField=person.names'),
-  //     headers: await user.authHeaders,
-  //   );
-  //   print(response.body);
-  //   if (response.statusCode != 200) {
-  //     setState(() {
-  //       _contactText = "People API gave a ${response.statusCode} "
-  //           "response. Check logs for details.";
-  //     });
-  //     print('People API ${response.statusCode} response: ${response.body}');
-  //     return;
-  //   }
-  //   final Map<String, dynamic> data = json.decode(response.body);
-  //   print(data);
-  //   final String namedContact = _pickFirstNamedContact(data);
-  //   setState(() {
-  //     if (namedContact != null) {
-  //       _contactText = "I see you know $namedContact!";
-  //     } else {
-  //       _contactText = "No contacts to display.";
-  //     }
-  //   });
-  // }
-  //
-  // String _pickFirstNamedContact(Map<String, dynamic> data) {
-  //   final List<dynamic> connections = data['connections'];
-  //   final Map<String, dynamic> contact = connections?.firstWhere(
-  //         (dynamic contact) => contact['names'] != null,
-  //     orElse: () => null,
-  //   );
-  //   if (contact != null) {
-  //     final Map<String, dynamic> name = contact['names'].firstWhere(
-  //           (dynamic name) => name['displayName'] != null,
-  //       orElse: () => null,
-  //     );
-  //     if (name != null) {
-  //       return name['displayName'];
-  //     }
-  //   }
-  //   return null;
-  // }
-
-
+  Future fazerLogin(BuildContext context) async {
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var usuarioLogin = new CriarContaModel(null, emailController.text,
+        senhaController.text, null);
+    var loginUsuarioResponse = await service.fazerLogin(usuarioLogin);
+  }
 }
 

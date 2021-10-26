@@ -7,6 +7,7 @@ class CriarContaModel{
   CriarContaModel(this.Nome, this.Email, this.Senha, this.ConfirmarSenha);
 
 
+
   CriarContaModel.fromJson(Map<String, dynamic> json) {
     Nome = json['Nome'];
     Email = json['Email'];

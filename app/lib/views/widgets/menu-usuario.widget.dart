@@ -1,6 +1,7 @@
 import 'package:app/themes/style_app.dart';
-import 'package:app/views/pages/tela-cadastrostep1.dart';
-import 'package:app/views/widgerts/modal-widget.dart';
+import 'package:app/views/pages/cadastro-step1.page.dart';
+import 'package:app/views/pages/new-step1.dart';
+import 'package:app/views/widgets/modal.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,7 @@ class _MenuUsuarioWidget extends State<MenuUsuario>{
                         context,
                         new MaterialPageRoute(
                           builder: (BuildContext context)
-                          => new TelaCadastro()
+                          => new TelaCadastroStep1()
                         )
                       );
                     },

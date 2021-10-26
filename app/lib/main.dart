@@ -1,6 +1,5 @@
 import 'package:app/services/noticia.service.dart';
 import 'package:app/views/pages/home.page.dart';
-import 'package:app/views/pages/tela-perfil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

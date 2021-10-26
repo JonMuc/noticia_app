@@ -1,8 +1,6 @@
 import 'package:app/models/criar-conta.model.dart';
-import 'package:app/models/usuario.model.dart';
 import 'package:app/services/usuario.service.dart';
 import 'package:app/themes/style_app.dart';
-import 'package:app/views/pages/tela-cadastrostep2.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,18 +12,32 @@ class TelaCadastro extends StatefulWidget {
   @override
   _TelaCadastro createState() => _TelaCadastro();
 }
-
-
 class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMixin {
+  TextEditingController  nomeController = TextEditingController();
+  TextEditingController  emailController = TextEditingController();
+  TextEditingController  senhaController = TextEditingController();
+  TextEditingController  confirmarSenhaController = TextEditingController();
+  CriarContaModel model;
+  final _scallfoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<FormState> _key = new GlobalKey();
+  String nome, email, celular;
+  bool _validate = false;
   @override
   Widget build(BuildContext context){
-  print("Tela Cadastro");
+    print("Tela Cadastro");
   return Scaffold(
+
+      key: _scallfoldKey,
       body: Container(
           color: ThemeApp.backGround,
-          child: Column(
+          child: Form(
+            //_validate = true,
+
+            child: Column(
           children: [
-            SizedBox(height: 140),
+            SizedBox(
+              height:  140,
+            ),
             Align(
               alignment: Alignment.center,
               child: CircleAvatar(
@@ -35,15 +47,20 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
               ),
             ),
             Text('Adcionar foto de perfil', style: TextStyle(fontSize: 10)),
-            SizedBox(height: 50),
+            SizedBox(
+              height:  10,
+            ),
             Column(
               children:[
                 Container(
                   color: ThemeApp.input,
-                  width: 260.0,
-                  height: 45,
+                  width:  MediaQuery.of(context).size.width * 0.65,
+                  height:  MediaQuery.of(context).size.height * 0.06,
                   padding: EdgeInsets.all(5),
                   child: TextFormField(
+                    onSaved: (String val){
+                      nome = val;
+                    },
                     controller: nomeController,
                     decoration: new InputDecoration(
                       labelText: "Nome",
@@ -58,10 +75,14 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                 ),
                 Container(
                   color: ThemeApp.input,
-                  width: 260.0,
-                  height: 45,
+                  width:  MediaQuery.of(context).size.width * 0.65,
+                  height:  MediaQuery.of(context).size.height * 0.06,
                   padding: EdgeInsets.all(5),
                   child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    onSaved: (String val) {
+                      email = val;
+                    },
                     controller: emailController,
                     decoration: new InputDecoration(
                       labelText: "E-mail",
@@ -76,10 +97,13 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                 ),
                 Container(
                   color: ThemeApp.input,
-                  width: 260.0,
-                  height: 45,
+                  width:  MediaQuery.of(context).size.width * 0.65,
+                  height:  MediaQuery.of(context).size.height * 0.06,
                   padding: EdgeInsets.all(5),
                   child: TextFormField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
                     controller: senhaController,
                     decoration: new InputDecoration(
                       labelText: "Senha",
@@ -101,13 +125,16 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                 ),
                 Container(
                   color: ThemeApp.input,
-                  width: 260.0,
-                  height: 45,
+                  width:  MediaQuery.of(context).size.width * 0.65,
+                  height:  MediaQuery.of(context).size.height * 0.06,
                   padding: EdgeInsets.all(5),
                   child: TextFormField(
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
                     controller: confirmarSenhaController,
                     decoration: new InputDecoration(
-                      labelText: "Confirmar senha",
+                      labelText: "Confirmar senhaaaa",
                       fillColor: Colors.white,
                       border: new OutlineInputBorder(
                         borderRadius: new BorderRadius.circular(6.0),
@@ -117,10 +144,12 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                     ),
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(
+                    height:  10,
+                ),
                 Container(
-                  width: 255.0,
-                  height: 45,
+                  width:  MediaQuery.of(context).size.width * 0.65,
+                  height:  MediaQuery.of(context).size.height * 0.06,
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
@@ -133,18 +162,17 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                     ),
                     onPressed: () async {
                      await criarConta(context);
-                     print(nomeController.text);
-                     criarConta(context);
                     },
-                    child: Text("Concluir",
+                    child: Text("Avancar",
                       style: TextStyle(
                         color: Colors.white,
                       ),
-
                     ),
                   ),
                 ),
-                SizedBox(height: 50),
+                SizedBox(
+                    height:  12,
+                ),
                 RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan (
@@ -163,7 +191,9 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                         ]
                     )
                 ),
-                SizedBox(height: 15),
+                SizedBox(
+                    height:  10,
+                ),
                 RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan (
@@ -181,7 +211,6 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
                           ) ,
                           TextSpan(
                             style: TextStyle(color: Colors.black, fontSize: 10),
-
                             text: "e a\n",
                           ),
                           TextSpan(
@@ -199,21 +228,17 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
           ],
         ),
       )
+      )
       );
   }
 
-  Future UsuarioModel; criarConta(BuildContext context) async {
-    CriarContaModel usuarioModel;
-    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    var criarUsuarioResponse = await service.criarUsuario(usuarioModel);
-    usuarioModel.Nome = nomeController.text;
-    usuarioModel.Email = emailController.text;
-    usuarioModel.Senha = senhaController.text;
-    usuarioModel.ConfirmarSenha = confirmarSenhaController.text;
-  }
 
-  TextEditingController nomeController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController senhaController = TextEditingController();
-  TextEditingController confirmarSenhaController = TextEditingController();
+  Future criarConta(BuildContext context) async {
+    final snackbar = SnackBar(content: Container(child: Text("MENSAGEM"), color: Colors.black));
+    _scallfoldKey.currentState.showSnackBar(snackbar);
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var usuarioModel = new CriarContaModel(nomeController.text,
+        emailController.text, senhaController.text, confirmarSenhaController.text);
+    var criarUsuarioResponse = await service.criarUsuario(usuarioModel);
+  }
 }

@@ -1,9 +1,7 @@
 import 'package:app/services/noticia.service.dart';
-import 'package:app/views/widgerts/cadastrostep2-widget.dart';
-import 'package:app/views/widgerts/fazer-login-widget.dart';
-import 'package:app/views/widgerts/lista-manchetes.widget.dart';
-import 'package:app/views/widgerts/menu-usuario-widget.dart';
-import 'package:app/views/widgerts/modal-widget.dart';
+import 'package:app/views/widgets/fazer-login.widget.dart';
+import 'package:app/views/widgets/lista-manchetes.widget.dart';
+import 'package:app/views/widgets/modal.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
