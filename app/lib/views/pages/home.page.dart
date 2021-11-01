@@ -1,6 +1,7 @@
 import 'package:app/services/noticia.service.dart';
 import 'package:app/views/widgets/fazer-login.widget.dart';
 import 'package:app/views/widgets/lista-manchetes.widget.dart';
+import 'package:app/views/widgets/menu-inferior.widget.dart';
 import 'package:app/views/widgets/modal.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 ),
               ],
               title: Container(
-
                 height: 20,
                 child: new Text("Noticias APP"),
               ),
@@ -97,32 +97,62 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
           ],
           controller: _tabController,
         ),
-      ),
-      bottomNavigationBar:
-      //new MenuInferiorWidget(),
-      BottomNavigationBar(
-        backgroundColor: Colors.blue,
-        items:
-        const <BottomNavigationBarItem>[
 
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.vpn_lock_rounded),
-            label: 'World',
+            icon: Icon(Icons.search),
+            label: 'Search',
+            backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.travel_explore_rounded),
-            label: 'Pesquisar',
+            icon: Icon(Icons.notifications),
+            label: 'Notificacao',
+            backgroundColor: Colors.purple,
           ),
-
+          BottomNavigationBarItem(
+            icon: Icon(Icons.push_pin_sharp),
+            label: 'Favorito',
+            backgroundColor: Colors.pink,
+          ),
         ],
-        //currentIndex: _selectedIndex,
         selectedItemColor: Colors.white,
-        //onTap: _onItemTapped,
       ),
+
+
+      // BottomNavigationBar(
+      //   backgroundColor: Colors.blue,
+      //   items:
+      //   const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.home),
+      //         label: "kaaaaaka"
+      //     ),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.vpn_lock_rounded),
+      //         label: "kaka"
+      //     ),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.notifications),
+      //         label: "kaka"
+      //     ),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.push_pin_sharp),
+      //         label: "kaaaaka"
+      //     ),
+      //   ],
+      //   //currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.orange,
+      //   //onTap: _onItemTapped,
+      // ),
     );
   }
 

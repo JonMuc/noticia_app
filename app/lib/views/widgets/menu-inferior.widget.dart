@@ -10,28 +10,30 @@ class MenuInferiorWidget extends StatefulWidget{
 class _MenuInferiorWidget extends State<MenuInferiorWidget>{
   @override
   Widget build(BuildContext){
-    return  BottomNavigationBar(
-      backgroundColor: Colors.blue,
+    return BottomNavigationBar(
+      backgroundColor: Colors.red,
       items:
       const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: "kaaaaaka"
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.vpn_lock_rounded),
-          label: 'World',
+            label: "kaka"
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.travel_explore_rounded),
-          label: 'Pesquisar',
+          icon: Icon(Icons.notifications),
+            label: "kaka"
         ),
-
+        BottomNavigationBarItem(
+          icon: Icon(Icons.push_pin_sharp),
+            label: "kaaaaka"
+        ),
       ],
       //currentIndex: _selectedIndex,
-      selectedItemColor: Colors.white,
+      selectedItemColor: Colors.orange,
       //onTap: _onItemTapped,
     );
   }
-
 }
