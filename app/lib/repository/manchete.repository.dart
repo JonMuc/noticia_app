@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 
 class MancheteRepository {
   Future<List<NoticiaModel>> listarManchete() async {
-    var url = "${Settings.apiUrl}/noticia/listar-manchete";
+    var url = "${Settings.apiUrl}/noticiaG1/listar-manchete";
     // final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     // var appCode = jsonDecode(sharedPreferences.get("appCode"));
     print(url);

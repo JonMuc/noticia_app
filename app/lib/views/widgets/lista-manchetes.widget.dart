@@ -2,6 +2,8 @@
 import 'package:app/models/noticia.model.dart';
 import 'package:app/services/noticia.service.dart';
 import 'package:app/themes/style_app.dart';
+import 'package:app/views/pages/comentario-noticia.page.dart';
+import 'package:app/views/pages/new-step1.dart';
 import 'package:app/views/shared/loader.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,17 +33,13 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
 
   Widget lista() {
     return Container(
-      // color: Colors.blue,
       decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              // Colors.white10,
-              // Colors.deepPurple,
               ThemeApp.corFundoNoticia,
               Colors.black,
-              // Colors.brown
             ],
           )
       ),
@@ -128,7 +126,17 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
                                           padding: EdgeInsets.all(5),                                          color: Colors.blue,
                                           icon: Icon(Icons.thumb_down_alt)
                                       ),
-                                      IconButton(onPressed: (){},
+                                      IconButton(onPressed: (){
+                                        print("allaa");
+                                        Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder: (BuildContext context)
+                                                => new TelaComentarioNoticia(noticiaModel: noticia)
+                                            )
+                                        );
+                                        // new TelaComentarioNoticia();
+                                      },
                                           padding: EdgeInsets.all(5),                                          color: Colors.blue,
                                           icon: Icon(Icons.comment_rounded)
                                       )

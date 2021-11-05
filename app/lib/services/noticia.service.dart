@@ -7,7 +7,7 @@ class NoticiaService extends ChangeNotifier {
 
   Future<List<NoticiaModel>> obterManchetes() async{
     var result = await this.mancheteRepository.listarManchete();
-    print('aaaaaaaaa');
+    print('Service');
     print(result.length);
     return result;
   }
