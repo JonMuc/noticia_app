@@ -1,6 +1,6 @@
-import 'package:app/models/criar-conta.model.dart';
-import 'package:app/services/usuario.service.dart';
-import 'package:app/themes/style_app.dart';
+import 'package:app_noticia/models/criar-conta.model.dart';
+import 'package:app_noticia/services/usuario.service.dart';
+import 'package:app_noticia/themes/style_app.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

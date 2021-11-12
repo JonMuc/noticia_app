@@ -1,4 +1,4 @@
-import 'package:app/models/noticia.model.dart';
+import 'package:app_noticia/models/noticia.model.dart';
 import 'package:flutter/material.dart';
 import 'package:comment_box/comment/comment.dart';
 

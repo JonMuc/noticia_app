@@ -1,8 +1,8 @@
-import 'package:app/services/noticia.service.dart';
-import 'package:app/views/widgets/fazer-login.widget.dart';
-import 'package:app/views/widgets/lista-manchetes.widget.dart';
-import 'package:app/views/widgets/menu-inferior.widget.dart';
-import 'package:app/views/widgets/modal.widget.dart';
+import 'package:app_noticia/services/noticia.service.dart';
+import 'package:app_noticia/views/widgets/fazer-login.widget.dart';
+import 'package:app_noticia/views/widgets/lista-manchetes.widget.dart';
+import 'package:app_noticia/views/widgets/menu-inferior.widget.dart';
+import 'package:app_noticia/views/widgets/modal.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,5 +1,5 @@
-import 'package:app/models/noticia.model.dart';
-import 'package:app/repository/manchete.repository.dart';
+import 'package:app_noticia/models/noticia.model.dart';
+import 'package:app_noticia/repository/manchete.repository.dart';
 import 'package:flutter/cupertino.dart';
 
 class NoticiaService extends ChangeNotifier {

@@ -1,6 +1,6 @@
-import 'package:app/models/noticia.model.dart';
-import 'package:app/models/response.model.dart';
-import 'package:app/settings.dart';
+import 'package:app_noticia/models/noticia.model.dart';
+import 'package:app_noticia/models/response.model.dart';
+import 'package:app_noticia/settings.dart';
 import 'package:dio/dio.dart';
 
 

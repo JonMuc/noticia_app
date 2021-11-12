@@ -1,4 +1,4 @@
-import 'package:app/views/shared/progress-indicator.widget.dart';
+import 'package:app_noticia/views/shared/progress-indicator.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

@@ -1,5 +1,5 @@
-import 'package:app/services/noticia.service.dart';
-import 'package:app/views/pages/home.page.dart';
+import 'package:app_noticia/services/noticia.service.dart';
+import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

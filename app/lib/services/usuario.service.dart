@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:app/models/criar-conta.model.dart';
-import 'package:app/models/usuario.model.dart';
-import 'package:app/repository/usuario.repository.dart';
+import 'package:app_noticia/models/criar-conta.model.dart';
+import 'package:app_noticia/models/usuario.model.dart';
+import 'package:app_noticia/repository/usuario.repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

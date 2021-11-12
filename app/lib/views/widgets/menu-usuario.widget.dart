@@ -1,7 +1,7 @@
-import 'package:app/themes/style_app.dart';
-import 'package:app/views/pages/cadastro-step1.page.dart';
-import 'package:app/views/pages/new-step1.dart';
-import 'package:app/views/widgets/modal.widget.dart';
+import 'package:app_noticia/themes/style_app.dart';
+import 'package:app_noticia/views/pages/cadastro-step1.page.dart';
+import 'package:app_noticia/views/pages/new-step1.dart';
+import 'package:app_noticia/views/widgets/modal.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

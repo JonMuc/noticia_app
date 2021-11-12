@@ -1,10 +1,10 @@
 
-import 'package:app/models/noticia.model.dart';
-import 'package:app/services/noticia.service.dart';
-import 'package:app/themes/style_app.dart';
-import 'package:app/views/pages/comentario-noticia.page.dart';
-import 'package:app/views/pages/new-step1.dart';
-import 'package:app/views/shared/loader.widget.dart';
+import 'package:app_noticia/models/noticia.model.dart';
+import 'package:app_noticia/services/noticia.service.dart';
+import 'package:app_noticia/themes/style_app.dart';
+import 'package:app_noticia/views/pages/comentario-noticia.page.dart';
+import 'package:app_noticia/views/pages/new-step1.dart';
+import 'package:app_noticia/views/shared/loader.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

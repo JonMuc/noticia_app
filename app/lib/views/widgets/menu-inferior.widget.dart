@@ -1,4 +1,4 @@
-import 'package:app/views/widgets/lista-manchetes.widget.dart';
+import 'package:app_noticia/views/widgets/lista-manchetes.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:app/models/criar-conta.model.dart';
-import 'package:app/services/usuario.service.dart';
-import 'package:app/themes/style_app.dart';
-import 'package:app/views/pages/cadastro-step1.page.dart';
-import 'package:app/views/pages/cadastro-step2.page.dart';
-import 'package:app/views/pages/new-step1.dart';
+import 'package:app_noticia/models/criar-conta.model.dart';
+import 'package:app_noticia/services/usuario.service.dart';
+import 'package:app_noticia/themes/style_app.dart';
+import 'package:app_noticia/views/pages/cadastro-step1.page.dart';
+import 'package:app_noticia/views/pages/cadastro-step2.page.dart';
+import 'package:app_noticia/views/pages/new-step1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
