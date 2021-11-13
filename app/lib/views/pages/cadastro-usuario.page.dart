@@ -1,6 +1,7 @@
 import 'package:app_noticia/models/criar-conta.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
+import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,7 @@ class _TelaCadastroStep1 extends State<TelaCadastroStep1> with SingleTickerProvi
   TextEditingController  senhaController = TextEditingController();
   TextEditingController  confirmarSenhaController = TextEditingController();
   CriarContaModel model;
-  final _scallfoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _key = new GlobalKey();
   String nome, email, senha, confirmarSenha;
   bool _validate = false;
@@ -28,8 +29,13 @@ class _TelaCadastroStep1 extends State<TelaCadastroStep1> with SingleTickerProvi
     return MaterialApp(
       theme: new ThemeData(scaffoldBackgroundColor: ThemeApp.backGround),
       home: new Scaffold(
+        key: _scaffoldKey,
         appBar: new AppBar(
           title: new Text('Crie sua conta'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
         body: new SingleChildScrollView(
           child: new Container(
@@ -294,5 +300,21 @@ class _TelaCadastroStep1 extends State<TelaCadastroStep1> with SingleTickerProvi
     var usuarioModel = new CriarContaModel(nomeController.text,
         emailController.text, senhaController.text, confirmarSenhaController.text);
     var criarUsuarioResponse = await service.criarUsuario(usuarioModel);
+    if(criarUsuarioResponse.Id != null && criarUsuarioResponse.Id != 0){
+      final snackbar = SnackBar(content: Text('Usuario criado com sucesso.'),
+        backgroundColor: ThemeApp.snackBarMensagemEnvio,);
+      _scaffoldKey.currentState.showSnackBar(snackbar);
+
+      //delay apos criar
+      new Future.delayed(new Duration(seconds: 2), () {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context)
+                => new HomePage()
+            )
+        );
+      });
+    }
   }
 }

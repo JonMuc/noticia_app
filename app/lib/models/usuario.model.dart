@@ -42,8 +42,8 @@ class UsuarioModel{
     Email = json['Email'];
     Senha = json['Senha'];
     Id = json['Id'];
-    CriadoEm = json['CriadoEm'];
-    AtualizadoEm = json['AtualizadoEm'];
+    // CriadoEm = DateTime.parse(json['CriadoEm']);
+    // AtualizadoEm = json['AtualizadoEm'] == null ? null : DateTime.parse(json['AtualizadoEm']);
     IdAtualizadoPor = json['IdAtualizadoPor'];
     IdCriadoPor = json['IdCriadoPor'];
     StatusRegistro = json['StatusRegistro'];
@@ -62,8 +62,8 @@ class UsuarioModel{
       data['Email'] = this.Email;
       data['Senha'] = this.Senha;
       data['Id'] = this.Id;
-      data['CriadoEm'] = this.CriadoEm;
-      data['AtualizadoEm'] = this.AtualizadoEm;
+      // data['CriadoEm'] = this.CriadoEm;
+      // data['AtualizadoEm'] = this.AtualizadoEm;
       data['IdAtualizadoPor'] = this.IdAtualizadoPor;
       data['IdCriadoPor'] = this.IdCriadoPor;
       data['StatusRegistro'] = this.StatusRegistro;
@@ -76,10 +76,5 @@ class UsuarioModel{
       data['Descricao'] = this.Descricao;
       return data;
     }
-
-    //    HoraAtras =  json['HoraAtras'];
   }
-
-
-
 }

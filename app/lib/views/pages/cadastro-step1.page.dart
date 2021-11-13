@@ -1,6 +1,7 @@
 import 'package:app_noticia/models/criar-conta.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
+import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -240,5 +241,15 @@ class _TelaCadastro extends State<TelaCadastro> with SingleTickerProviderStateMi
     var usuarioModel = new CriarContaModel(nomeController.text,
         emailController.text, senhaController.text, confirmarSenhaController.text);
     var criarUsuarioResponse = await service.criarUsuario(usuarioModel);
+    if(criarUsuarioResponse.Id != null && criarUsuarioResponse.Id != 0){
+      print(criarUsuarioResponse);
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (BuildContext context)
+              => new HomePage()
+          )
+      );
+    }
   }
 }

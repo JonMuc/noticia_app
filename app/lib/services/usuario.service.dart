@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UsuarioService extends ChangeNotifier {
+  UsuarioModel usuarioModel;
   final usuarioRepository = new UsuarioRepository();
 
   Future fazerLogin(CriarContaModel criarContaModel) async{
@@ -14,9 +15,16 @@ class UsuarioService extends ChangeNotifier {
     print('service login');
 
   }
-  Future criarUsuario(CriarContaModel criarContaModel) async{
-    var result = await this.usuarioRepository.criarUsuario(criarContaModel);
-    print(criarContaModel.Nome);
+
+  Future<UsuarioModel> criarUsuario(CriarContaModel criarContaModel) async{
+    this.usuarioModel = await this.usuarioRepository.criarUsuario(criarContaModel);
+
+    //ADICIONANDO USUARIO
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove("usuario");
+    await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel.toString()));
+
+    return this.usuarioModel;
   }
 
 

@@ -68,7 +68,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
               ],
               title: Container(
                 height: 20,
-                child: new Text("Noticias APP"),
+                child: new Text("WNews"),
               ),
               pinned: true,                       //<-- pinned to true
               floating: true,                     //<-- floating to true
