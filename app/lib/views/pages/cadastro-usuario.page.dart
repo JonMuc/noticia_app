@@ -99,7 +99,7 @@ class _TelaCadastroStep1 extends State<TelaCadastroStep1> with SingleTickerProvi
                     borderRadius: new BorderRadius.circular(9.0),
                   )
               ),
-              keyboardType: TextInputType.name,
+              keyboardType: TextInputType.emailAddress,
               validator: _validarEmail,
               onSaved: (String val) {
                 email = val;
