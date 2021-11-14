@@ -24,8 +24,7 @@ class UsuarioService extends ChangeNotifier {
     if(sharedPreferences.containsKey("usuario")){
       sharedPreferences.remove("usuario");
     }
-    await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel.toString()));
-
+    await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel));
     return this.usuarioModel;
   }
 

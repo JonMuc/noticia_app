@@ -55,26 +55,26 @@ class UsuarioModel{
     PerfilInstagram = json['PerfilInstagram'];
     PerfilTwitter = json['PerfilTwitter'];
     Descricao = json['Descricao'];
+  }
 
-    Map<String, dynamic> toJson() {
-      final Map<String, dynamic> data = new Map<String, dynamic>();
-      data['Nome'] = this.Nome;
-      data['Email'] = this.Email;
-      data['Senha'] = this.Senha;
-      data['Id'] = this.Id;
-      // data['CriadoEm'] = this.CriadoEm;
-      // data['AtualizadoEm'] = this.AtualizadoEm;
-      data['IdAtualizadoPor'] = this.IdAtualizadoPor;
-      data['IdCriadoPor'] = this.IdCriadoPor;
-      data['StatusRegistro'] = this.StatusRegistro;
-      data['Telefone'] = this.Telefone;
-      data['Foto'] = this.Foto;
-      data['IdGoogle'] = this.IdGoogle;
-      data['PerfilLikedin'] = this.PerfilLikedin;
-      data['PerfilInstagram'] = this.PerfilInstagram;
-      data['PerfilTwitter'] = this.PerfilTwitter;
-      data['Descricao'] = this.Descricao;
-      return data;
-    }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Nome'] = this.Nome;
+    data['Email'] = this.Email;
+    data['Senha'] = this.Senha;
+    data['Id'] = this.Id;
+    // data['CriadoEm'] = this.CriadoEm;
+    // data['AtualizadoEm'] = this.AtualizadoEm;
+    data['IdAtualizadoPor'] = this.IdAtualizadoPor;
+    data['IdCriadoPor'] = this.IdCriadoPor;
+    data['StatusRegistro'] = this.StatusRegistro;
+    data['Telefone'] = this.Telefone;
+    data['Foto'] = this.Foto;
+    data['IdGoogle'] = this.IdGoogle;
+    data['PerfilLikedin'] = this.PerfilLikedin;
+    data['PerfilInstagram'] = this.PerfilInstagram;
+    data['PerfilTwitter'] = this.PerfilTwitter;
+    data['Descricao'] = this.Descricao;
+    return data;
   }
 }
