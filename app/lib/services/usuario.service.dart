@@ -17,15 +17,22 @@ class UsuarioService extends ChangeNotifier {
   }
 
   Future<UsuarioModel> criarUsuario(CriarContaModel criarContaModel) async{
-    this.usuarioModel = await this.usuarioRepository.criarUsuario(criarContaModel);
+    try{
+      this.usuarioModel = await this.usuarioRepository.criarUsuario(criarContaModel);
 
-    //ADICIONANDO USUARIO
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if(sharedPreferences.containsKey("usuario")){
-      sharedPreferences.remove("usuario");
+      //ADICIONANDO USUARIO
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      if(sharedPreferences.containsKey("usuario")){
+        sharedPreferences.remove("usuario");
+      }
+      await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel));
+      print(sharedPreferences.get("usuario"));
+      return this.usuarioModel;
+    }catch(ex){
+      this.usuarioModel = null;
+      return this.usuarioModel;
     }
-    await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel));
-    return this.usuarioModel;
+
   }
 
 

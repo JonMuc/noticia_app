@@ -300,7 +300,7 @@ class _TelaCadastroStep1 extends State<TelaCadastroStep1> with SingleTickerProvi
     var usuarioModel = new CriarContaModel(nomeController.text,
         emailController.text, senhaController.text, confirmarSenhaController.text);
     var criarUsuarioResponse = await service.criarUsuario(usuarioModel);
-    if(criarUsuarioResponse.Id != null && criarUsuarioResponse.Id != 0){
+    if(criarUsuarioResponse != null && criarUsuarioResponse.Id != null && criarUsuarioResponse.Id != 0){
       final snackbar = SnackBar(content: Text('Usuario criado com sucesso.'),
         backgroundColor: ThemeApp.snackBarMensagemEnvio,);
       _scaffoldKey.currentState.showSnackBar(snackbar);
