@@ -39,7 +39,10 @@ class UsuarioService extends ChangeNotifier {
 
   Future<bool> verificarUsuarioLogado() async {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      print(1221212);
+      print(sharedPreferences.get("usuario"));
       if(sharedPreferences.containsKey("usuario")){
+        print("return true");
         return true;
       }
       return false;
@@ -47,24 +50,19 @@ class UsuarioService extends ChangeNotifier {
 
   Future<UsuarioModel> obterUsuarioLogado() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    print(213312231);
-    print(sharedPreferences.get("usuario"));
-
     if(sharedPreferences.containsKey("usuario")){
-
-      UsuarioModel usuarioModel = UsuarioModel.fromJson(sharedPreferences.get("usuario"));
-      print(sharedPreferences.get("usuario"));
+      UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
       return usuarioModel;
     }
     return null;
   }
 
-  void limparSecao() async{
+  Future limparSecao() async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.containsKey("usuario")) {
       sharedPreferences.remove("usuario");
-      sharedPreferences.remove("urlImage");
-      sharedPreferences.remove("appCode");
+      // sharedPreferences.remove("urlImage");
+      // sharedPreferences.remove("appCode");
     }
   }
 

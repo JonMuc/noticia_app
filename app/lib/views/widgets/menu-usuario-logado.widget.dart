@@ -74,7 +74,7 @@ class _MenuUsuarioLogadoWidget extends State<MenuUsuarioLogadoWidget>{
                         )
                       ),
                       onPressed: () async {
-                        await fazerLogin(context);
+                        await deslogar(context);
                       },
                       child: Text("Sair",
                         style: TextStyle(
@@ -91,8 +91,9 @@ class _MenuUsuarioLogadoWidget extends State<MenuUsuarioLogadoWidget>{
       );
   }
 
-  Future fazerLogin(BuildContext context) async {
-    // UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+  Future deslogar(BuildContext context) async {
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    service.limparSecao().then((value) => Navigator.pop(context));
     // var usuarioLogin = new CriarContaModel(null, emailController.text,
     //     senhaController.text, null);
     // var loginUsuarioResponse = await service.fazerLogin(usuarioLogin);

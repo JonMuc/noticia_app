@@ -27,7 +27,7 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      SharedPreferences.setMockInitialValues({});
+     // SharedPreferences.setMockInitialValues({});
     return MaterialApp(
       title: 'WoNew',
       debugShowCheckedModeBanner: false,

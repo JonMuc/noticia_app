@@ -12,12 +12,22 @@ class MenuUsuario extends StatefulWidget{
 
 class _MenuUsuarioWidget extends State<MenuUsuario>{
   var usuarioExistente = false;
+
   @override
-  Widget build(BuildContext context){
+  initState() {
+    print(342342);
+
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     service.verificarUsuarioLogado().then((value) => {
-      this.usuarioExistente = value
+        setState(() {
+          this.usuarioExistente = value;
+        })
     });
+  }
+
+  @override
+  Widget build(BuildContext context){
+    print(this.usuarioExistente);
     return this.usuarioExistente ? MenuUsuarioLogadoWidget() : FazerLoginWidget();
   }
 }
