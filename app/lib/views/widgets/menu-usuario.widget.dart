@@ -1,7 +1,5 @@
 import 'package:app_noticia/themes/style_app.dart';
-import 'package:app_noticia/views/pages/cadastro-step1.page.dart';
 import 'package:app_noticia/views/pages/cadastro-usuario.page.dart';
-import 'package:app_noticia/views/widgets/modal.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

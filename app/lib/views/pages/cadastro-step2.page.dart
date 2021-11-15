@@ -116,7 +116,9 @@ class _TelaCadastro2 extends State<TelaCadastro2> with SingleTickerProviderState
                               )
                           )
                       ),
-                      onPressed: (){},
+                      onPressed: (){
+                        print ('kaaka');
+                      },
                       child: Text("Concluir cadastro",
                         style: TextStyle(
                           color: Colors.white,

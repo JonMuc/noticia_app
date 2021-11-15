@@ -1,21 +1,24 @@
 import 'dart:convert';
 import 'package:app_noticia/models/criar-conta.model.dart';
 import 'package:app_noticia/models/response.model.dart';
+import 'package:app_noticia/models/usuario-login.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/settings.dart';
 import 'package:dio/dio.dart';
 
 
 class UsuarioRepository {
-  Future <UsuarioModel> fazerLogin(CriarContaModel criarContaModel) async {
+
+  Future <UsuarioModel> fazerLogin(UsuarioLoginModel usuarioLoginModel) async {
     var url = "${Settings.apiUrl}/login/logar";
     Dio dio = new Dio();
-    Response response = await dio.post(url, data: (criarContaModel)); // jsonEncode
+    Response response = await dio.post(url, data: jsonEncode(usuarioLoginModel)); // jsonEncode
+    print(response.statusCode);
+    print(usuarioLoginModel.Email);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
-    UsuarioModel usuarioModel = UsuarioModel.fromJson(responseModel.Objeto);
+    //UsuarioModel usuarioModel = UsuarioModel.fromJson(responseModel.Objeto);
+    //print(responseModel.Objeto);
 
-    print('repositorio login');
-    print(responseModel.Objeto);
   }
 
   Future<UsuarioModel> criarUsuario(CriarContaModel criarContaModel) async {
@@ -27,4 +30,5 @@ class UsuarioRepository {
     UsuarioModel usuarioModel = UsuarioModel.fromJson(responseModel.Objeto);
     return usuarioModel;
   }
+
 }

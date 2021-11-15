@@ -37,6 +37,13 @@ class UsuarioModel{
       this.PerfilTwitter,
       this.Descricao);
 
+  //
+  // UsuarioModel.Login(){
+  //   this.Email,
+  //   this.Senha
+  // }
+
+
   UsuarioModel.fromJson(Map<String, dynamic> json) {
     Nome = json['Nome'];
     Email = json['Email'];

@@ -1,4 +1,3 @@
-
 import 'package:app_noticia/models/noticia.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:flutter/material.dart';
@@ -6,46 +5,59 @@ import 'package:comment_box/comment/comment.dart';
 import 'package:provider/provider.dart';
 
 
-class TelaComentarioNoticia extends StatefulWidget {
+class TelaComentarioNoticia2 extends StatefulWidget {
   final NoticiaModel noticiaModel;
-  TelaComentarioNoticia({@required this.noticiaModel});
+  TelaComentarioNoticia2({@required this.noticiaModel});
 
+  // const MyApp({Key key}) : super(key: key);
   @override
-  _TelaComentarioNoticia createState() => _TelaComentarioNoticia();
+  _TelaComentarioNoticia2 createState() => _TelaComentarioNoticia2();
 }
-class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
+class _TelaComentarioNoticia2 extends State<TelaComentarioNoticia2> {
   final noticia = NoticiaModel();
 
   final formKey = GlobalKey<FormState>();
   final TextEditingController commentController = TextEditingController();
-
-  List comentariosEstatico = [
-  {
-    'name': '1',
-    'pic': 'https://picsum.photos/300/30',
-    'message': 'I love to code'
-  },
-  {
-    'name': '2',
-    'pic': 'https://picsum.photos/300/30',
-    'message': 'Vesssssry cool'
-  },
-  {
-    'name': '3',
-    'pic': 'https://picsum.photos/300/30',
-    'message': 'Vesssssry cool'
-  },
-  {
-    'name': '4',
-    'pic': 'https://picsum.photos/300/30',
-    'message': 'Vesssssry cool'
-  }
+  List filedata = [
+    {
+      'name': 'Adeleye Ayodeji',
+      'pic': 'https://picsum.photos/300/30',
+      'message': 'I love to code'
+    },
+    {
+      'name': 'Biggi Man',
+      'pic': 'https://picsum.photos/300/30',
+      'message': 'Vesssssry cool'
+    },
+    {
+      'name': 'Deydara',
+      'pic': 'https://picsum.photos/300/30',
+      'message': 'Vesssry cool'
+    },
+    {
+      'name': 'Gaara',
+      'pic': 'https://picsum.photos/300/30',
+      'message': 'Vsssery cool'
+    },
+    {
+      'name': 'Sasori',
+      'pic': 'https://picsum.photos/300/30',
+      'message': 'Vessssry cool'
+    },
+    {
+      'name': 'Madara',
+      'pic': 'https://picsum.photos/300/30',
+      'message': 'Verssssy cool'
+    },
+    {
+      'name': 'Nagato',
+      'pic': 'https://picsum.photos/300/30',
+      'message': 'Verssy cool'
+    },
   ];
 
 
-
-
-  Widget TelaComentarios(data) {   //DATA = MENSAGEM
+  Widget commentChild(data) {   //DATA = MENSAGEM
     print (widget.noticiaModel);
     return ListView(
       children: [
@@ -93,13 +105,6 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
   }
 
 
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,7 +116,7 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
         child: CommentBox(
           userImage:
           "https://lh3.googleusercontent.com/a-/AOh14GjRHcaendrf6gU5fPIVd8GIl1OgblrMMvGUoCBj4g=s400",
-          child: TelaComentarios(comentariosEstatico),
+          child: commentChild(filedata),
           labelText: 'Escreva seu comentario',
           withBorder: false,
           errorText: 'Digite algo',
@@ -120,11 +125,12 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
               print(commentController.text);
               setState(() {
                 var value = {
-                  "IdCriadoPor": 44,
-                  "IdNoticia": 11,
-                  "message": commentController.text
+                  'name': 'New User',
+                  'pic':
+                  'https://lh3.googleusercontent.com/a-/AOh14GjRHcaendrf6gU5fPIVd8GIl1OgblrMMvGUoCBj4g=s400',
+                  'message': commentController.text
                 };
-                comentariosEstatico.insert(0, value);
+                filedata.insert(0, value);
               });
               commentController.clear();
               FocusScope.of(context).unfocus();
@@ -132,6 +138,7 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
               print("Not validated");
             };
             await fazerComentario(context);
+
           },
           formKey: formKey,
           commentController: commentController,
@@ -145,8 +152,8 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
   var usuarioLogado = true;
   Future fazerComentario(BuildContext context) async {
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    //var comentarioModel = new ComentarioModel(commentController.text, widget.noticiaModel.Id);
-    //var fazerComentarioResponse = await service.fazerComentario(comentarioModel);  ---< certo
+   // var comentarioModel = new ComentarioModel(commentController.text, usuarioLogado);
+    //var fazerComentarioResponse = await service.fazerComentario(comentarioModel);
   }
 
 }

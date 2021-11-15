@@ -1,10 +1,7 @@
 import 'dart:convert';
-
-import 'package:app_noticia/models/criar-conta.model.dart';
+import 'package:app_noticia/models/usuario-login.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
-import 'package:app_noticia/views/pages/cadastro-step1.page.dart';
-import 'package:app_noticia/views/pages/cadastro-step2.page.dart';
 import 'package:app_noticia/views/pages/cadastro-usuario.page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -15,15 +12,6 @@ import 'package:url_launcher/url_launcher.dart';
 import "package:http/http.dart" as http;
 
 
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  // Optional clientId
-  // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
-  scopes: <String>[
-    'email',
-    'https://www.googleapis.com/auth/userinfo.email',
-  ],
-);
-
 
 class FazerLoginWidget extends StatefulWidget{
   @override
@@ -31,7 +19,6 @@ class FazerLoginWidget extends StatefulWidget{
 }
 
 class _FazerLoginWidget extends State<FazerLoginWidget>{
-  GoogleSignInAccount _currentUser;
   String _contactText = '';
   TextEditingController  senhaController = TextEditingController();
   TextEditingController  emailController = TextEditingController();
@@ -82,13 +69,13 @@ class _FazerLoginWidget extends State<FazerLoginWidget>{
                     ),
                   ),
                   Container(
-                    width:  MediaQuery.of(context).size.width * 0.55,
-                    height:  MediaQuery.of(context).size.height * 0.05,
+                    width:  MediaQuery.of(context).size.width * 0.65,
+                    height:  MediaQuery.of(context).size.height * 0.06,
                     padding: EdgeInsets.all(5),
                     child: TextFormField(
                       controller: senhaController,
                       decoration: new InputDecoration(
-                        labelText: "Senhaaaaa",
+                        labelText: "Senhaa",
                         fillColor: Colors.white,
                         border: new OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(6.0),
@@ -186,11 +173,16 @@ class _FazerLoginWidget extends State<FazerLoginWidget>{
         ),
       );
   }
+
   Future fazerLogin(BuildContext context) async {
+    print('tela login');
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    var usuarioLogin = new CriarContaModel(null, emailController.text,
-        senhaController.text, null);
+    var usuarioLogin = new UsuarioLoginModel(emailController.text,
+        senhaController.text);
     var loginUsuarioResponse = await service.fazerLogin(usuarioLogin);
   }
+
+
+
 }
 

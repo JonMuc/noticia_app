@@ -1,9 +1,7 @@
-
 import 'package:app_noticia/models/noticia.model.dart';
 import 'package:app_noticia/services/noticia.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/pages/comentario-noticia.page.dart';
-import 'package:app_noticia/views/pages/cadastro-usuario.page.dart';
 import 'package:app_noticia/views/shared/loader.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -135,7 +133,6 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
                                                 => new TelaComentarioNoticia(noticiaModel: noticia)
                                             )
                                         );
-                                        // new TelaComentarioNoticia();
                                       },
                                           padding: EdgeInsets.all(5),                                          color: Colors.blue,
                                           icon: Icon(Icons.comment_rounded)
