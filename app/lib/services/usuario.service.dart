@@ -8,15 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UsuarioService extends ChangeNotifier {
-  UsuarioModel usuarioModel;
+  UsuarioModel usuarioModel = null;
   final usuarioRepository = new UsuarioRepository();
   final noticiaRepository = new NoticiaRepository();
-  //
-  // Future fazerLogin(CriarContaModel criarContaModel) async{
-  //   var result = await this.usuarioRepository.fazerLogin(criarContaModel);
-  //   print('service login');
-  //
-  // }
 
   Future<UsuarioModel> criarUsuario(CriarContaModel criarContaModel) async{
     try{
@@ -28,7 +22,6 @@ class UsuarioService extends ChangeNotifier {
         sharedPreferences.remove("usuario");
       }
       await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel));
-      print(sharedPreferences.get("usuario"));
       return this.usuarioModel;
     }catch(ex){
       this.usuarioModel = null;
@@ -42,6 +35,28 @@ class UsuarioService extends ChangeNotifier {
       UsuarioModel user = UsuarioModel.fromJson(sharedPreferences.get("usuario"));
       var result = await this.noticiaRepository.salvarComentario(mensagem, idNoticia, user.Id);
     }
+  }
+
+  Future<bool> verificarUsuarioLogado() async {
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      if(sharedPreferences.containsKey("usuario")){
+        return true;
+      }
+      return false;
+  }
+
+  Future<UsuarioModel> obterUsuarioLogado() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    print(213312231);
+    print(sharedPreferences.get("usuario"));
+
+    if(sharedPreferences.containsKey("usuario")){
+
+      UsuarioModel usuarioModel = UsuarioModel.fromJson(sharedPreferences.get("usuario"));
+      print(sharedPreferences.get("usuario"));
+      return usuarioModel;
+    }
+    return null;
   }
 
   void limparSecao() async{
