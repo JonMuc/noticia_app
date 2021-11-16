@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 import 'services/usuario.service.dart';
 
@@ -27,7 +27,7 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     // SharedPreferences.setMockInitialValues({});
+      // openSharedPreferences.setMockInitialValues({});
     return MaterialApp(
       title: 'WoNew',
       debugShowCheckedModeBanner: false,
