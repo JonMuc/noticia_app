@@ -1,12 +1,5 @@
-import 'package:app_noticia/models/criar-conta.model.dart';
-import 'package:app_noticia/models/usuario.model.dart';
-import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
-import 'package:app_noticia/views/pages/cadastro-step2.page.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TelaPerfil extends StatefulWidget {
   // const MyApp({Key key}) : super(key: key);

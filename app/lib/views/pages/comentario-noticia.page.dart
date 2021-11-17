@@ -1,4 +1,3 @@
-
 import 'package:app_noticia/models/noticia.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:flutter/material.dart';

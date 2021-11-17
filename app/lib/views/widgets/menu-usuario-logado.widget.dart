@@ -1,13 +1,9 @@
-import 'package:app_noticia/models/criar-conta.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
-import 'package:app_noticia/views/pages/cadastro-usuario.page.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 class MenuUsuarioLogadoWidget extends StatefulWidget{
@@ -93,9 +89,6 @@ class _MenuUsuarioLogadoWidget extends State<MenuUsuarioLogadoWidget>{
   Future deslogar(BuildContext context) async {
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     service.limparSecao().then((value) => Navigator.pop(context));
-    // var usuarioLogin = new CriarContaModel(null, emailController.text,
-    //     senhaController.text, null);
-    // var loginUsuarioResponse = await service.fazerLogin(usuarioLogin);
   }
 }
 

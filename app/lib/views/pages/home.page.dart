@@ -1,4 +1,3 @@
-import 'package:app_noticia/views/widgets/fazer-login.widget.dart';
 import 'package:app_noticia/views/widgets/lista-manchetes.widget.dart';
 import 'package:app_noticia/views/widgets/menu-usuario.widget.dart';
 import 'package:app_noticia/views/widgets/modal.widget.dart';

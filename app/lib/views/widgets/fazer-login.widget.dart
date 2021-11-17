@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:app_noticia/models/usuario-login.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import "package:http/http.dart" as http;
 
 
 

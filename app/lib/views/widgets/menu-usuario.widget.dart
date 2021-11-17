@@ -15,8 +15,6 @@ class _MenuUsuarioWidget extends State<MenuUsuario>{
 
   @override
   initState() {
-    print(342342);
-
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     service.verificarUsuarioLogado().then((value) => {
         setState(() {
