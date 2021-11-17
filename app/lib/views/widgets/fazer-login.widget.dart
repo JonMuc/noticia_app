@@ -68,8 +68,9 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                   padding: EdgeInsets.all(5),
                   child: TextFormField(
                     controller: senhaController,
+                    // keyboardType:  TextInputType.visiblePassword,
                     decoration: new InputDecoration(
-                      labelText: "Senhaa",
+                      labelText: "Senha",
                       fillColor: Colors.white,
                       border: new OutlineInputBorder(
                         borderRadius: new BorderRadius.circular(6.0),
@@ -173,9 +174,9 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
   Future fazerLogin(BuildContext context) async {
     UsuarioService service =
         Provider.of<UsuarioService>(context, listen: false);
-    var usuarioLogin =
-        new UsuarioLoginModel(emailController.text, senhaController.text);
-    var loginUsuarioResponse = await service.fazerLogin(usuarioLogin);
+    var usuarioLogin = new UsuarioLoginModel(emailController.text, senhaController.text);
+    await service.fazerLogin(usuarioLogin);
+    Navigator.pop(context);
   }
 
   void navegarCriarConta(BuildContext context) async {

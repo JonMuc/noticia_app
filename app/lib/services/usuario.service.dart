@@ -67,11 +67,11 @@ class UsuarioService extends ChangeNotifier {
   }
 
   Future <UsuarioModel> fazerLogin(UsuarioLoginModel usuarioLoginModel) async {
-    print(usuarioLoginModel.Senha);
     var usuarioLogado = await usuarioRepository.fazerLogin(usuarioLoginModel);
     try{
+      print(jsonEncode(usuarioLogado));
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString("usuarioKey", jsonEncode(usuarioLogado));
+      await sharedPreferences.setString("usuario", jsonEncode(usuarioLogado));
       return usuarioLogado;
     } catch (ex){
       usuarioLogado = null;

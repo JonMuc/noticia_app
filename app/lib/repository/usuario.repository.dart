@@ -13,12 +13,13 @@ class UsuarioRepository {
     var url = "${Settings.apiUrl}/login/logar";
     Dio dio = new Dio();
     Response response = await dio.post(url, data: jsonEncode(usuarioLoginModel)); // jsonEncode
-    print(response.statusCode);
-    print(usuarioLoginModel.Email);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
-    //UsuarioModel usuarioModel = UsuarioModel.fromJson(responseModel.Objeto);
-    //print(responseModel.Objeto);
-
+    print(responseModel.Objeto);
+    if(responseModel.Sucesso){
+      UsuarioModel usuarioModel = UsuarioModel.fromJson(responseModel.Objeto);
+      return usuarioModel;
+    }
+    return null;
   }
 
   Future<UsuarioModel> criarUsuario(CriarContaModel criarContaModel) async {
