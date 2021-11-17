@@ -1,19 +1,18 @@
 import 'package:app_noticia/models/criar-conta.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
-import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-class TelaCadastroStep1 extends StatefulWidget {
+class TelaCadastroUsuario extends StatefulWidget {
   // const MyApp({Key key}) : super(key: key);
   @override
-  _TelaCadastroStep1 createState() => _TelaCadastroStep1();
+  _TelaCadastroUsuario createState() => _TelaCadastroUsuario();
 }
-class _TelaCadastroStep1 extends State<TelaCadastroStep1> with SingleTickerProviderStateMixin {
+class _TelaCadastroUsuario extends State<TelaCadastroUsuario> with SingleTickerProviderStateMixin {
   TextEditingController  nomeController = TextEditingController();
   TextEditingController  emailController = TextEditingController();
   TextEditingController  senhaController = TextEditingController();
@@ -34,7 +33,7 @@ class _TelaCadastroStep1 extends State<TelaCadastroStep1> with SingleTickerProvi
           title: new Text('Crie sua conta'),
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(context).pop(false),
           ),
         ),
         body: new SingleChildScrollView(
@@ -303,15 +302,16 @@ class _TelaCadastroStep1 extends State<TelaCadastroStep1> with SingleTickerProvi
         backgroundColor: ThemeApp.snackBarMensagemEnvio,);
       _scaffoldKey.currentState.showSnackBar(snackbar);
 
-      //delay apos criar
+      //delay apos criar89 8
       new Future.delayed(new Duration(seconds: 2), () {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (BuildContext context)
-                => new HomePage()
-            )
-        );
+        Navigator.pop(context, true);
+        // Navigator.push(
+        //     context,
+        //     new MaterialPageRoute(
+        //         builder: (BuildContext context)
+        //         => new HomePage()
+        //     )
+        // );
       });
     }
   }
