@@ -9,12 +9,11 @@ import 'package:dio/dio.dart';
 
 class UsuarioRepository {
 
-  Future <UsuarioModel> fazerLogin(UsuarioLoginModel usuarioLoginModel) async {
+  Future<UsuarioModel>fazerLogin(UsuarioLoginModel usuarioLoginModel) async {
     var url = "${Settings.apiUrl}/login/logar";
     Dio dio = new Dio();
     Response response = await dio.post(url, data: jsonEncode(usuarioLoginModel)); // jsonEncode
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
-    print(responseModel.Objeto);
     if(responseModel.Sucesso){
       UsuarioModel usuarioModel = UsuarioModel.fromJson(responseModel.Objeto);
       return usuarioModel;
@@ -22,14 +21,24 @@ class UsuarioRepository {
     return null;
   }
 
-  Future<UsuarioModel> criarUsuario(CriarContaModel criarContaModel) async {
-    var url = "${Settings.apiUrl}/usuario/criar-usuario-step";
-    Dio dio = new Dio();
-    Response response = await dio.post(url, data: jsonEncode(criarContaModel));
-    ResponseModel responseModel = ResponseModel.fromJson(response.data);
-    print(jsonEncode(responseModel));
-    UsuarioModel usuarioModel = UsuarioModel.fromJson(responseModel.Objeto);
-    return usuarioModel;
+  Future criarUsuario(CriarContaModel criarContaModel) async {
+    try{
+      var url = "${Settings.apiUrl}/usuario/criar-usuario-step";
+      Dio dio = new Dio();
+      Response response = await dio.post(url, data: jsonEncode(criarContaModel));
+      ResponseModel responseModel = ResponseModel.fromJson(response.data);
+      return UsuarioModel.fromJson(responseModel.Objeto);
+    } catch (e) {
+      return ResponseModel.fromJson(e.response.data);
+    }
+    // print(222222222);
+    // print(jsonEncode(responseModel));
+    // if(responseModel.Sucesso){
+    // }else{
+    //   print(222222222);
+    //   print(jsonEncode(responseModel));
+    //   return responseModel;
+    // }
   }
 
 }

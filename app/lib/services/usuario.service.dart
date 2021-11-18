@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:app_noticia/models/criar-conta.model.dart';
+import 'package:app_noticia/models/response.model.dart';
 import 'package:app_noticia/models/usuario-login.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/repository/noticia.repository.dart';
@@ -9,20 +10,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UsuarioService extends ChangeNotifier {
   UsuarioModel usuarioModel = null;
+  ResponseModel responseModel = null;
   final usuarioRepository = new UsuarioRepository();
   final noticiaRepository = new NoticiaRepository();
 
-  Future<UsuarioModel> criarUsuario(CriarContaModel criarContaModel) async{
+  Future criarUsuario(CriarContaModel criarContaModel) async{
     try{
-      this.usuarioModel = await this.usuarioRepository.criarUsuario(criarContaModel);
+      var response = await this.usuarioRepository.criarUsuario(criarContaModel);
+      if(response is UsuarioModel){
+        this.usuarioModel = response;
 
-      //ADICIONANDO USUARIO
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      if(sharedPreferences.containsKey("usuario")){
-        sharedPreferences.remove("usuario");
+        //ADICIONANDO USUARIO
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        if(sharedPreferences.containsKey("usuario")){
+          sharedPreferences.remove("usuario");
+        }
+        await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel));
+        return this.usuarioModel;
+      }else{
+        this.responseModel = response;
+        return this.responseModel;
       }
-      await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel));
-      return this.usuarioModel;
     }catch(ex){
       this.usuarioModel = null;
       return this.usuarioModel;
@@ -39,7 +47,6 @@ class UsuarioService extends ChangeNotifier {
 
   Future<bool> verificarUsuarioLogado() async {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      print(1221212);
       print(sharedPreferences.get("usuario"));
       if(sharedPreferences.containsKey("usuario")){
         print("return true");
@@ -69,7 +76,6 @@ class UsuarioService extends ChangeNotifier {
   Future <UsuarioModel> fazerLogin(UsuarioLoginModel usuarioLoginModel) async {
     var usuarioLogado = await usuarioRepository.fazerLogin(usuarioLoginModel);
     try{
-      print(jsonEncode(usuarioLogado));
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       await sharedPreferences.setString("usuario", jsonEncode(usuarioLogado));
       return usuarioLogado;
