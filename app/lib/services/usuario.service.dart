@@ -73,15 +73,14 @@ class UsuarioService extends ChangeNotifier {
     }
   }
 
-  Future <UsuarioModel> fazerLogin(UsuarioLoginModel usuarioLoginModel) async {
-    var usuarioLogado = await usuarioRepository.fazerLogin(usuarioLoginModel);
-    try{
+  Future fazerLogin(UsuarioLoginModel usuarioLoginModel) async {
+    var response = await usuarioRepository.fazerLogin(usuarioLoginModel);
+    if(response is UsuarioModel){
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString("usuario", jsonEncode(usuarioLogado));
-      return usuarioLogado;
-    } catch (ex){
-      usuarioLogado = null;
-      return usuarioLogado;
+      await sharedPreferences.setString("usuario", jsonEncode(response));
+      return response;
+    }else{
+      return response;
     }
   }
 }

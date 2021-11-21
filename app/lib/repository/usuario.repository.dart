@@ -9,16 +9,17 @@ import 'package:dio/dio.dart';
 
 class UsuarioRepository {
 
-  Future<UsuarioModel>fazerLogin(UsuarioLoginModel usuarioLoginModel) async {
-    var url = "${Settings.apiUrl}/login/logar";
-    Dio dio = new Dio();
-    Response response = await dio.post(url, data: jsonEncode(usuarioLoginModel)); // jsonEncode
-    ResponseModel responseModel = ResponseModel.fromJson(response.data);
-    if(responseModel.Sucesso){
+  Future fazerLogin(UsuarioLoginModel usuarioLoginModel) async {
+    try{
+      var url = "${Settings.apiUrl}/login/logar";
+      Dio dio = new Dio();
+      Response response = await dio.post(url, data: jsonEncode(usuarioLoginModel));
+      ResponseModel responseModel = ResponseModel.fromJson(response.data);
       UsuarioModel usuarioModel = UsuarioModel.fromJson(responseModel.Objeto);
       return usuarioModel;
+    }catch(e){
+      return ResponseModel.fromJson(e.response.data);
     }
-    return null;
   }
 
   Future criarUsuario(CriarContaModel criarContaModel) async {
@@ -31,14 +32,6 @@ class UsuarioRepository {
     } catch (e) {
       return ResponseModel.fromJson(e.response.data);
     }
-    // print(222222222);
-    // print(jsonEncode(responseModel));
-    // if(responseModel.Sucesso){
-    // }else{
-    //   print(222222222);
-    //   print(jsonEncode(responseModel));
-    //   return responseModel;
-    // }
   }
 
 }

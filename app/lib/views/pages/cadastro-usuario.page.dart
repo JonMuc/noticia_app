@@ -5,6 +5,7 @@ import 'package:app_noticia/models/response.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
+import 'package:app_noticia/views/shared/progress-indicator.widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,13 +27,21 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _key = new GlobalKey();
   String nome, email, senha, confirmarSenha;
-  bool _validate = false;
+  bool carregando = false;
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(scaffoldBackgroundColor: ThemeApp.backGround),
       home: new Scaffold(
+        floatingActionButton: carregando ? Align(
+            child: FloatingActionButton(
+              onPressed: null,
+              child: GenericProgressIndicator(),
+              backgroundColor: Colors.transparent,
+              elevation: 0,),
+            alignment: Alignment(0.1,0)) : Container(),
         key: _scaffoldKey,
         appBar: new AppBar(
           title: new Text('Crie sua conta'),
@@ -58,6 +67,9 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
     return new Align(
         alignment: Alignment.center,
         child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.max,
+          // mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             SizedBox(
               height: 20,
@@ -243,7 +255,8 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
                             'https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                       },
                   )
-                ]))
+                ])),
+
           ],
         ));
   }
@@ -298,16 +311,18 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
       print("Nome $nome");
       print("Email $email");
       print("Senha $senha");
-    } else {
-      setState(() {
-        _validate = true;
-      });
     }
   }
 
-  Future criarConta(BuildContext context) async {
-    UsuarioService service =
-        Provider.of<UsuarioService>(context, listen: false);
+  void preencherCarregando(bool value) {
+    setState(() {
+      carregando = value;
+    });
+  }
+
+  void criarConta(BuildContext context) async {
+    preencherCarregando(true);
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var usuarioModel = new CriarContaModel(
         nomeController.text,
         emailController.text,
@@ -317,6 +332,7 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
 
     //verifica se é um usuario, se for deu sucesso
     if (response is UsuarioModel) {
+      preencherCarregando(false);
       final snackbar = SnackBar(
         content: Text('Usuario criado com sucesso.'),
         backgroundColor: ThemeApp.snackBarMensagemEnvio,
@@ -328,9 +344,12 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
         Navigator.pop(context, true);
       });
     } else {
+      preencherCarregando(false);
       ResponseModel responseModel = response;
       final snackbar = SnackBar(
-        content: Text(responseModel.Objeto.toString().replaceAll("[", "").replaceAll("]", "")),
+        content: Text(responseModel.Objeto.toString()
+            .replaceAll("[", "")
+            .replaceAll("]", "")),
         backgroundColor: ThemeApp.snackBarMensagemEnvio,
       );
       _scaffoldKey.currentState.showSnackBar(snackbar);
