@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
 import 'services/usuario.service.dart';
 

@@ -22,6 +22,7 @@ dependencies:
   shared_preferences: any
   comment_box: any
   flutter_launcher_icons: ^0.8.0
+  image_picker: any
 
 
 flutter_icons:
@@ -37,7 +38,7 @@ flutter:
   uses-material-design: true
   
   assets:
-    - assets/images/
+    - assets/user.png
 
   module:
     androidX: true

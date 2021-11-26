@@ -6,7 +6,12 @@ import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/repository/noticia.repository.dart';
 import 'package:app_noticia/repository/usuario.repository.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:async/async.dart';
+
 
 class UsuarioService extends ChangeNotifier {
   UsuarioModel usuarioModel = null;
@@ -37,6 +42,7 @@ class UsuarioService extends ChangeNotifier {
     }
   }
 
+  //TODO - REMOVER ESSE METODO PARA SERVICE CORRETO
   Future fazerComentario(String mensagem, int idNoticia) async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.containsKey("usuario")) {
@@ -68,8 +74,6 @@ class UsuarioService extends ChangeNotifier {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.containsKey("usuario")) {
       sharedPreferences.remove("usuario");
-      // sharedPreferences.remove("urlImage");
-      // sharedPreferences.remove("appCode");
     }
   }
 
@@ -82,5 +86,13 @@ class UsuarioService extends ChangeNotifier {
     }else{
       return response;
     }
+  }
+
+  Future salvarFotoGaleria(XFile imageFile) async {
+    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    var multipartFile = new http.MultipartFile('image', stream, length,
+        filename: basename(imageFile.path));
+    return this.usuarioRepository.salvarFotoGaleria(multipartFile, 1);
   }
 }

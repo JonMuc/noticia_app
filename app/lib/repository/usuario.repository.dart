@@ -5,6 +5,7 @@ import 'package:app_noticia/models/usuario-login.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/settings.dart';
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 
 class UsuarioRepository {
@@ -32,6 +33,18 @@ class UsuarioRepository {
     } catch (e) {
       return ResponseModel.fromJson(e.response.data);
     }
+  }
+
+  Future salvarFotoGaleria(dynamic multipartFile, int idUsuario) async {
+    var url = "${Settings.apiUrl}/usuario/enviar-foto/" + idUsuario.toString();
+    var uri = Uri.parse(url);
+    var request = new http.MultipartRequest("POST", uri);
+    request.files.add(multipartFile);
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    ResponseModel responseModel = ResponseModel.fromJson(json.decode(response.body));
+    print(jsonEncode(responseModel.Objeto));
+    return responseModel;
   }
 
 }
