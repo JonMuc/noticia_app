@@ -17,6 +17,9 @@ class UsuarioModel{
   String PerfilTwitter;
   String Descricao;
 
+  UsuarioModel.d(
+
+      );
 
   UsuarioModel(
       this.Nome,
