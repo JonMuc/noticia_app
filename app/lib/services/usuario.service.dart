@@ -44,19 +44,6 @@ class UsuarioService extends ChangeNotifier {
     }
   }
 
-<<<<<<< Updated upstream
-  //TODO - REMOVER ESSE METODO PARA SERVICE CORRETO
-  Future fazerComentario(String mensagem, int idNoticia) async{
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.containsKey("usuario")) {
-      UsuarioModel user = UsuarioModel.fromJson(sharedPreferences.get("usuario"));
-      var result = await this.noticiaRepository.salvarComentario(mensagem, idNoticia, user.Id);
-    }
-  }
-=======
-
->>>>>>> Stashed changes
-
   Future<bool> verificarUsuarioLogado() async {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       print(sharedPreferences.get("usuario"));
