@@ -147,7 +147,11 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                           text: "Criar Conta",
                           recognizer: new TapGestureRecognizer()
                             ..onTap = () {
+<<<<<<< Updated upstream
                               // print('kakaka');
+=======
+                            // print('kakaka');
+>>>>>>> Stashed changes
                               TelaComentarioNoticia();
                               // navegarCriarConta(context);
                             },

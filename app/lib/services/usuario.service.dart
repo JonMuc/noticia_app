@@ -3,6 +3,7 @@ import 'package:app_noticia/models/criar-conta.model.dart';
 import 'package:app_noticia/models/response.model.dart';
 import 'package:app_noticia/models/usuario-login.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
+import 'package:app_noticia/repository/comentario.repository.dart';
 import 'package:app_noticia/repository/noticia.repository.dart';
 import 'package:app_noticia/repository/usuario.repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,7 @@ class UsuarioService extends ChangeNotifier {
   ResponseModel responseModel = null;
   final usuarioRepository = new UsuarioRepository();
   final noticiaRepository = new NoticiaRepository();
+  final comentarioRepository = new ComentarioRepository();
 
   Future criarUsuario(CriarContaModel criarContaModel) async{
     try{
@@ -42,6 +44,7 @@ class UsuarioService extends ChangeNotifier {
     }
   }
 
+<<<<<<< Updated upstream
   //TODO - REMOVER ESSE METODO PARA SERVICE CORRETO
   Future fazerComentario(String mensagem, int idNoticia) async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -50,6 +53,9 @@ class UsuarioService extends ChangeNotifier {
       var result = await this.noticiaRepository.salvarComentario(mensagem, idNoticia, user.Id);
     }
   }
+=======
+
+>>>>>>> Stashed changes
 
   Future<bool> verificarUsuarioLogado() async {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

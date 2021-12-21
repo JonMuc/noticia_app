@@ -63,7 +63,11 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
     );
   }
 
+<<<<<<< Updated upstream
   Widget ListaComentarios() {
+=======
+    Widget ListaComentarios() {
+>>>>>>> Stashed changes
     return Scaffold(
       body: Column(
         children: [
@@ -81,11 +85,19 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
                         height: 20,
                         child: ImageIcon(
                             AssetImage("logo_noticias/cnn.png")
+<<<<<<< Updated upstream
                         ),
                       ),
                       Container(
                           width: MediaQuery.of(context).size.width * 0.6,
                           child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15, color: Colors.black))
+=======
+                    ),
+                      ),
+                      Container(
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15, color: Colors.black))
+>>>>>>> Stashed changes
                       )
                     ],
                   ),

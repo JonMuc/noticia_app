@@ -136,12 +136,29 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
                                           // => new TelaComentarioNoticia()
                                           => new TelaComentarioNoticia(noticiaModel: noticia)
                                       ),
+<<<<<<< Updated upstream
                                     );
                                   },
                                       padding: EdgeInsets.all(5), color: Colors.blue,
                                       icon: Icon(Icons.comment_rounded)
                                   )
                                 ],
+=======
+                                      IconButton(onPressed: (){
+                                        Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder: (BuildContext context)
+                                                // => new TelaComentarioNoticia()
+                                                => new TelaComentarioNoticia(noticiaModel: noticia)
+                                            ),
+                                        );
+                                      },
+                                          padding: EdgeInsets.all(5), color: Colors.blue,
+                                          icon: Icon(Icons.comment_rounded)
+                                      )
+                                    ],
+>>>>>>> Stashed changes
                               ),
                             )
                           ],

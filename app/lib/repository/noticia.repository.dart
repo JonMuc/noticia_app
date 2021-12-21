@@ -21,35 +21,4 @@ class NoticiaRepository {
         .toList();
   }
 
-  Future salvarComentario(String mensagem, int idNoticia, int idCriadoPor) async {
-    print("REPOSITORY");
-
-    var data =  {
-      "Mensagem": mensagem.toString(),
-      "IdNoticia": idNoticia,
-      "IdCriadoPor": idCriadoPor,
-
-    };
-    var url = "${Settings.apiUrl}/comentario/salvar-comentario-noticia";
-    Dio dio = new Dio();
-
-    print(Settings.apiUrl);
-    //print(jsonEncode(comentarioModel));
-    Response response = await dio.post(url, data: data);
-    print(response.statusCode);
-    ResponseModel responseModel = ResponseModel.fromJson(response.data);
-    //print(responseModel.Objeto);
-  }
-
-  Future trazerComentario(ComentarioModel comentarioModel) async {
-    var url = "${Settings.apiUrl}/comentario/obter-comentario-noticia/149";     //{idNoticia}
-    Dio dio = new Dio();
-    print(Settings.apiUrl);
-    //print(jsonEncode(comentarioModel));
-    Response response = await dio.get(url);
-    //print(response.statusCode);
-    ResponseModel responseModel = ResponseModel.fromJson(response.data);
-    //print(responseModel.Objeto);
-  }
-
 }

@@ -2,6 +2,8 @@ class ComentarioModel{
   String Comentario;
   int idNoticia;
   int IdCriadoPor;
+  // int horasAtras;
+  // int likes;
 
   ComentarioModel(this.Comentario, this.idNoticia, this.IdCriadoPor);
 
