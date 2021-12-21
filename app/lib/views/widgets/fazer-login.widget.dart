@@ -4,12 +4,15 @@ import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/pages/cadastro-usuario.page.dart';
+import 'package:app_noticia/views/pages/comentario-noticia.page.dart';
 import 'package:app_noticia/views/shared/progress-indicator.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'comentario-noticia.widget.dart';
 
 class FazerLoginWidget extends StatefulWidget {
   @override
@@ -144,7 +147,9 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                           text: "Criar Conta",
                           recognizer: new TapGestureRecognizer()
                             ..onTap = () {
-                              navegarCriarConta(context);
+                              // print('kakaka');
+                              TelaComentarioNoticia();
+                              // navegarCriarConta(context);
                             },
                         )
                       ])),
@@ -225,11 +230,11 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
 
   void navegarCriarConta(BuildContext context) async {
     Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (BuildContext context) => new TelaCadastroUsuario()))
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new TelaCadastroUsuario()))
         .then((value) => {
-              if (value) {Navigator.pop(context)}
-            });
+      if (value) {Navigator.pop(context)}
+    });
   }
 }

@@ -1,11 +1,19 @@
+import 'dart:convert';
+
+import 'package:app_noticia/models/comentario-view.model.dart';
 import 'package:app_noticia/models/noticia.model.dart';
+import 'package:app_noticia/models/usuario.model.dart';
+import 'package:app_noticia/services/comentario.service.dart';
 import 'package:app_noticia/services/usuario.service.dart';
-import 'package:flutter/material.dart';
+import 'package:app_noticia/views/shared/loader.widget.dart';
+import 'package:app_noticia/views/widgets/comentario-noticia.widget.dart';
 import 'package:comment_box/comment/comment.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-class TelaComentarioNoticia extends StatefulWidget {
+class
+TelaComentarioNoticia extends StatefulWidget {
   final NoticiaModel noticiaModel;
   TelaComentarioNoticia({@required this.noticiaModel});
 
@@ -13,139 +21,131 @@ class TelaComentarioNoticia extends StatefulWidget {
   _TelaComentarioNoticia createState() => _TelaComentarioNoticia();
 }
 class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
-  final noticia = NoticiaModel();
-
-  final formKey = GlobalKey<FormState>();
+  List<ComentarioViewModel> listaDeComentarios = List.empty();
+  final comentarioService = new ComentarioService();
   final TextEditingController commentController = TextEditingController();
-
-  List comentariosEstatico = [
-  {
-    'name': '1',
-    'pic': 'https://picsum.photos/300/30',
-    'message': 'I love to code'
-  },
-  {
-    'name': '2',
-    'pic': 'https://picsum.photos/300/30',
-    'message': 'Vesssssry cool'
-  },
-  {
-    'name': '3',
-    'pic': 'https://picsum.photos/300/30',
-    'message': 'Vesssssry cool'
-  },
-  {
-    'name': '4',
-    'pic': 'https://picsum.photos/300/30',
-    'message': 'Vesssssry cool'
-  }
-  ];
-
-
-
-
-  Widget TelaComentarios(data) {   //DATA = MENSAGEM
-    print (widget.noticiaModel);
-    return ListView(
-      children: [
-        Container(
-          child: Row(
-            children: [
-              IconButton(onPressed: (){}, icon: Icon(Icons.history)),
-              Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15, color: Colors.black))
-              )
-              //noticia.Titulo.toString(), style: TextStyle(fontSize: 17, color: Colors.white)
-            ],
-          ),
-        ),
-        for (var i = 0; i < data.length; i++)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(2.0, 8.0, 2.0, 0.0),
-            child: ListTile(
-              leading: GestureDetector(
-                onTap: () async {
-                  // Display the image in large form.
-                  print("Comment Clicked");
-                },
-                child: Container(
-                  height: 50.0,
-                  width: 50.0,
-                  decoration: new BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: new BorderRadius.all(Radius.circular(50))),
-                  child: CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(data[i]['pic'] + "$i")),
-                ),
-              ),
-              title: Text(
-                data[i]['name'],
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(data[i]['message']),
-            ),
-          )
-      ],
-    );
-  }
-
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Comment Page"),
-        backgroundColor: Colors.pink,
-      ),
-      body: Container(
-        child: CommentBox(
-          userImage:
-          "https://lh3.googleusercontent.com/a-/AOh14GjRHcaendrf6gU5fPIVd8GIl1OgblrMMvGUoCBj4g=s400",
-          child: TelaComentarios(comentariosEstatico),
-          labelText: 'Escreva seu comentario',
-          withBorder: false,
-          errorText: 'Digite algo',
-          sendButtonMethod: () async {
-            if (formKey.currentState.validate()) {
-              print(commentController.text);
-              setState(() {
-                var value = {
-                  "IdCriadoPor": 44,
-                  "IdNoticia": 11,
-                  "message": commentController.text
-                };
-                comentariosEstatico.insert(0, value);
-              });
+    // return ListaComentarios();
+    //print(jsonEncode(listaDeComentarios));
+    if(mounted){
+      if(listaDeComentarios.isEmpty){
+        print("Listar noticias");
+        listarComentarios(context);
+      }
+      return Scaffold(
+        body: Container(
+          child: CommentBox(
+            userImage:
+            "https://lh3.googleusercontent.com/a-/AOh14GjRHcaendrf6gU5fPIVd8GIl1OgblrMMvGUoCBj4g=s400",
+            child: ListaComentarios(),
+            labelText: 'Escreva seu comentario',
+            withBorder: false,
+            errorText: 'Digite algo',
+            sendButtonMethod: () async {
+              await fazerComentario(context, commentController.text);
               commentController.clear();
-              FocusScope.of(context).unfocus();
-            } else {
-              print("Not validated");
-            };
-            await fazerComentario(context);
-          },
-          formKey: formKey,
-          commentController: commentController,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          sendWidget: Icon(Icons.send_sharp, size: 30, color: Colors.white),
+              listarComentarios(context);
+            },
+            commentController: commentController,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            sendWidget: Icon(Icons.send_sharp, size: 30, color: Colors.white),
+          ),
         ),
+      );
+    }
+
+    return Loader(
+      callback: ListaComentarios,
+      object: listaDeComentarios,
+    );
+  }
+
+  Widget ListaComentarios() {
+    return Scaffold(
+      body: Column(
+        children: [
+          Container(
+            color: Colors.white,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 20,
+                        height: 20,
+                        child: ImageIcon(
+                            AssetImage("logo_noticias/cnn.png")
+                        ),
+                      ),
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15, color: Colors.black))
+                      )
+                    ],
+                  ),
+                  // child: Row(
+                  //   children: [
+                  //     ImageIcon(
+                  //       AssetImage("logo_noticias/cnn.png"),
+                  //       color: Color(0xFF3A5A98),
+                  //       size: 3,
+                  //     ),
+                  //     Container(
+                  //         width: MediaQuery.of(context).size.width * 0.6,
+                  //         child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15, color: Colors.black))
+                  //     )
+                  //   ],
+                  // ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: listaDeComentarios.length,
+                    separatorBuilder: (BuildContext context, int index) => Divider(
+                      color: Colors.transparent,
+                      height: 0,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      final ComentarioViewModel comentarioViewModel = listaDeComentarios[index];
+                      return Center(
+                          child: WidgetComentarioNoticia(comentarioViewModel: comentarioViewModel)
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
-  var usuarioLogado = true;
-  Future fazerComentario(BuildContext context) async {
-    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    //var comentarioModel = new ComentarioModel(commentController.text, widget.noticiaModel.Id);
-    //var fazerComentarioResponse = await service.fazerComentario(comentarioModel);  ---< certo
+
+  void listarComentarios(BuildContext context) async {
+    print('listar comentarios');
+    var listaComentarioResponse = await comentarioService.listarComentario();
+    setState(() {
+      this.listaDeComentarios = listaComentarioResponse;
+    });
   }
 
+  Future fazerComentario(BuildContext context, String comentario) async {
+    print('Fazer comentario');
+    UsuarioService usuarioService = Provider.of<UsuarioService>(context, listen: false);
+    //ComentarioService comentarioService = Provider.of<ComentarioService>(context, listen: false);
+    UsuarioModel usuarioLogado = await usuarioService.obterUsuarioLogado();
+    //var usuarioId = usuarioLogado.Id;
+    var usuarioId = 32;
+    widget.noticiaModel.Id = 149;
+    var fazerComentarioResponse = await comentarioService.fazerComentario(comentario, widget.noticiaModel.Id, usuarioId);
+  }
 }

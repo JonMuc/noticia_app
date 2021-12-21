@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'comentario-noticia.widget.dart';
+
 class MenuUsuario extends StatefulWidget{
   @override
   _MenuUsuarioWidget createState() => _MenuUsuarioWidget();
@@ -17,9 +19,9 @@ class _MenuUsuarioWidget extends State<MenuUsuario>{
   initState() {
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     service.verificarUsuarioLogado().then((value) => {
-        setState(() {
-          this.usuarioExistente = value;
-        })
+      setState(() {
+        this.usuarioExistente = value;
+      })
     });
   }
 
@@ -27,5 +29,6 @@ class _MenuUsuarioWidget extends State<MenuUsuario>{
   Widget build(BuildContext context){
     print(this.usuarioExistente);
     return this.usuarioExistente ? MenuUsuarioLogadoWidget() : FazerLoginWidget();
+
   }
 }

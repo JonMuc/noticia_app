@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:app_noticia/models/criar-conta.model.dart';
 import 'package:app_noticia/models/response.model.dart';
@@ -8,11 +8,11 @@ import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/shared/progress-indicator.widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TelaCadastroUsuario extends StatefulWidget {
+  // const MyApp({Key key}) : super(key: key);
   @override
   _TelaCadastroUsuario createState() => _TelaCadastroUsuario();
 }
@@ -26,25 +26,22 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
   CriarContaModel model;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> _key = new GlobalKey();
-  String nome, email, senha, confirmarSenha, pathFoto;
+  String nome, email, senha, confirmarSenha;
   bool carregando = false;
-  bool existeFoto = false;
+
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(scaffoldBackgroundColor: ThemeApp.backGround),
       home: new Scaffold(
-        floatingActionButton: carregando
-            ? Align(
-                child: FloatingActionButton(
-                  onPressed: null,
-                  child: GenericProgressIndicator(),
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                ),
-                alignment: Alignment(0.1, 0))
-            : Container(),
+        floatingActionButton: carregando ? Align(
+            child: FloatingActionButton(
+              onPressed: null,
+              child: GenericProgressIndicator(),
+              backgroundColor: Colors.transparent,
+              elevation: 0,),
+            alignment: Alignment(0.1,0)) : Container(),
         key: _scaffoldKey,
         appBar: new AppBar(
           title: new Text('Crie sua conta'),
@@ -66,77 +63,21 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
     );
   }
 
-  dynamic _opcaoFoto(BuildContext context) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                leading: new Icon(Icons.camera),
-                title: new Text('Camera'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: new Icon(Icons.photo),
-                title: new Text('Galeria'),
-                onTap: () {
-                  getImageGaleria();
-                },
-              ),
-            ],
-          );
-        });
-  }
-
   Widget _formUI() {
     return new Align(
         alignment: Alignment.center,
         child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.max,
+          // mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             SizedBox(
               height: 20,
             ),
-            InkWell(
-              onTap: () {
-                _opcaoFoto(context);
-              }, // Handle your callback
-              child: Column(
-                children: [
-                  existeFoto ? Container(
-                    height: 100,
-                    width: 100,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: ClipOval(
-                        child: Image.file(
-                          File(pathFoto),
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,),
-                      ),
-                    ),
-                  ) :
-                  Container(
-                    height: 100,
-                    width: 100,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: new Image.asset(
-                        'assets/user.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    "Adicionar foto de perfil",
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
-                  ),
-                ],
-              ),
+            new CircleAvatar(
+              radius: 40.0,
+              backgroundImage: NetworkImage(
+                  "https://www.pinpng.com/pngs/m/131-1315114_png-pain-pain-akatsuki-black-and-white-transparent.png"),
             ),
             SizedBox(
               height: 20,
@@ -238,8 +179,8 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
                         EdgeInsets.all(15)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.0),
-                    ))),
+                          borderRadius: BorderRadius.circular(7.0),
+                        ))),
                 onPressed: () async {
                   await criarConta(context);
                   _sendForm();
@@ -315,10 +256,10 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
                       },
                   )
                 ])),
+
           ],
         ));
   }
-
 
   String _validarNome(String value) {
     String patttern = r'(^[a-zA-Z ]*$)';
@@ -373,19 +314,6 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
     }
   }
 
-  Future getImageGaleria() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile image = await _picker.pickImage(source: ImageSource.gallery);
-    print(image.path);
-    // UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    // ResponseModel result = await service.salvarFotoGaleria(image);
-    setState(() {
-      existeFoto = true;
-      pathFoto = image.path;
-    });
-    Navigator.pop(context);
-  }
-
   void preencherCarregando(bool value) {
     setState(() {
       carregando = value;
@@ -394,8 +322,7 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
 
   void criarConta(BuildContext context) async {
     preencherCarregando(true);
-    UsuarioService service =
-        Provider.of<UsuarioService>(context, listen: false);
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var usuarioModel = new CriarContaModel(
         nomeController.text,
         emailController.text,
@@ -408,7 +335,7 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
       preencherCarregando(false);
       final snackbar = SnackBar(
         content: Text('Usuario criado com sucesso.'),
-        backgroundColor: ThemeApp.snackBarMensagemEnvio,
+        backgroundColor: Colors.blue,
       );
       _scaffoldKey.currentState.showSnackBar(snackbar);
 

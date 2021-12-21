@@ -7,6 +7,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'comentario-noticia.widget.dart';
+import 'resposta-comentario-noticia.widget.dart';
+
+
 class ListaManchetesWidget extends StatefulWidget {
   @override
   _ListaManchetesWidget createState() => _ListaManchetesWidget();
@@ -79,65 +83,65 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
                                   ),
                                 ),
                                 Positioned(
-                                  bottom: 10,
+                                    bottom: 10,
                                     left: 10,
                                     child: Container(
                                       padding: EdgeInsets.all(3),
                                       width: MediaQuery.of(context).size.width * 0.9,
                                       child:Text(noticia.Titulo.toString(), style: TextStyle(fontSize: 17, color: Colors.white,
-                                      shadows: [
-                                        Shadow(
-                                          offset: Offset(1.0, 1.0),
-                                          blurRadius: 8.0,
-                                          color: Color.fromARGB(50, 0, 0, 255),
-                                        ),
-                                        Shadow(
-                                          blurRadius: 10.0,
-                                          color: Colors.black,
-                                          offset: Offset(1.0, 1.0),
-                                        ),
-                                      ]),
-                                  ),
-                                 )
+                                          shadows: [
+                                            Shadow(
+                                              offset: Offset(1.0, 1.0),
+                                              blurRadius: 8.0,
+                                              color: Color.fromARGB(50, 0, 0, 255),
+                                            ),
+                                            Shadow(
+                                              blurRadius: 10.0,
+                                              color: Colors.black,
+                                              offset: Offset(1.0, 1.0),
+                                            ),
+                                          ]),
+                                      ),
+                                    )
                                 ),
                               ],
                             ),
                             Container(
                               height: 40,
-                                  child: Wrap(
-                                    alignment: WrapAlignment.spaceBetween,
-                                    spacing: 20,
-                                    children: [
-                                      IconButton(onPressed: (){},
-                                          padding: EdgeInsets.all(5),                                          color: Colors.blue,
-                                          icon: Icon(Icons.push_pin_sharp)
+                              child: Wrap(
+                                alignment: WrapAlignment.spaceBetween,
+                                spacing: 20,
+                                children: [
+                                  IconButton(onPressed: (){},
+                                      padding: EdgeInsets.all(5),                                          color: Colors.blue,
+                                      icon: Icon(Icons.push_pin_sharp)
+                                  ),
+                                  IconButton(onPressed: (){},
+                                      padding: EdgeInsets.all(5),                                          color: Colors.blue,
+                                      icon: Icon(Icons.offline_share)
+                                  ),
+                                  IconButton(onPressed: (){},
+                                      padding: EdgeInsets.all(5),                                          color: Colors.blue,
+                                      icon: Icon(Icons.thumb_up_alt_rounded)
+                                  ),
+                                  IconButton(onPressed: (){},
+                                      padding: EdgeInsets.all(5),                                          color: Colors.blue,
+                                      icon: Icon(Icons.thumb_down_alt)
+                                  ),
+                                  IconButton(onPressed: (){
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context)
+                                          // => new TelaComentarioNoticia()
+                                          => new TelaComentarioNoticia(noticiaModel: noticia)
                                       ),
-                                      IconButton(onPressed: (){},
-                                          padding: EdgeInsets.all(5),                                          color: Colors.blue,
-                                          icon: Icon(Icons.offline_share)
-                                      ),
-                                      IconButton(onPressed: (){},
-                                          padding: EdgeInsets.all(5),                                          color: Colors.blue,
-                                          icon: Icon(Icons.thumb_up_alt_rounded)
-                                      ),
-                                      IconButton(onPressed: (){},
-                                          padding: EdgeInsets.all(5),                                          color: Colors.blue,
-                                          icon: Icon(Icons.thumb_down_alt)
-                                      ),
-                                      IconButton(onPressed: (){
-                                        print("allaa");
-                                        Navigator.push(
-                                            context,
-                                            new MaterialPageRoute(
-                                                builder: (BuildContext context)
-                                                => new TelaComentarioNoticia(noticiaModel: noticia)
-                                            )
-                                        );
-                                      },
-                                          padding: EdgeInsets.all(5),                                          color: Colors.blue,
-                                          icon: Icon(Icons.comment_rounded)
-                                      )
-                                    ],
+                                    );
+                                  },
+                                      padding: EdgeInsets.all(5), color: Colors.blue,
+                                      icon: Icon(Icons.comment_rounded)
+                                  )
+                                ],
                               ),
                             )
                           ],
