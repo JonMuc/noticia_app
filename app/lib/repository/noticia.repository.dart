@@ -16,6 +16,7 @@ class NoticiaRepository {
     // dio.options.headers['TIO_AUTH_TK'] = appCode;
     Response response = await dio.get(url);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    print(responseModel.Objeto);
     return (responseModel.Objeto as List)
         .map((noticia) => NoticiaModel.fromJson(noticia))
         .toList();

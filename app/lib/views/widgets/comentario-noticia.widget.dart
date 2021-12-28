@@ -20,12 +20,14 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
   bool mostrarRespostaComentario = false;
   bool mostrarCampoRespostaComentario = false;
   int comentarioCurtido = 0;
-  final comentario = new ComentarioViewModel.t(7, 7, "leleke", "lelekando");
-  final comentaria = new ComentarioViewModel.t(9, 9, "leleka", "lalakando");
-
 
   @override
   Widget build(BuildContext context){
+    // if(mounted){
+    //   if(listaRespostaComentarios.isEmpty){
+    //     print("Listar noticias");
+    //     listarComentarios(context);
+    //   }}
     // print(widget.comentarioViewModel.IdComentario);
     if (widget.comentarioViewModel.ComentarioAvaliado == 1){
       comentarioCurtido = 1;
@@ -47,7 +49,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                         child: CircleAvatar(
                           radius: 20.0,
                           backgroundImage: NetworkImage(
-                              widget.comentarioViewModel.UrlFoto ),
+                              widget.comentarioViewModel.UrlFoto),
                         ),
                       ),
                       Container(
@@ -78,9 +80,9 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                     GestureDetector(
                       child:Text('ver resposta'),
                       onTap: () {
+                        listarComentarios(context);
+                        mostrarRespostaComentario = mostrarRespostaComentario ? false : true;
                         setState(() {
-                          listarComentarios(context);
-                          mostrarRespostaComentario = mostrarRespostaComentario ? false : true;
                         });
                       },
                     ),
@@ -161,7 +163,6 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                         onPressed: () async {
                           print('reply');
                           setState(() {
-
                             // mostrarCampoRespostaComentario = mostrarCampoRespostaComentario ? false : true;
                           });
                           },
@@ -203,6 +204,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
             )
         ),
     );
+
   }
 
   void responderComentario(){
@@ -212,8 +214,8 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
   void listarComentarios(BuildContext context) async {
     print('listar comentarios');
     var listaRespostaComentarioResponse = await comentarioService.listarComentario();
+    this.listaRespostaComentarios = listaRespostaComentarioResponse;
     setState(() {
-      this.listaRespostaComentarios = listaRespostaComentarioResponse;
     });
   }
 

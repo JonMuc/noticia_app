@@ -8,6 +8,7 @@ import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/shared/loader.widget.dart';
 import 'package:app_noticia/views/widgets/comentario-noticia.widget.dart';
 import 'package:comment_box/comment/comment.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,8 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.noticiaModel.OrigemNoticia);
+    print(jsonEncode(widget.noticiaModel));
     // return ListaComentarios();
     //print(jsonEncode(listaDeComentarios));
     if(mounted){
@@ -63,7 +66,6 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
     );
   }
 
-
     Widget ListaComentarios() {
     return Scaffold(
       body: Column(
@@ -73,40 +75,24 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
             child: ListView(
               shrinkWrap: true,
               children: [
-
                 Container(
                   child: Row(
                     children: <Widget>[
                       Container(
-                        width: 20,
-                        height: 20,
+                        width: 60,
+                        height: 60,
                         child: ImageIcon(
-                            AssetImage("logo_noticias/cnn.png")
+                            AssetImage(obterOrigemNoticia(widget.noticiaModel.OrigemNoticia)),
+                            color: Color(0xFF3A5A98),
                         ),
                       ),
                       Container(
+                          padding: EdgeInsets.only(left: 6),
                           width: MediaQuery.of(context).size.width * 0.6,
                           child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15, color: Colors.black))
-                    ),
-                      Container(
-                                width: MediaQuery.of(context).size.width * 0.6,
-                                child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15, color: Colors.black))
-                      )
+                      ),
                     ],
                   ),
-                  // child: Row(
-                  //   children: [
-                  //     ImageIcon(
-                  //       AssetImage("logo_noticias/cnn.png"),
-                  //       color: Color(0xFF3A5A98),
-                  //       size: 3,
-                  //     ),
-                  //     Container(
-                  //         width: MediaQuery.of(context).size.width * 0.6,
-                  //         child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15, color: Colors.black))
-                  //     )
-                  //   ],
-                  // ),
                 ),
                 SizedBox(
                   height: 20,
@@ -133,6 +119,31 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
         ],
       ),
     );
+  }
+
+  String obterOrigemNoticia(int origemNoticia) {
+    switch (origemNoticia){
+      case 1:
+        {
+          return "assets/logo_noticias/googlenews.png";
+        }
+        break;
+      case 2:
+        {
+          return "assets/logo_noticias/g1.png";
+        }
+        break;
+      case 3:
+        {
+        return "assets/logo_noticias/ig.png";
+        }
+        break;
+      default:
+        {
+          return "assets/logo_noticias/facebook.png";
+        }
+        break;
+    }
   }
 
   void listarComentarios(BuildContext context) async {

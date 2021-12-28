@@ -5,8 +5,9 @@ class NoticiaModel {
   String Fonte;
   String Link;
   String HoraAtras;
+  int OrigemNoticia; //1=google new, 2=g1, 3=ig
 
-  NoticiaModel({this.Id , this.Titulo, this.UrlImage, this.Fonte, this.Link, this.HoraAtras});
+  NoticiaModel({this.Id , this.Titulo, this.UrlImage, this.Fonte, this.Link, this.HoraAtras, this.OrigemNoticia});
 
   NoticiaModel.fromJson(Map<String, dynamic> json) {
     Id = json['Id'];
@@ -15,6 +16,7 @@ class NoticiaModel {
     Fonte = json['Fonte'];
     Link =  json['Link'];
     HoraAtras =  json['HoraAtras'];
+    OrigemNoticia =  json['OrigemNoticia'];
   }
 
   Map<String, dynamic> toJson() {
@@ -25,6 +27,7 @@ class NoticiaModel {
     data['Fonte'] = this.Fonte;
     data['Link'] = this.Link;
     data['HoraAtras'] = this.HoraAtras;
+    data['OrigemNoticia'] = this.OrigemNoticia;
     return data;
   }
 }

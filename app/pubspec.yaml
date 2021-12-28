@@ -37,9 +37,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  
+
   assets:
     - assets/user.png
+    - assets/logo_noticias/
 
   module:
     androidX: true
