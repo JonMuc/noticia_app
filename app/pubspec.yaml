@@ -23,6 +23,7 @@ dependencies:
   comment_box: any
   flutter_launcher_icons: ^0.8.0
   image_picker: any
+  onesignal_flutter: ^3.0.0
 
 
 flutter_icons:

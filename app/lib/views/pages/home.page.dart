@@ -3,6 +3,7 @@ import 'package:app_noticia/views/widgets/menu-usuario.widget.dart';
 import 'package:app_noticia/views/widgets/modal.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -19,6 +20,11 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   void initState() {
     // usuarioLogado = null;
     //startTime();
+    OneSignal.shared.getDeviceState().then((deviceState) {
+      final userId = deviceState.userId;
+      print("USER ID NESSA PORRA: " + userId);
+      //print("OneSignal: device state: ${deviceState.jsonRepresentation()}");
+    });
     super.initState();
     _scrollViewController = new ScrollController();
     _tabController = new TabController(vsync: this, length: 2);
@@ -37,6 +43,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       endDrawer: new MenuUsuario(),
       drawer: new ModalWidget(),
