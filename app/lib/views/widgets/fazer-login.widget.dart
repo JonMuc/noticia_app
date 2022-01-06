@@ -6,6 +6,7 @@ import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/pages/cadastro-usuario.page.dart';
 import 'package:app_noticia/views/pages/comentario-noticia.page.dart';
 import 'package:app_noticia/views/shared/progress-indicator.widget.dart';
+import 'package:app_noticia/views/widgets/perfil-usuario.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,8 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                                 //side: BorderSide(color: Colors.red)
                               ))),
                       onPressed: () async {
-                        await fazerLogin(context);
+                        // await fazerLogin(context);
+                        print('printou avancar');
                       },
                       child: Text(
                         "Avancar",
@@ -147,9 +149,16 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                           text: "Criar Conta",
                           recognizer: new TapGestureRecognizer()
                             ..onTap = () {
-                              TelaComentarioNoticia();
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => PerfilUsuario()),
+                            );
                             },
-                        )
+                            //
+                            // new MaterialPageRoute(
+                            //     builder: (BuildContext context)
+                            //     // => new TelaComentarioNoticia()
+                            //     => new TelaComentarioNoticia(noticiaModel: noticia)
+                            )
                       ])),
                   SizedBox(height: 15),
                   RichText(

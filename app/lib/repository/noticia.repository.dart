@@ -21,5 +21,4 @@ class NoticiaRepository {
         .map((noticia) => NoticiaModel.fromJson(noticia))
         .toList();
   }
-
 }
