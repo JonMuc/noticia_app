@@ -150,8 +150,9 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                           recognizer: new TapGestureRecognizer()
                             ..onTap = () {
                             Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => PerfilUsuario()),
-                            );
+                              MaterialPageRoute(builder: (context) => TelaCadastroUsuario()),
+                              // MaterialPageRoute(builder: (context) => PerfilUsuario()),
+                              );
                             },
                             //
                             // new MaterialPageRoute(

@@ -22,7 +22,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     //startTime();
     OneSignal.shared.getDeviceState().then((deviceState) {
       final userId = deviceState.userId;
-      print("USER ID NESSA PORRA: " + userId);
+      print("idPush:" + userId);
       //print("OneSignal: device state: ${deviceState.jsonRepresentation()}");
     });
     super.initState();
@@ -63,7 +63,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                 ),
               ],
               title: Container(
-                height: 20,
+                // height: 20,
                 child: new Text("WNews"),
               ),
               pinned: true, //<-- pinned to true
@@ -72,12 +72,12 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
               bottom: new TabBar(
                 tabs: <Tab>[
                   new Tab(
-                    text: "STATISTICS",
-                    icon: new Icon(Icons.show_chart),
+                    text: "Notícias",
+                    // icon: new Icon(Icons.show_chart),
                   ),
                   new Tab(
-                    text: "HISTORY",
-                    icon: new Icon(Icons.history),
+                    text: "Comunicação",
+                    // icon: new Icon(Icons.history),
                   ),
                 ],
                 controller: _tabController,
@@ -93,7 +93,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
           controller: _tabController,
         ),
       ),
-      //TODO - ESSE bottomNavigationBar DEVE VIRAR UM WIDGET
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,

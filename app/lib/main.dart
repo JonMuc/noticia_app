@@ -35,7 +35,7 @@ class Main extends StatelessWidget {
 
 // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
     OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-      print("Accepted permission: $accepted");
+      // print("Accepted permission: $accepted");
     });
 
 

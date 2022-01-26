@@ -40,7 +40,9 @@ flutter:
 
   assets:
     - assets/user.png
-    - assets/logo_noticias/
+    - assets/logo_noticias/IG.png
+    - assets/logo_noticias/g1.png
+    - assets/logo_noticias/googlenews.png
 
   module:
     androidX: true
