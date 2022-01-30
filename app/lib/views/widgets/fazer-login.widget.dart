@@ -114,7 +114,7 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                                 //side: BorderSide(color: Colors.red)
                               ))),
                       onPressed: () async {
-                        // await fazerLogin(context);
+                        await fazerLogin(context);
                         print('printou avancar');
                       },
                       child: Text(

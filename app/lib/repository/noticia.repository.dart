@@ -1,24 +1,34 @@
-
-import 'package:app_noticia/models/comentario.model.dart';
-import 'package:app_noticia/models/noticia.model.dart';
+import 'dart:convert';
 import 'package:app_noticia/models/response.model.dart';
+import 'package:app_noticia/models/usuario.model.dart';
+import 'package:app_noticia/models/view-noticia.model.dart';
 import 'package:app_noticia/settings.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class NoticiaRepository {
-  Future<List<NoticiaModel>> listarManchete() async {
-    var url = "${Settings.apiUrl}/noticiaG1/listar-manchete";
-    // final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // var appCode = jsonDecode(sharedPreferences.get("appCode"));
-    print(url);
+  Future<List<ViewNoticiaModel>> listarManchete() async {
+    var url = "${Settings.apiUrl}/noticia/listar-noticias";
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
     Dio dio = new Dio();
-    // dio.options.headers['TIO_AUTH_TK'] = appCode;
+    dio.options.headers['token'] = usuarioModel.Token;
     Response response = await dio.get(url);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
-    print(responseModel.Objeto);
     return (responseModel.Objeto as List)
-        .map((noticia) => NoticiaModel.fromJson(noticia))
+        .map((noticia) => ViewNoticiaModel.fromJson(noticia))
         .toList();
   }
+
+  Future<List<ViewNoticiaModel>> listarMancheteDeslogado() async {
+    var url = "${Settings.apiUrl}/noticiaG1/listar-manchete";
+    Dio dio = new Dio();
+    Response response = await dio.get(url);
+    ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    return (responseModel.Objeto as List)
+        .map((noticia) => ViewNoticiaModel.fromJson(noticia))
+        .toList();
+  }
+
 }

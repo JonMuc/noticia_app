@@ -20,11 +20,12 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   void initState() {
     // usuarioLogado = null;
     //startTime();
-    OneSignal.shared.getDeviceState().then((deviceState) {
-      final userId = deviceState.userId;
-      print("idPush:" + userId);
-      //print("OneSignal: device state: ${deviceState.jsonRepresentation()}");
-    });
+    //TODO - ONESIGNAL
+    // OneSignal.shared.getDeviceState().then((deviceState) {
+    //   final userId = deviceState.userId;
+    //   print("idPush:" + userId);
+    //   //print("OneSignal: device state: ${deviceState.jsonRepresentation()}");
+    // });
     super.initState();
     _scrollViewController = new ScrollController();
     _tabController = new TabController(vsync: this, length: 2);

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app_noticia/models/comentario-view.model.dart';
 import 'package:app_noticia/models/noticia.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
+import 'package:app_noticia/models/view-noticia.model.dart';
 import 'package:app_noticia/services/comentario.service.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/shared/loader.widget.dart';
@@ -15,7 +16,7 @@ import 'package:provider/provider.dart';
 
 class
 TelaComentarioNoticia extends StatefulWidget {
-  final NoticiaModel noticiaModel;
+  final ViewNoticiaModel noticiaModel;
   TelaComentarioNoticia({@required this.noticiaModel});
 
   @override
@@ -161,7 +162,7 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
     UsuarioModel usuarioLogado = await usuarioService.obterUsuarioLogado();
     //var usuarioId = usuarioLogado.Id;
     var usuarioId = 32;
-    widget.noticiaModel.Id = 149;
-    var fazerComentarioResponse = await comentarioService.fazerComentario(comentario, widget.noticiaModel.Id, usuarioId);
+    widget.noticiaModel.IdNoticia = 149;
+    var fazerComentarioResponse = await comentarioService.fazerComentario(comentario, widget.noticiaModel.IdNoticia, usuarioId);
   }
 }
