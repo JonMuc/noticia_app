@@ -5,6 +5,7 @@ import 'package:app_noticia/models/response.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
+import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:app_noticia/views/shared/progress-indicator.widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -308,9 +309,6 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
   _sendForm() {
     if (_key.currentState.validate()) {
       _key.currentState.save();
-      print("Nome $nome");
-      print("Email $email");
-      print("Senha $senha");
     }
   }
 
@@ -341,7 +339,9 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
 
       //delay apos criar
       new Future.delayed(new Duration(seconds: 2), () {
-        Navigator.pop(context, true);
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+            builder: (context) => HomePage()
+        ), (route) => false);
       });
     } else {
       preencherCarregando(false);

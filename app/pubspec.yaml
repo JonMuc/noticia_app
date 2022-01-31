@@ -17,8 +17,8 @@ dependencies:
   dio: any
   # google_sign_in: any
   http: any
-  url_launcher: any
-  email_validator: any
+  url_launcher: ^6.0.18
+  email_validator: ^2.0.1
   shared_preferences: any
   comment_box: any
   flutter_launcher_icons: ^0.8.0
@@ -40,7 +40,9 @@ flutter:
 
   assets:
     - assets/user.png
-    - assets/logo_noticias/
+    - assets/logo_noticias/IG.png
+    - assets/logo_noticias/g1.png
+    - assets/logo_noticias/googlenews.png
 
   module:
     androidX: true

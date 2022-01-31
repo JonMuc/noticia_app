@@ -1,4 +1,4 @@
-class UsuarioModel{
+class UsuarioModel {
   String Nome;
   String Email;
   String Senha;
@@ -16,10 +16,9 @@ class UsuarioModel{
   String PerfilInstagram;
   String PerfilTwitter;
   String Descricao;
+  String Token;
 
-  UsuarioModel.d(
-
-      );
+  UsuarioModel.d();
 
   UsuarioModel(
       this.Nome,
@@ -38,14 +37,8 @@ class UsuarioModel{
       this.PerfilLikedin,
       this.PerfilInstagram,
       this.PerfilTwitter,
-      this.Descricao);
-
-  //
-  // UsuarioModel.Login(){
-  //   this.Email,
-  //   this.Senha
-  // }
-
+      this.Descricao,
+      this.Token);
 
   UsuarioModel.fromJson(Map<String, dynamic> json) {
     Nome = json['Nome'];
@@ -65,6 +58,7 @@ class UsuarioModel{
     PerfilInstagram = json['PerfilInstagram'];
     PerfilTwitter = json['PerfilTwitter'];
     Descricao = json['Descricao'];
+    Token = json['Token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -85,6 +79,7 @@ class UsuarioModel{
     data['PerfilInstagram'] = this.PerfilInstagram;
     data['PerfilTwitter'] = this.PerfilTwitter;
     data['Descricao'] = this.Descricao;
+    data['Token'] = this.Token;
     return data;
   }
 }
