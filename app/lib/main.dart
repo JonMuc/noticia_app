@@ -1,10 +1,10 @@
+import 'package:app_noticia/services/avaliacao.service.dart';
 import 'package:app_noticia/services/noticia.service.dart';
 import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'services/usuario.service.dart';
 
 void main() => runApp(MyApp());
@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<NoticiaService>.value(value: NoticiaService()),
         ChangeNotifierProvider<UsuarioService>.value(value: UsuarioService()),
+        ChangeNotifierProvider<AvaliacaoService>.value(value: AvaliacaoService()),
       ],
       child: Main(),
     );

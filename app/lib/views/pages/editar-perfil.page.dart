@@ -1,7 +1,7 @@
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
-import 'package:app_noticia/views/pages/perfil-usuario.page.dart';
+import 'package:app_noticia/views/pages/perfil.page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                 onTap: () {
                   salvarEdicao(context);
                   Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PerfilUsuarioPage()),
+                    MaterialPageRoute(builder: (context) => TelaPerfil()),
                   );
                 },
                 child: Icon(
@@ -334,7 +334,7 @@ Future getImageGaleria() async {
    this.usuario.PerfilInstagram = instagramController.text;
    this.usuario.PerfilTwitter = twitterController.text;
 
-   var response = await service.salvarEdicao(this.usuario, );
+   // var response = await service.salvarEdicao(this.usuario, );
  }
 
  fecharGaleria(){
