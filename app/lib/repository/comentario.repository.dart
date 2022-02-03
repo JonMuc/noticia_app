@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:app_noticia/models/comentario-view.model.dart';
 import 'package:app_noticia/models/response.model.dart';
+import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/settings.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ComentarioRepository {
@@ -83,17 +85,13 @@ class ComentarioRepository {
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
   }
 
-  Future<List<ComentarioViewModel>> listarComentario() async {
-    var url = "${Settings.apiUrl}/comentario/obter-comentario-noticia";     //{idNoticia}
+  Future<List<ComentarioViewModel>> listarComentario(int idNoticia) async {
+    var url = "${Settings.apiUrl}/comentario/obter-comentario-noticia/" + idNoticia.toString();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
     Dio dio = new Dio();
-    print(Settings.apiUrl);
-    //print(jsonEncode(comentarioModel));
-    var request =
-      {
-        "IdUsuario": 1,
-        "IdNoticia": 149
-      };
-    Response response = await dio.post(url, data: request);
+    dio.options.headers['token'] = usuarioModel.Token;
+    Response response = await dio.get(url);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
     print(jsonEncode(responseModel.Objeto));
     return (responseModel.Objeto as List).map((comentario) => ComentarioViewModel.fromJson(comentario)).toList();

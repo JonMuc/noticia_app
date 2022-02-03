@@ -2,22 +2,20 @@ import 'package:app_noticia/models/view-noticia.model.dart';
 import 'package:app_noticia/services/avaliacao.service.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/pages/comentario-noticia.page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ItemNoticiaWidget extends StatefulWidget {
   ViewNoticiaModel noticiaModel;
+  Function() notifyUsuarioNaoLogado;
 
-  ItemNoticiaWidget({Key key, this.noticiaModel}) : super(key: key);
+  ItemNoticiaWidget({Key key, this.noticiaModel, this.notifyUsuarioNaoLogado}) : super(key: key);
 
   @override
   _ItemNoticiaWidget createState() => _ItemNoticiaWidget();
 }
 
 class _ItemNoticiaWidget extends State<ItemNoticiaWidget> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -27,7 +25,6 @@ class _ItemNoticiaWidget extends State<ItemNoticiaWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: _scaffoldKey,
       padding: EdgeInsets.only(left: 7.0, right: 7.0, bottom: 7.0),
       width: MediaQuery.of(context).size.width,
       child: Center(
@@ -143,7 +140,7 @@ class _ItemNoticiaWidget extends State<ItemNoticiaWidget> {
                               margin: EdgeInsets.only(bottom: 15),
                               child: IconButton(
                                   onPressed: () {
-                                    Avaliar(1);
+                                    avaliar(1);
                                   },
                                   color: Colors.blue,
                                   icon: widget.noticiaModel.UsuarioAvaliacao == 1 ? Icon(Icons.thumb_up_alt_rounded) :
@@ -151,7 +148,7 @@ class _ItemNoticiaWidget extends State<ItemNoticiaWidget> {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  Avaliar(2);
+                                  avaliar(2);
                                 },
                                 color: Colors.blue,
                                 icon: widget.noticiaModel.UsuarioAvaliacao == 2 ? Icon(Icons.thumb_down_alt_rounded) :
@@ -190,24 +187,21 @@ class _ItemNoticiaWidget extends State<ItemNoticiaWidget> {
     );
   }
 
-  Avaliar(int tipoAvaliar) async {
+  avaliar(int tipoAvaliar) async {
     UsuarioService service =
         Provider.of<UsuarioService>(context, listen: false);
     var user = await service.obterUsuarioLogado();
     if (user == null) {
-      final snackbar = SnackBar(
-        content: Text("Faca login"),
-      );
-      _scaffoldKey.currentState.showSnackBar(snackbar);
+      widget.notifyUsuarioNaoLogado();
     } else {
       AvaliacaoService avaliacaoService =
           Provider.of<AvaliacaoService>(context, listen: false);
       var result = await avaliacaoService.avaliarNoticia(widget.noticiaModel.IdNoticia, tipoAvaliar);
-      TratarQuantidadeAvaliacao(result, tipoAvaliar);
+      tratarQuantidadeAvaliacao(result, tipoAvaliar);
     }
   }
 
-  TratarQuantidadeAvaliacao(bool result, tipoAvaliar){
+  tratarQuantidadeAvaliacao(bool result, tipoAvaliar){
     if(result){
       setState(() {
         if(widget.noticiaModel.UsuarioAvaliacao != null){
@@ -221,9 +215,7 @@ class _ItemNoticiaWidget extends State<ItemNoticiaWidget> {
           }else{
             if(tipoAvaliar == 1){
               widget.noticiaModel.QuantidadeLike++;
-              widget.noticiaModel.QuantidadeDeslike--;
             }else{
-              widget.noticiaModel.QuantidadeLike--;
               widget.noticiaModel.QuantidadeDeslike++;
             }
             widget.noticiaModel.UsuarioAvaliacao = tipoAvaliar;

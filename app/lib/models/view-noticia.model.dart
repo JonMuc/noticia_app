@@ -14,6 +14,7 @@ class ViewNoticiaModel {
   bool NoticiaFavorito;
   int IdFavorito;
 
+
   ViewNoticiaModel({this.IdNoticia , this.Titulo, this.UrlImage, this.Fonte, this.Link, this.CriadoEm, this.OrigemNoticia, this.IdAvaliacao,
   this.IdFavorito, this.NoticiaFavorito, this.QuantidadeDeslike, this.QuantidadeLike, this.TipoNoticia, this.UsuarioAvaliacao});
 

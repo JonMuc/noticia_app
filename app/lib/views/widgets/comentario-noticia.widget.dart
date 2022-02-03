@@ -212,11 +212,11 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
   }
 
   void listarComentarios(BuildContext context) async {
-    print('listar comentarios');
-    var listaRespostaComentarioResponse = await comentarioService.listarComentario();
-    this.listaRespostaComentarios = listaRespostaComentarioResponse;
-    setState(() {
-    });
+    // print('listar comentarios');
+    // var listaRespostaComentarioResponse = await comentarioService.listarComentario();
+    // this.listaRespostaComentarios = listaRespostaComentarioResponse;
+    // setState(() {
+    // });
   }
 
   void likeComentario(BuildContext context, int idComentario) async {

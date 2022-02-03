@@ -84,13 +84,13 @@ class _WidgetRespostaComentarioNoticia extends State<WidgetRespostaComentarioNot
 
 
 
-  void listarComentarios(BuildContext context) async {
-    print(2342);
-    var listaComentarioResponse = await comentarioService.listarComentario();
-    setState(() {
-      this.listaDeComentarios = listaComentarioResponse;
-    });
-  }
+  // void listarComentarios(BuildContext context) async {
+  //   print(2342);
+  //   var listaComentarioResponse = await comentarioService.listarComentario();
+  //   setState(() {
+  //     this.listaDeComentarios = listaComentarioResponse;
+  //   });
+  // }
 
 
   var usuarioLogado = true;

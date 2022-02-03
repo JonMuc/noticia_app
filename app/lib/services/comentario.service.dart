@@ -8,8 +8,8 @@ class ComentarioService extends ChangeNotifier {
   final noticiaRepository = new NoticiaRepository();
   final comentarioRepository = new ComentarioRepository();
 
-  Future <List<ComentarioViewModel>> listarComentario() async {
-    var result = await this.comentarioRepository.listarComentario();
+  Future <List<ComentarioViewModel>> listarComentario(int idNoticia) async {
+    var result = await this.comentarioRepository.listarComentario(idNoticia);
     print('service ListarComentario');
     return result;
   }

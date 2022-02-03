@@ -14,6 +14,7 @@ class ListaManchetesWidget extends StatefulWidget {
 
 class _ListaManchetesWidget extends State<ListaManchetesWidget> {
   List<ViewNoticiaModel> noticiaList = List.empty();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,16 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
     );
   }
 
+  alertaNaoLogado(){
+    final snackbar = SnackBar(
+      content: Text("Faca login"),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   Widget lista() {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -49,7 +58,7 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
           ),
           itemBuilder: (BuildContext context, int index) {
             final ViewNoticiaModel noticia = noticiaList[index];
-            return ItemNoticiaWidget(noticiaModel: noticia);
+            return ItemNoticiaWidget(noticiaModel: noticia, notifyUsuarioNaoLogado: alertaNaoLogado,);
           },
         ),
       ),
