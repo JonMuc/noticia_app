@@ -48,7 +48,6 @@ class UsuarioService extends ChangeNotifier {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       print(sharedPreferences.get("usuario"));
       if(sharedPreferences.containsKey("usuario")){
-        print("return true");
         return true;
       }
       return false;
