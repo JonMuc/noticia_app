@@ -80,8 +80,6 @@ class _ItemNoticiaWidget extends State<ItemNoticiaWidget> {
                           ClipRRect(
                               child: Stack(children: <Widget>[
                             Container(
-                              // width: 116.0,
-                              // height: 174.0,
                               foregroundDecoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [

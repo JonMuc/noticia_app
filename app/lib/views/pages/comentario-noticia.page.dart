@@ -34,6 +34,7 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: GestureDetector(
@@ -42,113 +43,104 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
         },
         child: Icon(Icons.arrow_back, size: 30,),
       ),
-      body: Column(
-        children: [
-          Stack(
-            alignment: Alignment.bottomLeft,
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.blueAccent)
+        ),
+        child: Container(
+          child: Row(
             children: [
-              Image.network(widget.noticiaModel.UrlImage, fit: BoxFit.contain,),
+              Expanded(child: TextField(
+                controller: commentController,
+                decoration: InputDecoration(
+                  // border: OutlineInputBorder(),
+                  hintText: 'Digite um comentario',
+                ),
+              )),
               Container(
-                padding: EdgeInsets.all(10),
-                child: Text(widget.noticiaModel.Fonte, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Colors.white)),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(widget.noticiaModel.QuantidadeLike.toString()),
-                    Container(
-                      child: IconButton(
+                margin: EdgeInsets.only(right: 8),
+                child: GestureDetector(
+                  onTap: () {
+                    fazerComentario(context);
+                  },
+                  child: Icon(Icons.send),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              alignment: Alignment.bottomLeft,
+              children: [
+                Image.network(widget.noticiaModel.UrlImage, fit: BoxFit.contain,),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Text(widget.noticiaModel.Fonte, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Colors.white)),
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(widget.noticiaModel.QuantidadeLike.toString()),
+                      Container(
+                        child: IconButton(
+                            onPressed: () {
+                              avaliar(1);
+                            },
+                            color: Colors.black,
+                            icon: widget.noticiaModel.UsuarioAvaliacao == 1 ? Icon(Icons.thumb_up_alt_rounded) :
+                            Icon(Icons.thumb_up_alt_outlined)),
+                      ),
+                      Text(widget.noticiaModel.QuantidadeDeslike.toString()),
+                      IconButton(
                           onPressed: () {
-                            avaliar(1);
+                            avaliar(2);
                           },
                           color: Colors.black,
-                          icon: widget.noticiaModel.UsuarioAvaliacao == 1 ? Icon(Icons.thumb_up_alt_rounded) :
-                          Icon(Icons.thumb_up_alt_outlined)),
-                    ),
-                    Text(widget.noticiaModel.QuantidadeDeslike.toString()),
-                    IconButton(
-                        onPressed: () {
-                          avaliar(2);
-                        },
-                        color: Colors.black,
-                        icon: widget.noticiaModel.UsuarioAvaliacao == 2 ? Icon(Icons.thumb_down_alt_rounded) :
-                        Icon(Icons.thumb_down_alt_outlined)),
-                  ],
-                ),
-              )
-            ],
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(5),
-                  width: 50,
-                  height: 50,
-                  color: Colors.transparent,
-                  child: Image.asset(obterOrigemNoticia(2)),
-                ),
-                Container(
-                    padding: EdgeInsets.only(left: 6),
-                    width: MediaQuery.of(context).size.width * 0.81,
-                    child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15),  overflow: TextOverflow.visible)
-                ),
+                          icon: widget.noticiaModel.UsuarioAvaliacao == 2 ? Icon(Icons.thumb_down_alt_rounded) :
+                          Icon(Icons.thumb_down_alt_outlined)),
+                    ],
+                  ),
+                )
               ],
             ),
-          ),
-          Column(
-            children: [
-              for(ComentarioViewModel come in listaDeComentarios) Container(
-                child: Center(
-                          child: WidgetComentarioNoticia(comentarioViewModel: come)
-                      ),
-              )
-            ],
-
-            // ListView.separated(
-            //   shrinkWrap: true,
-            //   itemCount: listaDeComentarios.length,
-            //   separatorBuilder: (BuildContext context, int index) => Divider(
-            //     color: Colors.transparent,
-            //     height: 0,
-            //   ),
-            //   itemBuilder: (BuildContext context, int index) {
-            //     final ComentarioViewModel comentarioViewModel = listaDeComentarios[index];
-            //     return Center(
-            //         child: WidgetComentarioNoticia(comentarioViewModel: comentarioViewModel)
-            //     );
-            //   },
-            // ),
-          )
-        ],
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    width: 50,
+                    height: 50,
+                    color: Colors.transparent,
+                    child: Image.asset(obterOrigemNoticia(2)),
+                  ),
+                  Container(
+                      padding: EdgeInsets.only(left: 6),
+                      width: MediaQuery.of(context).size.width * 0.81,
+                      child: Text(widget.noticiaModel.Titulo.toString(), style: TextStyle(fontSize: 15),  overflow: TextOverflow.visible)
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              children: [
+                for(ComentarioViewModel come in listaDeComentarios) Container(
+                  child: Center(
+                      child: WidgetComentarioNoticia(comentarioViewModel: come)
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
-    //   Scaffold(
-    //   // appBar: new AppBar(
-    //   //   iconTheme: IconThemeData(color: Colors.white),
-    //   //   backgroundColor: Colors.transparent,
-    //   // ),
-    //   body: Container(
-    //     child: CommentBox(
-    //       userImage:
-    //       "https://lh3.googleusercontent.com/a-/AOh14GjRHcaendrf6gU5fPIVd8GIl1OgblrMMvGUoCBj4g=s400",
-    //       child: ListaComentarios(),
-    //       labelText: 'Escreva seu comentario',
-    //       withBorder: false,
-    //       errorText: 'Digite algo',
-    //       sendButtonMethod: () async {
-    //         await fazerComentario(context, commentController.text);
-    //         commentController.clear();
-    //         listarComentarios(context);
-    //       },
-    //       commentController: commentController,
-    //       backgroundColor: Colors.black,
-    //       textColor: Colors.white,
-    //       sendWidget: Icon(Icons.send_sharp, size: 30, color: Colors.white),
-    //     ),
-    //   ),
-    // );
   }
 
   avaliar(int tipoAvaliar) async {
@@ -230,11 +222,14 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
     });
   }
 
-  Future fazerComentario(BuildContext context, String comentario) async {
-    UsuarioService usuarioService = Provider.of<UsuarioService>(context, listen: false);
-    UsuarioModel usuarioLogado = await usuarioService.obterUsuarioLogado();
-    var usuarioId = 32;
-    widget.noticiaModel.IdNoticia = 149;
-    var fazerComentarioResponse = await comentarioService.fazerComentario(comentario, widget.noticiaModel.IdNoticia, usuarioId);
+  Future fazerComentario(BuildContext context) async {
+    if(commentController.text.isNotEmpty){
+      var flagComentou = await comentarioService.fazerComentario(commentController.text, widget.noticiaModel.IdNoticia);
+      if(flagComentou){
+        commentController.clear();
+        FocusManager.instance.primaryFocus?.unfocus();
+        listarComentarios(context);
+      }
+    }
   }
 }

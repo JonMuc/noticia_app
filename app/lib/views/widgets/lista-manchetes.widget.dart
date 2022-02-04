@@ -29,13 +29,6 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
     );
   }
 
-  alertaNaoLogado(){
-    final snackbar = SnackBar(
-      content: Text("Faca login"),
-    );
-    _scaffoldKey.currentState.showSnackBar(snackbar);
-  }
-
   Widget lista() {
     return Scaffold(
       key: _scaffoldKey,
@@ -75,5 +68,12 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
         this.noticiaList = listarResponse;
       });
     }
+  }
+
+  alertaNaoLogado(){
+    final snackbar = SnackBar(
+      content: Text("Faca login"),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }

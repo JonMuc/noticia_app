@@ -2,6 +2,7 @@ import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/pages/editar-perfil.page.dart';
+import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -175,6 +176,33 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                       ),
                     ),
                   ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  height: MediaQuery.of(context).size.width * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        padding: MaterialStateProperty.all<EdgeInsets>(
+                            EdgeInsets.all(11)),
+                        shape:
+                        MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              //side: BorderSide(color: Colors.red)
+                            ))),
+                    onPressed: () async {
+                      deslogarUsuario();
+
+                    },
+                    child: Text(
+                      "Sair",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 )
 
               ],
@@ -188,5 +216,13 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
     setState(() {
       this.usuario = value;
     });
+  }
+
+  deslogarUsuario()  async{
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    await service.limparSecao();
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+        builder: (context) => HomePage()
+    ), (route) => false);
   }
 }

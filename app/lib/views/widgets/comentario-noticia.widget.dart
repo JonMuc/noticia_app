@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:app_noticia/models/comentario-view.model.dart';
 import 'package:app_noticia/services/comentario.service.dart';
 import 'package:app_noticia/views/widgets/resposta-comentario-noticia.widget.dart';
@@ -8,8 +6,9 @@ import 'package:flutter/material.dart';
 
 class WidgetComentarioNoticia extends StatefulWidget {
   final ComentarioViewModel comentarioViewModel;
+
   WidgetComentarioNoticia({@required this.comentarioViewModel});
-  //final NoticiaModel noticiaModel;
+
   @override
   _WidgetComentarioNoticia createState() => _WidgetComentarioNoticia();
 }
@@ -23,12 +22,6 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
 
   @override
   Widget build(BuildContext context){
-    // if(mounted){
-    //   if(listaRespostaComentarios.isEmpty){
-    //     print("Listar noticias");
-    //     listarComentarios(context);
-    //   }}
-    // print(widget.comentarioViewModel.IdComentario);
     if (widget.comentarioViewModel.ComentarioAvaliado == 1){
       comentarioCurtido = 1;
     } else if (widget.comentarioViewModel.ComentarioAvaliado == 2){
@@ -37,18 +30,17 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
     return Center(
         child: Container(
             width: MediaQuery.of(context).size.width * 0.9,
-            // height: MediaQuery.of(context).size.height * 0.09,
             child: Column(
               children: [
                 Container(
                   child: Row(
                     children: [
                       Container(
-                        // alignment: Alignment(-0.95, 0.90),
                         padding: EdgeInsets.only(top: 7),
                         child: CircleAvatar(
                           radius: 20.0,
-                          backgroundImage: NetworkImage(
+                          backgroundImage: widget.comentarioViewModel.UrlFoto == null ? AssetImage("assets/user.png") :
+                          NetworkImage(
                               widget.comentarioViewModel.UrlFoto),
                         ),
                       ),
@@ -56,8 +48,8 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                         alignment: Alignment.topLeft,
                           child: Text(widget.comentarioViewModel.Nome + ": ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))
                       ),
-                      Container(
-                          child: Text(widget.comentarioViewModel.Mensagem, style: TextStyle(fontSize: 15))
+                      Expanded(
+                          child: Text(widget.comentarioViewModel.Mensagem, style: TextStyle(fontSize: 15), overflow: TextOverflow.visible,)
                       ),
                     ],
                   ),

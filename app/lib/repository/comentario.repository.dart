@@ -1,6 +1,4 @@
-
 import 'dart:convert';
-
 import 'package:app_noticia/models/comentario-view.model.dart';
 import 'package:app_noticia/models/response.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
@@ -11,20 +9,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ComentarioRepository {
 
-  Future salvarComentario(String mensagem, int idNoticia, int idCriadoPor) async {
-    print("repositorio");
+  Future<bool> salvarComentario(String mensagem, int idNoticia) async {
     var data =  {
       "Mensagem": mensagem.toString(),
       "IdNoticia": idNoticia,
-      "IdCriadoPor": idCriadoPor,
     };
     var url = "${Settings.apiUrl}/comentario/salvar-comentario-noticia";
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
     Dio dio = new Dio();
-
-    //print(Settings.apiUrl);
+    dio.options.headers['token'] = usuarioModel.Token;
     Response response = await dio.post(url, data: data);
-    //print(response.statusCode);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    return responseModel.Sucesso;
   }
 
   Future curtirComentario(int idUsuario, int idComentario, int tipo) async {
