@@ -1,207 +1,251 @@
 import 'package:app_noticia/models/comentario-view.model.dart';
 import 'package:app_noticia/services/comentario.service.dart';
+import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/widgets/resposta-comentario-noticia.widget.dart';
 import 'package:flutter/material.dart';
 
-
 class WidgetComentarioNoticia extends StatefulWidget {
   final ComentarioViewModel comentarioViewModel;
+  Function() atualizarComentarios;
 
-  WidgetComentarioNoticia({@required this.comentarioViewModel});
+  WidgetComentarioNoticia({@required this.comentarioViewModel, this.atualizarComentarios});
 
   @override
   _WidgetComentarioNoticia createState() => _WidgetComentarioNoticia();
 }
 
+enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
+
 class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
   final comentarioService = new ComentarioService();
+  final usuarioService = new UsuarioService();
   List<ComentarioViewModel> listaRespostaComentarios;
   bool mostrarRespostaComentario = false;
   bool mostrarCampoRespostaComentario = false;
   int comentarioCurtido = 0;
+  int idUsuarioLogado = 0;
+
 
   @override
-  Widget build(BuildContext context){
-    if (widget.comentarioViewModel.ComentarioAvaliado == 1){
+  void initState() {
+    obterIdUsuario();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.comentarioViewModel.ComentarioAvaliado == 1) {
       comentarioCurtido = 1;
-    } else if (widget.comentarioViewModel.ComentarioAvaliado == 2){
+    } else if (widget.comentarioViewModel.ComentarioAvaliado == 2) {
       comentarioCurtido = 2;
     }
+
     return Center(
-        child: Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Column(
-              children: [
-                Container(
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(top: 7),
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          backgroundImage: widget.comentarioViewModel.UrlFoto == null ? AssetImage("assets/user.png") :
-                          NetworkImage(
-                              widget.comentarioViewModel.UrlFoto),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                          child: Text(widget.comentarioViewModel.Nome + ": ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))
-                      ),
-                      Expanded(
-                          child: Text(widget.comentarioViewModel.Mensagem, style: TextStyle(fontSize: 15), overflow: TextOverflow.visible,)
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Container(
+          width: MediaQuery.of(context).size.width * 0.95,
+          child: Column(
+            children: [
+              Container(
+                child: Row(
                   children: [
                     Container(
-                      child: Text.rich(
-                        TextSpan(
-                          style: TextStyle(color: Colors.black.withOpacity(0.4), fontSize: 10),
-                          children: [
-                            TextSpan(
-                              text: "23h",
-                            )
-                          ],
-                        ),
+                      padding: EdgeInsets.only(top: 7),
+                      child: CircleAvatar(
+                        radius: 15.0,
+                        backgroundImage: widget.comentarioViewModel.UrlFoto ==
+                                null
+                            ? AssetImage("assets/user.png")
+                            : NetworkImage(widget.comentarioViewModel.UrlFoto),
                       ),
                     ),
-                    GestureDetector(
-                      child:Text('ver resposta'),
-                      onTap: () {
-                        listarComentarios(context);
-                        mostrarRespostaComentario = mostrarRespostaComentario ? false : true;
-                        setState(() {
-                        });
-                      },
-                    ),
-                    Container(
-                      child: IconButton(
-                        onPressed: () async {
-                          if (comentarioCurtido == 0 || comentarioCurtido == 1){
-                            deslikeComentario(context, widget.comentarioViewModel.IdComentario);
-                            print('dar deslike');
-                            comentarioCurtido = 2;
-                            widget.comentarioViewModel.ComentarioAvaliado = 2;
-                          } else {
-                            excluirLikeComentario(context, widget.comentarioViewModel.IdComentario);
-                            print('remover deslike');
-                            widget.comentarioViewModel.ComentarioAvaliado = 0;
-                            comentarioCurtido = 0;
-                          }
-                          setState(()  {
-                          });
-                          },
-                        icon: Icon(
-                          Icons.thumb_down_alt,
-                          color: comentarioCurtido == 2 ? Colors.red : Colors.grey,
-                          // color: Colors.red,
-                        ),
-                        iconSize: 15.0,
+                    Expanded(
+                        child: RichText(
+                      overflow: TextOverflow.visible,
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: widget.comentarioViewModel.Nome + ": ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.black)),
+                          TextSpan(
+                              text: widget.comentarioViewModel.Mensagem,
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.black)),
+                        ],
                       ),
-                    ),
-                    Container(
-                      child: Text.rich(
-                        TextSpan(
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                          children: [
-                            TextSpan(
-                              text: widget.comentarioViewModel.QuantidadeDeslike.toString(),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: IconButton(
-                        onPressed: () async {
-                          print("comentario avaliado ${widget.comentarioViewModel.ComentarioAvaliado}");
-                          if (comentarioCurtido == 1){
-                            excluirLikeComentario(context, widget.comentarioViewModel.IdComentario);
-                            comentarioCurtido = 0;
-                            widget.comentarioViewModel.ComentarioAvaliado = 0;
-                          } else if (comentarioCurtido == 2 || comentarioCurtido == 0){
-                            likeComentario(context, widget.comentarioViewModel.IdComentario);
-                            comentarioCurtido = 1;
-                            widget.comentarioViewModel.ComentarioAvaliado = 1;
-                          }
-                          setState(() {
-                          });
-                        },
-                        icon: Icon(
-                          Icons.thumb_up_alt,
-                          color: comentarioCurtido == 1 ? Colors.blue : Colors.grey,
-                        ),
-                        iconSize: 15.0,
-                      ),
-                    ),
-                    Container(
-                      child: Text.rich(
-                        TextSpan(
-                          style: TextStyle(color: Colors.black, fontSize: 15),
-                          children: [
-                            TextSpan(
-                              text: widget.comentarioViewModel.QuantidadeLike.toString(),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: IconButton(
-                        onPressed: () async {
-                          print('reply');
-                          setState(() {
-                            // mostrarCampoRespostaComentario = mostrarCampoRespostaComentario ? false : true;
-                          });
-                          },
-                        icon: Icon(
-                          Icons.reply,
-                          color: Colors.blue,
-                        ),
-                        iconSize: 15.0,
-                      ),
-                    ),
+                    )),
                   ],
                 ),
-                mostrarRespostaComentario ? Container(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount:  listaRespostaComentarios.length,
-                    separatorBuilder: (BuildContext context, int index) => Divider(
-                      color: Colors.transparent,
-                      height: 0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    child: Text.rich(
+                      TextSpan(
+                        style: TextStyle(
+                            color: Colors.black.withOpacity(0.4), fontSize: 10),
+                        children: [
+                          TextSpan(
+                            text: "23h",
+                          )
+                        ],
+                      ),
                     ),
-                    itemBuilder: (BuildContext context, int index) {
+                  ),
+                  GestureDetector(
+                    child: Text('ver resposta'),
+                    onTap: () {
                       listarComentarios(context);
-                      print('item builder');
-                      final ComentarioViewModel comentarioViewModel = listaRespostaComentarios[index];
-                      return Center(
-                          child: WidgetRespostaComentarioNoticia(comentarioViewModel: comentarioViewModel)
-                      );
+                      mostrarRespostaComentario =
+                          mostrarRespostaComentario ? false : true;
+                      setState(() {});
                     },
                   ),
-                ) : Container(),
-              mostrarCampoRespostaComentario ? Container(
-                  child: SizedBox(
-                    width: 250,
-                    child: TextField(
+                  Container(
+                    child: IconButton(
+                      onPressed: () async {
+                        if (comentarioCurtido == 0 || comentarioCurtido == 1) {
+                          deslikeComentario(
+                              context, widget.comentarioViewModel.IdComentario);
+                          comentarioCurtido = 2;
+                          widget.comentarioViewModel.ComentarioAvaliado = 2;
+                        } else {
+                          excluirLikeComentario(
+                              context, widget.comentarioViewModel.IdComentario);
+                          widget.comentarioViewModel.ComentarioAvaliado = 0;
+                          comentarioCurtido = 0;
+                        }
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.thumb_down_alt,
+                        color:
+                            comentarioCurtido == 2 ? Colors.red : Colors.grey,
+                        // color: Colors.red,
+                      ),
+                      iconSize: 15.0,
                     ),
-                  )
-              ) : Container()
-              ],
-            )
-        ),
+                  ),
+                  Container(
+                    child: Text.rich(
+                      TextSpan(
+                        style: TextStyle(color: Colors.black, fontSize: 15),
+                        children: [
+                          TextSpan(
+                            text: widget.comentarioViewModel.QuantidadeDeslike
+                                .toString(),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: IconButton(
+                      onPressed: () async {
+                        if (comentarioCurtido == 1) {
+                          excluirLikeComentario(
+                              context, widget.comentarioViewModel.IdComentario);
+                          comentarioCurtido = 0;
+                          widget.comentarioViewModel.ComentarioAvaliado = 0;
+                        } else if (comentarioCurtido == 2 ||
+                            comentarioCurtido == 0) {
+                          likeComentario(
+                              context, widget.comentarioViewModel.IdComentario);
+                          comentarioCurtido = 1;
+                          widget.comentarioViewModel.ComentarioAvaliado = 1;
+                        }
+                        setState(() {});
+                      },
+                      icon: Icon(
+                        Icons.thumb_up_alt,
+                        color:
+                            comentarioCurtido == 1 ? Colors.blue : Colors.grey,
+                      ),
+                      iconSize: 15.0,
+                    ),
+                  ),
+                  Container(
+                    child: Text.rich(
+                      TextSpan(
+                        style: TextStyle(color: Colors.black, fontSize: 15),
+                        children: [
+                          TextSpan(
+                            text: widget.comentarioViewModel.QuantidadeLike
+                                .toString(),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  widget.comentarioViewModel.IdUsuario == idUsuarioLogado ? Container(
+                    child: IconButton(
+                      onPressed: () async {
+                        setState(() {
+                          deletarComentario();
+                        });
+                      },
+                      icon: Icon(
+                        Icons.delete_forever_rounded,
+                        color: Colors.blue,
+                      ),
+                      iconSize: 18.0,
+                    ),
+                  ) : Container(),
+                ],
+              ),
+              mostrarRespostaComentario
+                  ? Container(
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: listaRespostaComentarios.length,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            Divider(
+                          color: Colors.transparent,
+                          height: 0,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          listarComentarios(context);
+                          final ComentarioViewModel comentarioViewModel =
+                              listaRespostaComentarios[index];
+                          return Center(
+                              child: WidgetRespostaComentarioNoticia(
+                                  comentarioViewModel: comentarioViewModel));
+                        },
+                      ),
+                    )
+                  : Container(),
+              mostrarCampoRespostaComentario
+                  ? Container(
+                      child: SizedBox(
+                      width: 250,
+                      child: TextField(),
+                    ))
+                  : Container()
+            ],
+          )),
     );
-
   }
 
-  void responderComentario(){
-
+  obterIdUsuario() async{
+    var user = await usuarioService.obterUsuarioLogado();
+    setState(() {
+      idUsuarioLogado = user.Id;
+    });
   }
+
+
+  void deletarComentario() async {
+    var responseDelete = await comentarioService.excluirComentario(widget.comentarioViewModel.IdComentario);
+    if(responseDelete){
+      widget.atualizarComentarios();
+    }
+  }
+
+  void responderComentario() {}
+
 
   void listarComentarios(BuildContext context) async {
     // print('listar comentarios');
@@ -216,21 +260,25 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
     //UsuarioModel usuarioLogado = await usuarioService.obterUsuarioLogado();
     //var usuarioId = usuarioLogado.Id;
     var usuarioId = 1;
-    var likeComentarioResponse = await comentarioService.curtirComentario(usuarioId, idComentario);
+    var likeComentarioResponse =
+        await comentarioService.curtirComentario(usuarioId, idComentario);
   }
+
   void deslikeComentario(BuildContext context, int idComentario) async {
     // UsuarioService usuarioService = Provider.of<UsuarioService>(context, listen: false);
     //UsuarioModel usuarioLogado = await usuarioService.obterUsuarioLogado();
     //var usuarioId = usuarioLogado.Id;
     var usuarioId = 1;
-    var deslikeComentarioResponse = await comentarioService.descurtirComentario(usuarioId, idComentario);
+    var deslikeComentarioResponse =
+        await comentarioService.descurtirComentario(usuarioId, idComentario);
   }
+
   void excluirLikeComentario(BuildContext context, int idComentario) async {
     // UsuarioService usuarioService = Provider.of<UsuarioService>(context, listen: false);
     //UsuarioModel usuarioLogado = await usuarioService.obterUsuarioLogado();
     //var usuarioId = usuarioLogado.Id;
     var usuarioId = 1;
-    var excluirLikeComentarioResponse = await comentarioService.excluirAvaliacaoComentario(usuarioId, idComentario);
+    var excluirLikeComentarioResponse = await comentarioService
+        .excluirAvaliacaoComentario(usuarioId, idComentario);
   }
-
 }

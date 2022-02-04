@@ -27,7 +27,7 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
 
   @override
   void initState() {
-    listarComentarios(context);
+    listarComentarios();
     super.initState();
   }
 
@@ -63,7 +63,7 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
                 margin: EdgeInsets.only(right: 8),
                 child: GestureDetector(
                   onTap: () {
-                    fazerComentario(context);
+                    fazerComentario();
                   },
                   child: Icon(Icons.send),
                 ),
@@ -132,7 +132,7 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
               children: [
                 for(ComentarioViewModel come in listaDeComentarios) Container(
                   child: Center(
-                      child: WidgetComentarioNoticia(comentarioViewModel: come)
+                      child: WidgetComentarioNoticia(comentarioViewModel: come, atualizarComentarios: listarComentarios,)
                   ),
                 )
               ],
@@ -215,20 +215,20 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
     }
   }
 
-  void listarComentarios(BuildContext context) async {
+  void listarComentarios() async {
     var listaComentarioResponse = await comentarioService.listarComentario(widget.noticiaModel.IdNoticia);
     setState(() {
       this.listaDeComentarios = listaComentarioResponse;
     });
   }
 
-  Future fazerComentario(BuildContext context) async {
+  Future fazerComentario() async {
     if(commentController.text.isNotEmpty){
       var flagComentou = await comentarioService.fazerComentario(commentController.text, widget.noticiaModel.IdNoticia);
       if(flagComentou){
         commentController.clear();
         FocusManager.instance.primaryFocus?.unfocus();
-        listarComentarios(context);
+        listarComentarios();
       }
     }
   }

@@ -12,22 +12,26 @@ class ComentarioService extends ChangeNotifier {
 
   Future <List<ComentarioViewModel>> listarComentario(int idNoticia) async {
     var result = await this.comentarioRepository.listarComentario(idNoticia);
-    print('service ListarComentario');
     return result;
   }
 
   Future curtirComentario(int idUsuario, int idComentario) async {
     var result = await this.comentarioRepository.curtirComentario(idUsuario, idComentario, 1);
   }
+
   Future excluirAvaliacaoComentario(int idUsuario, int idComentario) async {
     var result = await this.comentarioRepository.excluirAvaliacaoComentario(idUsuario, idComentario);
   }
+
  Future descurtirComentario(int idUsuario, int idComentario) async {
-    print('SERVICE DESLIKE');
     var result = await this.comentarioRepository.curtirComentario(idUsuario, idComentario, 2);
  }
 
   Future<bool> fazerComentario(String mensagem, int idNoticia) async{
     return await this.comentarioRepository.salvarComentario(mensagem, idNoticia);
+  }
+
+  Future<bool> excluirComentario(int idComentario) async {
+    return await this.comentarioRepository.excluirComentario(idComentario);
   }
 }
