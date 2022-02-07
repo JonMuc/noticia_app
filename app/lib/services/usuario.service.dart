@@ -54,6 +54,10 @@ class UsuarioService extends ChangeNotifier {
       return false;
   }
 
+  Future atualizarUsuario(UsuarioModel model) async {
+    var response = await usuarioRepository.atualizarUsuario(model);
+  }
+
   Future<UsuarioModel> obterUsuarioLogado() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if(sharedPreferences.containsKey("usuario")){
