@@ -5,6 +5,7 @@ import 'package:app_noticia/views/pages/editar-perfil.page.dart';
 import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PerfilUsuarioPage extends StatefulWidget {
   // const MyApp({Key key}) : super(key: key);
@@ -12,13 +13,15 @@ class PerfilUsuarioPage extends StatefulWidget {
   @override
   _PerfilUsuarioPage createState() => _PerfilUsuarioPage();
 }
-
-
 class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProviderStateMixin {
   UsuarioModel usuario;
+
+  @override
+  initState() {
+    obterUsuario();
+  }
   @override
   Widget build(BuildContext context){
-    print("Tela Perfil");
     return Scaffold(
         body: Container(
             color: ThemeApp.backGround,
@@ -36,41 +39,52 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                     Align(
                       child: CircleAvatar(
                         radius: 50.0,
-                        // backgroundImage: NetworkImage(widget.usuarioModel.Foto),
-                        // backgroundImage: this.usuario.Foto == null ? AssetImage("assets/user.png") : this.usuario.Foto,
-                        backgroundImage: AssetImage("assets/user.png"),
+                        backgroundImage: this.usuario.Foto == null ? AssetImage("assets/user.png") : this.usuario.Foto,
                       ),
                     ),
                     SizedBox(
                       width: 20,
                     ),
+                    this.usuario.PerfilLikedin == null || this.usuario.PerfilLikedin == "" ? Container() :
                     Column(
                       children: [
-                        IconButton(onPressed: () {print('Linkedin');},
+                       // TextButton.icon(onPressed: onPressed, icon: icon, label: label)  TODO
+                        IconButton(onPressed: () {
+                          print(this.usuario.Nome);
+                          print('Linkedin');},
                           icon: Image.asset("assets/logo_noticias/Linkedin.png"),
                           iconSize: 25,
                         ),
                         Text("Linkedin", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
                       ],
                     ),
+                    this.usuario.PerfilInstagram == null || this.usuario.PerfilInstagram == "" ? Container() :
                     Column(
                       children: [
-                        IconButton(onPressed: () {print('Instagram');},
+                        IconButton(onPressed: () {
+                          // print(this.usuario.PerfilInstagram);
+                          launchLink("http://www.instagram.com/${this.usuario.PerfilInstagram}");
+                          },
                           icon: Image.asset("assets/logo_noticias/Instagram.png"),
                           iconSize: 25,
                         ),
                         Text("Instagram", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
                       ],
                     ),
+                    this.usuario.PerfilFacebook == null || this.usuario.PerfilFacebook == "" ? Container() :
                     Column(
                       children: [
-                        IconButton(onPressed: () {print('Facebook');},
+                        IconButton(onPressed: () {
+                          print('Facebook');
+                          launchLink("http://www.facebook.com/${this.usuario.PerfilInstagram}");
+                        },
                           icon: Image.asset("assets/logo_noticias/facebook.png"),
                           iconSize: 25,
                         ),
                         Text("Facebook", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
                       ],
                     ),
+                    this.usuario.PerfilTwitter == null || this.usuario.PerfilTwitter == "" ? Container() :
                     Column(
                       children: [
                         IconButton(onPressed: () {print('Twitter');},
@@ -92,8 +106,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                       width: 20,
                     ),
                     Align(
-                      // child: Text(this.usuario.Nome == null ? "Null" : this.usuario.Nome, style:
-                      child: Text("nameless", style:
+                      child: Text(this.usuario.Nome == null ? "Null" : this.usuario.Nome, style:
                       TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold
@@ -119,7 +132,6 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                             //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                             //   },
                           ),
-
                           TextSpan(
                             style: TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 12,),
                             text: "seguindo 77     ",
@@ -139,8 +151,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                       width: 20,
                     ),
                     Align(
-                      child: Text('sem descricao', style:
-                      // child: Text(this.usuario.Descricao == null ? "descricao null" : this.usuario.Descricao, style:
+                      child: Text(this.usuario.Descricao == null ? "Usuario sem descricao " : this.usuario.Descricao, style:
                       TextStyle(
                           color: Colors.black.withOpacity(0.6)
                       ),
@@ -204,13 +215,21 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                     ),
                   ),
                 )
-
               ],
             )
         )
     );
   }
-  obterUsuario()  async{
+  var url = 'http://www.youtube.com';
+  Future<void>launchLink(url) async{
+    if(await canLaunch(url)){
+      await launch(url);
+    }else{
+      print('nao pode executar o link $url');
+    }
+  }
+
+  obterUsuario() async{
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var value = await service.obterUsuarioLogado();
     setState(() {
