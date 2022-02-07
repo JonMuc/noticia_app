@@ -15,6 +15,7 @@ class UsuarioModel {
   String PerfilLikedin;
   String PerfilInstagram;
   String PerfilTwitter;
+  String PerfilFacebook;
   String Descricao;
   String Token;
 
@@ -37,6 +38,7 @@ class UsuarioModel {
       this.PerfilLikedin,
       this.PerfilInstagram,
       this.PerfilTwitter,
+      this.PerfilFacebook,
       this.Descricao,
       this.Token);
 
@@ -57,6 +59,7 @@ class UsuarioModel {
     PerfilLikedin = json['PerfilLikedin'];
     PerfilInstagram = json['PerfilInstagram'];
     PerfilTwitter = json['PerfilTwitter'];
+    PerfilFacebook = json['PerfilFacebook'];
     Descricao = json['Descricao'];
     Token = json['Token'];
   }
@@ -78,6 +81,7 @@ class UsuarioModel {
     data['PerfilLikedin'] = this.PerfilLikedin;
     data['PerfilInstagram'] = this.PerfilInstagram;
     data['PerfilTwitter'] = this.PerfilTwitter;
+    data['PerfilFacebook'] = this.PerfilFacebook;
     data['Descricao'] = this.Descricao;
     data['Token'] = this.Token;
     return data;
