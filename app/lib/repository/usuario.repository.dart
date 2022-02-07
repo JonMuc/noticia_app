@@ -35,6 +35,18 @@ class UsuarioRepository {
     }
   }
 
+  Future atualizarUsuario(UsuarioModel model) async {
+    try{
+      var url = "${Settings.apiUrl}/usuario/atualizar-usuario";
+      Dio dio = new Dio();
+      Response response = await dio.post(url, data: jsonEncode(model));
+      ResponseModel responseModel = ResponseModel.fromJson(response.data);
+      return UsuarioModel.fromJson(responseModel.Objeto);
+    } catch (e) {
+      return ResponseModel.fromJson(e.response.data);
+    }
+  }
+
   Future salvarFotoGaleria(dynamic multipartFile, int idUsuario) async {
     var url = "${Settings.apiUrl}/usuario/enviar-foto/" + idUsuario.toString();
     var uri = Uri.parse(url);
