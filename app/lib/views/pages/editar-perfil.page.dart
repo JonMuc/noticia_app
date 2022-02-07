@@ -1,13 +1,11 @@
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
+import 'package:app_noticia/views/pages/perfil.page.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'editar-perfil.page.dart';
 
 class EditarPerfilPage extends StatefulWidget {
   @override
@@ -46,9 +44,8 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                 child: GestureDetector(
                   onTap: () {
                     salvarEdicao(context);
-                    // Navigator.push(context,
-                    //   MaterialPageRoute(builder: (context) => PerfilUsuarioPage()),
-                    // );
+                      Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PerfilUsuarioPage()));
                   },
                   child: Icon(
                     Icons.check,
@@ -116,11 +113,6 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                   ),
                   Column(
                     children: [
-                      Row(
-                        children: [
-                          Text('Compartilhar em outros aplicativos'),
-                        ],
-                      ),
                       SizedBox(
                         height: 20,
                       ),
@@ -154,7 +146,8 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                       ),
                       Row(
                         children: [
-                          IconButton(onPressed: () {print('Instagram');},
+                          IconButton(onPressed: () {
+                            print('Instagram');},
                             icon: Image.asset("assets/logo_noticias/Instagram.png"),
                             iconSize: 25,
                           ),
@@ -236,8 +229,7 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
     this.usuario.PerfilLikedin = linkedinController.text;
     this.usuario.PerfilInstagram = instagramController.text;
     this.usuario.PerfilTwitter = twitterController.text;
-
-    // var response = await service.salvarEdicao(this.usuario, );
+    var response = await service.atualizarUsuario(this.usuario);
   }
 
   obterUsuario()  async{
