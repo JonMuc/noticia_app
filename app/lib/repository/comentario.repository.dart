@@ -93,4 +93,12 @@ class ComentarioRepository {
     return (responseModel.Objeto as List).map((comentario) => ComentarioViewModel.fromJson(comentario)).toList();
   }
 
+  Future<List<ComentarioViewModel>> listarComentarioDeslogado(int idNoticia) async {
+    var url = "${Settings.apiUrl}/comentario/obter-comentario-noticia-deslogado/" + idNoticia.toString();
+    Dio dio = new Dio();
+    Response response = await dio.get(url);
+    ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    return (responseModel.Objeto as List).map((comentario) => ComentarioViewModel.fromJson(comentario)).toList();
+  }
+
 }

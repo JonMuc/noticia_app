@@ -11,8 +11,13 @@ class ComentarioService extends ChangeNotifier {
   final usuarioService = new UsuarioService();
 
   Future <List<ComentarioViewModel>> listarComentario(int idNoticia) async {
-    var result = await this.comentarioRepository.listarComentario(idNoticia);
-    return result;
+    if(await usuarioService.verificarUsuarioLogado()){
+      var result = await this.comentarioRepository.listarComentario(idNoticia);
+      return result;
+    }else{
+      var result = await this.comentarioRepository.listarComentarioDeslogado(idNoticia);
+      return result;
+    }
   }
 
   Future curtirComentario(int idUsuario, int idComentario) async {

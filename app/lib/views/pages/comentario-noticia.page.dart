@@ -21,6 +21,7 @@ TelaComentarioNoticia extends StatefulWidget {
 class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
   List<ComentarioViewModel> listaDeComentarios = List.empty();
   final comentarioService = new ComentarioService();
+  final usuarioService = new UsuarioService();
   final TextEditingController commentController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -223,13 +224,25 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
   }
 
   Future fazerComentario() async {
+    var user = await usuarioService.obterUsuarioLogado();
     if(commentController.text.isNotEmpty){
-      var flagComentou = await comentarioService.fazerComentario(commentController.text, widget.noticiaModel.IdNoticia);
-      if(flagComentou){
-        commentController.clear();
-        FocusManager.instance.primaryFocus?.unfocus();
-        listarComentarios();
+      if(user != null){
+        var flagComentou = await comentarioService.fazerComentario(commentController.text, widget.noticiaModel.IdNoticia);
+        if(flagComentou){
+          commentController.clear();
+          FocusManager.instance.primaryFocus?.unfocus();
+          listarComentarios();
+        }
+      }else{
+        alertaNaoLogado();
       }
     }
+  }
+
+  alertaNaoLogado(){
+    final snackbar = SnackBar(
+      content: Text("Faca login"),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }
