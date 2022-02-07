@@ -21,7 +21,6 @@ class FazerLoginWidget extends StatefulWidget {
 }
 
 class _FazerLoginWidget extends State<FazerLoginWidget> {
-  String _contactText = '';
   TextEditingController senhaController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   bool carregando = false;
