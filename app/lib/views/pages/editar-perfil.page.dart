@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
+// atualizar secao
+// mudar foto de perfil
+
 class EditarPerfilPage extends StatefulWidget {
   @override
   _EditarPerfilPage createState() => _EditarPerfilPage();
@@ -23,6 +26,7 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
   TextEditingController facebookController = TextEditingController();
   TextEditingController instagramController = TextEditingController();
   TextEditingController linkedinController = TextEditingController();
+
 
   @override
   initState() {
@@ -44,6 +48,9 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                 child: GestureDetector(
                   onTap: () {
                     salvarEdicao(context);
+                    // initState() {
+                    //   PerfilUsuarioPage();
+                    // }
                       Navigator.push(context,
                       MaterialPageRoute(builder: (context) => PerfilUsuarioPage()));
                   },
@@ -71,8 +78,8 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                         children: [
                           CircleAvatar(
                             radius: 50.0,
-                            // backgroundImage: NetworkImage(widget.usuarioModel.Foto),
-                            backgroundImage: this.usuario.Foto == null ? AssetImage("assets/user.png") : this.usuario.Foto,
+                            // backgroundImage: this.usuario.Foto == null || this.usuario.Foto == "" ? AssetImage("assets/user.png") : AssetImage(this.usuario.Foto),
+                            backgroundImage:AssetImage("assets/user.png")
                           ),
                           SizedBox(
                             height: 15,
@@ -87,26 +94,21 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                   ),
                   TextField(
                     decoration: InputDecoration(
-                        hintText: this.usuario.Nome == null ? "Null name" : this.usuario.Nome,
                         labelText: "Nome"),
                     controller: nomeController,
                   ),
                   TextField(
                     decoration: InputDecoration(
-                      hintText: "Nome de Usuario",
-                      labelText: "Nome de Usuario",),),
+                      labelText: "Nome de Usuario")),
                   TextField(
                     decoration: InputDecoration(
-                      hintText: this.usuario.Email == null ? "Null email" : this.usuario.Email,
                       labelText: "E-mail",),
-                    controller: emailController,
-
+                    controller: emailController
                   ),
                   TextField(
                     decoration: InputDecoration(
-                      hintText: this.usuario.Descricao == null ? "Descricao" : this.usuario.Descricao,
                       labelText: "Bio",),
-                    controller: descricaoController,
+                    controller: descricaoController
                   ),
                   SizedBox(
                     height: 20,
@@ -128,7 +130,6 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                             child: TextField(
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: this.usuario.PerfilLikedin == null ? "@" : this.usuario.PerfilLikedin,
                                   labelText: "Linkedin", labelStyle: TextStyle(color: Colors.blue.withOpacity(0.7))),
                               controller: linkedinController,
                             ),
@@ -137,11 +138,22 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                       ),
                       Row(
                         children: [
-                          IconButton(onPressed: () {print('Facebook');}, //FALTANDO CRIAR COLUNA EQUIVALENTE NO BANCO DE DADOS
+                          IconButton(onPressed: () {
+                            print('Facebook');},
                             icon: Image.asset("assets/logo_noticias/facebook.png"),
                             iconSize: 25,
                           ),
-                          Text('Facebook (inclompleto)', style: TextStyle(fontSize: 13, color: Colors.blue.withOpacity(0.7)),)
+                          Container(
+                            width: 140,
+                            height: 60,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  // hintText: this.usuario.PerfilFacebook == null ? "@" : this.usuario.PerfilFacebook,
+                                  labelText: "Facebook", labelStyle: TextStyle(color: Colors.blue.withOpacity(0.7))),
+                              controller: facebookController,
+                            ),
+                          )
                         ],
                       ),
                       Row(
@@ -154,12 +166,11 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                           Container(
                             width: 140,
                             height: 60,
-                            child: TextField(
+                            child: TextFormField(
+                              initialValue: this.usuario.PerfilInstagram,
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: this.usuario.PerfilInstagram == null ? "@" : this.usuario.PerfilInstagram,
                                   labelText: "Instagram", labelStyle: TextStyle(color: Colors.blue.withOpacity(0.7))),
-                              controller: instagramController,
                             ),
                           )
                         ],
@@ -176,7 +187,6 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                             child: TextField(
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: this.usuario.PerfilTwitter == null ? "@" : this.usuario.PerfilTwitter,
                                   labelText: "Twitter", labelStyle: TextStyle(color: Colors.blue.withOpacity(0.7))),
                               controller: twitterController,
                             ),
@@ -224,12 +234,17 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
     print('salvar edicao');
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     this.usuario.Nome = nomeController.text;
+    this.usuario.NomeUsuario = nomeUsuarioController.text;
     this.usuario.Descricao = descricaoController.text;
     this.usuario.Email = emailController.text;
-    this.usuario.PerfilLikedin = linkedinController.text;
+    this.usuario.PerfilLinkedin = linkedinController.text;
     this.usuario.PerfilInstagram = instagramController.text;
     this.usuario.PerfilTwitter = twitterController.text;
+    this.usuario.PerfilFacebook = facebookController.text;
     var response = await service.atualizarUsuario(this.usuario);
+    setState(() {
+      obterUsuario();
+    });
   }
 
   obterUsuario()  async{
@@ -237,6 +252,14 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
     var value = await service.obterUsuarioLogado();
     setState(() {
       this.usuario = value;
+      nomeController = new TextEditingController(text: this.usuario.Nome);
+      nomeUsuarioController = new TextEditingController(text: this.usuario.NomeUsuario);
+      emailController = new TextEditingController(text: this.usuario.Email);
+      descricaoController = new TextEditingController(text: this.usuario.Descricao);
+      twitterController = new TextEditingController(text: this.usuario.PerfilTwitter);
+      facebookController = new TextEditingController(text: this.usuario.PerfilFacebook);
+      instagramController = new TextEditingController(text: this.usuario.PerfilInstagram);
+      linkedinController = new TextEditingController(text: this.usuario.PerfilLinkedin);
     });
   }
 
