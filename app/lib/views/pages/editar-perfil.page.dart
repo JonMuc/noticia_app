@@ -166,8 +166,8 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                           Container(
                             width: 140,
                             height: 60,
-                            child: TextFormField(
-                              initialValue: this.usuario.PerfilInstagram,
+                            child: TextField(
+                              controller: instagramController,
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   labelText: "Instagram", labelStyle: TextStyle(color: Colors.blue.withOpacity(0.7))),
