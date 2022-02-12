@@ -1,5 +1,6 @@
 class UsuarioModel {
   String Nome;
+  String NomeUsuario;
   String Email;
   String Senha;
   int Id;
@@ -12,7 +13,7 @@ class UsuarioModel {
   String Foto;
   String IdGoogle;
   String IdFacebook;
-  String PerfilLikedin;
+  String PerfilLinkedin;
   String PerfilInstagram;
   String PerfilTwitter;
   String PerfilFacebook;
@@ -23,6 +24,7 @@ class UsuarioModel {
 
   UsuarioModel(
       this.Nome,
+      this.NomeUsuario,
       this.Email,
       this.Senha,
       this.Id,
@@ -35,7 +37,7 @@ class UsuarioModel {
       this.Foto,
       this.IdGoogle,
       this.IdFacebook,
-      this.PerfilLikedin,
+      this.PerfilLinkedin,
       this.PerfilInstagram,
       this.PerfilTwitter,
       this.PerfilFacebook,
@@ -44,6 +46,7 @@ class UsuarioModel {
 
   UsuarioModel.fromJson(Map<String, dynamic> json) {
     Nome = json['Nome'];
+    NomeUsuario = json['NomeUsuario'];
     Email = json['Email'];
     Senha = json['Senha'];
     Id = json['Id'];
@@ -56,7 +59,7 @@ class UsuarioModel {
     Foto = json['Foto'];
     IdGoogle = json['IdGoogle'];
     IdFacebook = json['IdFacebook'];
-    PerfilLikedin = json['PerfilLikedin'];
+    PerfilLinkedin = json['PerfilLinkedin'];
     PerfilInstagram = json['PerfilInstagram'];
     PerfilTwitter = json['PerfilTwitter'];
     PerfilFacebook = json['PerfilFacebook'];
@@ -67,6 +70,7 @@ class UsuarioModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['Nome'] = this.Nome;
+    data['NomeUsuario'] = this.NomeUsuario;
     data['Email'] = this.Email;
     data['Senha'] = this.Senha;
     data['Id'] = this.Id;
@@ -78,7 +82,7 @@ class UsuarioModel {
     data['Telefone'] = this.Telefone;
     data['Foto'] = this.Foto;
     data['IdGoogle'] = this.IdGoogle;
-    data['PerfilLikedin'] = this.PerfilLikedin;
+    data['PerfilLinkedin'] = this.PerfilLinkedin;
     data['PerfilInstagram'] = this.PerfilInstagram;
     data['PerfilTwitter'] = this.PerfilTwitter;
     data['PerfilFacebook'] = this.PerfilFacebook;
