@@ -23,11 +23,18 @@ class UsuarioRepository {
     }
   }
 
+  jsonToFormData(http.MultipartRequest request, Map<String, dynamic> data) {
+    for (var key in data.keys) {
+      request.fields[key] = data[key].toString();
+    }
+    return request;
+  }
+
   Future criarUsuario(CriarContaModel criarContaModel) async {
     try{
       var url = "${Settings.apiUrl}/usuario/criar-usuario-step";
       Dio dio = new Dio();
-      Response response = await dio.post(url, data: jsonEncode(criarContaModel));
+       Response response = await dio.post(url, data: jsonEncode(criarContaModel));
       ResponseModel responseModel = ResponseModel.fromJson(response.data);
       return UsuarioModel.fromJson(responseModel.Objeto);
     } catch (e) {
@@ -47,7 +54,7 @@ class UsuarioRepository {
     }
   }
 
-  Future salvarFotoGaleria(dynamic multipartFile, int idUsuario) async {
+  Future<String> salvarFotoUser(dynamic multipartFile, int idUsuario) async {
     var url = "${Settings.apiUrl}/usuario/enviar-foto/" + idUsuario.toString();
     var uri = Uri.parse(url);
     var request = new http.MultipartRequest("POST", uri);
@@ -55,8 +62,7 @@ class UsuarioRepository {
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     ResponseModel responseModel = ResponseModel.fromJson(json.decode(response.body));
-    print(jsonEncode(responseModel.Objeto));
-    return responseModel;
+    return responseModel.Objeto;
   }
 
 }

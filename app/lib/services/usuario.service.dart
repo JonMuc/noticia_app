@@ -20,19 +20,33 @@ class UsuarioService extends ChangeNotifier {
   final usuarioRepository = new UsuarioRepository();
   final noticiaRepository = new NoticiaRepository();
   final comentarioRepository = new ComentarioRepository();
+  int quantPermissaoSolicita = 0;
+  int quantPermissaoGaleria = 0;
 
   Future criarUsuario(CriarContaModel criarContaModel) async{
     try{
+
       var response = await this.usuarioRepository.criarUsuario(criarContaModel);
       if(response is UsuarioModel){
+        if(criarContaModel.UrlFoto != ""){
+          XFile imageFile = XFile(criarContaModel.UrlFoto);
+          var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+          var length = await imageFile.length();
+          var multipartFile = new http.MultipartFile('image', stream, length,
+              filename: basename(imageFile.path));
+          response.Foto = await usuarioRepository.salvarFotoUser(multipartFile, response.Id);
+          print(response.Foto);
+        }
+
         this.usuarioModel = response;
 
+        await fazerLogin(new UsuarioLoginModel(response.Email, criarContaModel.Senha));
         //ADICIONANDO USUARIO
-        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        if(sharedPreferences.containsKey("usuario")){
-          sharedPreferences.remove("usuario");
-        }
-        await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel));
+        // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        // if(sharedPreferences.containsKey("usuario")){
+        //   sharedPreferences.remove("usuario");
+        // }
+        // await sharedPreferences.setString("usuario", jsonEncode(this.usuarioModel));
         return this.usuarioModel;
       }else{
         this.responseModel = response;
@@ -84,11 +98,27 @@ class UsuarioService extends ChangeNotifier {
     }
   }
 
-  Future salvarFotoGaleria(XFile imageFile) async {
+  Future salvarFotoUser(XFile imageFile, int idUser) async {
     var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
     var multipartFile = new http.MultipartFile('image', stream, length,
         filename: basename(imageFile.path));
-    return this.usuarioRepository.salvarFotoGaleria(multipartFile, 1);
+    return this.usuarioRepository.salvarFotoUser(multipartFile, idUser);
+  }
+
+  Future<bool> alterarFoto(XFile imageFile) async {
+    var stream =
+    new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+    var multipartFile = new http.MultipartFile('image', stream, length,
+        filename: basename(imageFile.path));
+    // var pathFotoUsuario = await configuracoesRepository.alterarFoto(multipartFile);
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    // UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.getString("usuario")));
+    // usuarioModel. = pathFotoUsuario;
+    // sharedPreferences.remove("usuario");
+    // sharedPreferences.setString("usuario", jsonEncode(usuarioModel));
+    return true;
   }
 }

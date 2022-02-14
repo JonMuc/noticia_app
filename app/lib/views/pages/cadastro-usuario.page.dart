@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:app_noticia/models/criar-conta.model.dart';
 import 'package:app_noticia/models/response.model.dart';
@@ -6,11 +6,17 @@ import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/pages/home.page.dart';
+import 'package:app_noticia/views/pages/obter-image-camera.page.dart';
 import 'package:app_noticia/views/shared/progress-indicator.widget.dart';
+import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:async';
 
 class TelaCadastroUsuario extends StatefulWidget {
   // const MyApp({Key key}) : super(key: key);
@@ -29,6 +35,7 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
   GlobalKey<FormState> _key = new GlobalKey();
   String nome, email, senha, confirmarSenha;
   bool carregando = false;
+  String urlFoto = "";
 
 
   @override
@@ -72,16 +79,19 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
           // mainAxisSize: MainAxisSize.max,
           // mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            SizedBox(
-              height: 20,
-            ),
-            new CircleAvatar(
-              radius: 40.0,
-              backgroundImage: NetworkImage(
-                  "https://www.pinpng.com/pngs/m/131-1315114_png-pain-pain-akatsuki-black-and-white-transparent.png"),
-            ),
-            SizedBox(
-              height: 20,
+            GestureDetector(
+              onTap: () {
+                _opcaoFoto(context);
+              },
+              child: Container(
+                margin: EdgeInsets.only(bottom: 30),
+                child: urlFoto == "" ? CircleAvatar(
+                  radius: 70.0,
+                  backgroundImage: AssetImage("assets/user.png"),
+                ) : ClipOval(
+                  child: Image.file(File(urlFoto), width: 150, height: 150,fit: BoxFit.cover,),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
@@ -182,8 +192,8 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(7.0),
                         ))),
-                onPressed: () async {
-                  await criarConta(context);
+                onPressed: () {
+                  criarConta(context);
                   _sendForm();
                 },
                 child: Text(
@@ -262,6 +272,136 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
         ));
   }
 
+  Future getImageCamera() async {
+    final UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    service.quantPermissaoSolicita++;
+    if (service.quantPermissaoSolicita >= 3) {
+      if (await Permission.camera.request().isGranted) {
+        final cameras = await availableCameras();
+        final result = Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ObterImagemCameraPage(camera: cameras)));
+        result.then((value) => {
+          atualizarUrl(value)
+        });
+      }else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => CupertinoAlertDialog(
+              title: Text("De permissao de camera"),
+              content: Text("De permissao de camera"),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  child: Text("Fechar"),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                CupertinoDialogAction(
+                  child: Text("Permissoes"),
+                  onPressed: () => openAppSettings()
+                      .then((value) => Navigator.of(context).pop()),
+                ),
+              ],
+            ));
+      }
+    } else if (await Permission.camera.request().isGranted) {
+      final cameras = await availableCameras();
+      final result = Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ObterImagemCameraPage(camera: cameras)));
+      result.then((value) => {
+        atualizarUrl(value)
+      });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+            title: Text("De permissao de camera"),
+            content: Text("De permissao de camera"),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text("Fechar"),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              CupertinoDialogAction(
+                child: Text("Fechar"),
+                onPressed: () => openAppSettings()
+                    .then((value) => Navigator.of(context).pop()),
+              ),
+            ],
+          ));
+    }
+  }
+
+  atualizarUrl(String path){
+    setState(() {
+      urlFoto = path;
+    });
+  }
+
+  fecharGaleria(){
+    Navigator.of(context).pop();
+  }
+
+  Future getImageGaleria() async {
+    final UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    service.quantPermissaoGaleria++;
+    if (service.quantPermissaoGaleria <= 3 || await Permission.photos.request().isGranted) {
+      final ImagePicker _picker = ImagePicker();
+      final XFile image = await _picker.pickImage(source: ImageSource.gallery);
+      if(image != null){
+        setState(() {
+          urlFoto = image.path;
+        });
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+            title: Text("title permissao galeria"),
+            content: Text("Permissao galerica"),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text("Fechar"),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              CupertinoDialogAction(
+                child: Text("Permissao galeria"),
+                onPressed: () => openAppSettings()
+                    .then((value) => Navigator.of(context).pop()),
+              ),
+            ],
+          ));
+    }
+  }
+
+  dynamic _opcaoFoto(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: new Icon(Icons.camera),
+                title: new Text("Camera"),
+                onTap: () {
+                  getImageCamera();
+                },
+              ),
+              ListTile(
+                leading: new Icon(Icons.photo),
+                title: new Text("Galeria"),
+                onTap: () {
+                  getImageGaleria();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   String _validarNome(String value) {
     String patttern = r'(^[a-zA-Z ]*$)';
     RegExp regExp = new RegExp(patttern);
@@ -325,7 +465,9 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
         nomeController.text,
         emailController.text,
         senhaController.text,
-        confirmarSenhaController.text);
+        confirmarSenhaController.text,
+        urlFoto
+    );
     var response = await service.criarUsuario(usuarioModel);
 
     //verifica se é um usuario, se for deu sucesso

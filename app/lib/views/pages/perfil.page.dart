@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PerfilUsuarioPage extends StatefulWidget {
-  // const MyApp({Key key}) : super(key: key);
 
   @override
   _PerfilUsuarioPage createState() => _PerfilUsuarioPage();
@@ -19,7 +18,9 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
   @override
   initState() {
     obterUsuario();
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -39,13 +40,13 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                     Align(
                       child: CircleAvatar(
                         radius: 50.0,
-                        backgroundImage: this.usuario.Foto == null ? AssetImage("assets/user.png") : this.usuario.Foto,
+                        backgroundImage: this.usuario != null && this.usuario.Foto != null ? NetworkImage(this.usuario.Foto,) : AssetImage("assets/user.png")
                       ),
                     ),
                     SizedBox(
                       width: 20,
                     ),
-                    this.usuario.PerfilLikedin == null || this.usuario.PerfilLikedin == "" ? Container() :
+                    this.usuario.PerfilLinkedin == null || this.usuario.PerfilLinkedin == "" ? Container() :
                     Column(
                       children: [
                        // TextButton.icon(onPressed: onPressed, icon: icon, label: label)  TODO
@@ -220,6 +221,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
         )
     );
   }
+
   var url = 'http://www.youtube.com';
   Future<void>launchLink(url) async{
     if(await canLaunch(url)){

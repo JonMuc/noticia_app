@@ -19,11 +19,15 @@ dependencies:
   http: any
   url_launcher: ^6.0.18
   email_validator: ^2.0.1
+  camera: ^0.9.4+11
   shared_preferences: any
   comment_box: any
   flutter_launcher_icons: ^0.8.0
   image_picker: any
   onesignal_flutter: ^3.0.0
+  permission_handler: ^8.3.0
+  image_cropper: ^1.4.0
+  path_provider: ^2.0.1
 
 
 flutter_icons:

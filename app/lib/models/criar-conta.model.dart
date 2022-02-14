@@ -3,8 +3,9 @@ class CriarContaModel{
   String Email;
   String Senha;
   String ConfirmarSenha;
+  String UrlFoto;
 
-  CriarContaModel(this.Nome, this.Email, this.Senha, this.ConfirmarSenha);
+  CriarContaModel(this.Nome, this.Email, this.Senha, this.ConfirmarSenha, this.UrlFoto);
 
 
 
@@ -13,6 +14,7 @@ class CriarContaModel{
     Email = json['Email'];
     Senha = json['Senha'];
     ConfirmarSenha = json['ConfirmarSenha'];
+    UrlFoto = json['UrlFoto'];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -20,6 +22,7 @@ class CriarContaModel{
     data['Email'] = this.Email;
     data['Senha'] = this.Senha;
     data['ConfirmarSenha'] = this.ConfirmarSenha;
+    data['UrlFoto'] = this.UrlFoto;
     return data;
   }
 

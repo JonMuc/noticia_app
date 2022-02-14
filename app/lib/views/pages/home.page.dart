@@ -77,7 +77,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                     // icon: new Icon(Icons.show_chart),
                   ),
                   new Tab(
-                    text: "Comunicação",
+                    text: "Atividades",
                     // icon: new Icon(Icons.history),
                   ),
                 ],
