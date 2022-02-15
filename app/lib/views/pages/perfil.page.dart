@@ -32,11 +32,20 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                   height: 20,
                 ),
                 new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
                       width: 5,
                     ),
+                    // Container(
+                    //   margin: EdgeInsets.only(left: 5, right: 5),
+                    //   child:  Align(
+                    //     child: CircleAvatar(
+                    //       radius: 50.0,
+                    //       backgroundImage: this.usuario.Foto == null ? AssetImage("assets/user.png") : this.usuario.Foto,
+                    //     ),
+                    //   ),
+                    // ),
                     Align(
                       child: CircleAvatar(
                         radius: 50.0,
@@ -47,53 +56,64 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                       width: 20,
                     ),
                     this.usuario.PerfilLinkedin == null || this.usuario.PerfilLinkedin == "" ? Container() :
-                    Column(
-                      children: [
-                       // TextButton.icon(onPressed: onPressed, icon: icon, label: label)  TODO
-                        IconButton(onPressed: () {
-                          print(this.usuario.Nome);
-                          print('Linkedin');},
-                          icon: Image.asset("assets/logo_noticias/Linkedin.png"),
-                          iconSize: 25,
-                        ),
-                        Text("Linkedin", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
-                      ],
+                    Container(
+                        margin: EdgeInsets.only(left: 5, right: 5),
+                        child: Column(
+                          children: [
+                            IconButton(onPressed: () {
+                              print(this.usuario.Nome);
+                              print('Linkedin');},
+                              icon: Image.asset("assets/logo_noticias/Linkedin.png"),
+                              iconSize: 25,
+                            ),
+                            Text("Linkedin", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
+                          ],
+                        )
                     ),
                     this.usuario.PerfilInstagram == null || this.usuario.PerfilInstagram == "" ? Container() :
-                    Column(
-                      children: [
-                        IconButton(onPressed: () {
-                          // print(this.usuario.PerfilInstagram);
-                          launchLink("http://www.instagram.com/${this.usuario.PerfilInstagram}");
+                    Container(
+                      margin: EdgeInsets.only(left: 5, right: 5),
+                      child: Column(
+                        children: [
+                          IconButton(onPressed: () {
+                            // print(this.usuario.PerfilInstagram);
+                            launchLink("http://www.instagram.com/${this.usuario.PerfilInstagram}");
                           },
-                          icon: Image.asset("assets/logo_noticias/Instagram.png"),
-                          iconSize: 25,
-                        ),
-                        Text("Instagram", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
-                      ],
+                            icon: Image.asset("assets/logo_noticias/Instagram.png"),
+                            iconSize: 25,
+                          ),
+                          Text("Instagram", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
+                        ],
+                      ),
                     ),
                     this.usuario.PerfilFacebook == null || this.usuario.PerfilFacebook == "" ? Container() :
-                    Column(
-                      children: [
-                        IconButton(onPressed: () {
-                          print('Facebook');
-                          launchLink("http://www.facebook.com/${this.usuario.PerfilInstagram}");
-                        },
-                          icon: Image.asset("assets/logo_noticias/facebook.png"),
-                          iconSize: 25,
-                        ),
-                        Text("Facebook", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
-                      ],
+                    Container(
+                      margin: EdgeInsets.only(left: 5, right: 5),
+                      child: Column(
+                        children: [
+                          IconButton(onPressed: () {
+                            print('Facebook');
+                            launchLink("http://www.facebook.com/${this.usuario.PerfilInstagram}");
+                          },
+                            icon: Image.asset("assets/logo_noticias/facebook.png"),
+                            iconSize: 25,
+                          ),
+                          Text("Facebook", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
+                        ],
+                      ),
                     ),
                     this.usuario.PerfilTwitter == null || this.usuario.PerfilTwitter == "" ? Container() :
-                    Column(
-                      children: [
-                        IconButton(onPressed: () {print('Twitter');},
-                          icon: Image.asset("assets/logo_noticias/twitter.png"),
-                          iconSize: 25,
-                        ),
-                        Text("Twitter", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
-                      ],
+                    Container(
+                      margin: EdgeInsets.only(left: 5, right: 5),
+                      child: Column(
+                        children: [
+                          IconButton(onPressed: () {print('Twitter');},
+                            icon: Image.asset("assets/logo_noticias/twitter.png"),
+                            iconSize: 25,
+                          ),
+                          Text("Twitter", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
+                        ],
+                      ),
                     ),
                     SizedBox(width: 10),
                   ],
