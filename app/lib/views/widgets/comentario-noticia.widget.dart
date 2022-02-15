@@ -4,6 +4,8 @@ import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/widgets/resposta-comentario-noticia.widget.dart';
 import 'package:flutter/material.dart';
 
+enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
+
 class WidgetComentarioNoticia extends StatefulWidget {
   final ComentarioViewModel comentarioViewModel;
   Function() atualizarComentarios;
@@ -14,7 +16,6 @@ class WidgetComentarioNoticia extends StatefulWidget {
   _WidgetComentarioNoticia createState() => _WidgetComentarioNoticia();
 }
 
-enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
 
 class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
   final comentarioService = new ComentarioService();
@@ -24,6 +25,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
   bool mostrarCampoRespostaComentario = false;
   int comentarioCurtido = 0;
   int idUsuarioLogado = 0;
+  final GlobalKey _menuKey = GlobalKey();
 
 
   @override
@@ -40,7 +42,13 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
       comentarioCurtido = 2;
     }
 
-    return Center(
+    return GestureDetector(
+      onDoubleTap: () {
+        if(widget.comentarioViewModel.IdUsuario == idUsuarioLogado){
+          dynamic state = _menuKey.currentState;
+          state.showButtonMenu();
+        }
+      },
       child: Container(
           width: MediaQuery.of(context).size.width * 0.95,
           child: Column(
@@ -113,6 +121,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                           comentarioCurtido = 2;
                           widget.comentarioViewModel.ComentarioAvaliado = 2;
                         } else {
+
                           excluirLikeComentario(
                               context, widget.comentarioViewModel.IdComentario);
                           widget.comentarioViewModel.ComentarioAvaliado = 0;
@@ -181,17 +190,20 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                     ),
                   ),
                   widget.comentarioViewModel.IdUsuario == idUsuarioLogado ? Container(
-                    child: IconButton(
-                      onPressed: () async {
+                    child: PopupMenuButton<bool>(
+                      key: _menuKey,
+                      iconSize: 0,
+                      onSelected: (bool result) {
                         setState(() {
                           deletarComentario();
                         });
                       },
-                      icon: Icon(
-                        Icons.delete_forever_rounded,
-                        color: Colors.blue,
-                      ),
-                      iconSize: 18.0,
+                      itemBuilder: (BuildContext context) => <PopupMenuEntry<bool>>[
+                        PopupMenuItem<bool>(
+                          value: true,
+                          child: Text('Excluir'),
+                        ),
+                      ],
                     ),
                   ) : Container(),
                 ],
