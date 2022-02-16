@@ -1,7 +1,6 @@
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/pages/perfil.page.dart';
 import 'package:app_noticia/views/widgets/fazer-login.widget.dart';
-import 'package:app_noticia/views/widgets/menu-usuario-logado.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

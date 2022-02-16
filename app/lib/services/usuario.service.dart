@@ -68,6 +68,8 @@ class UsuarioService extends ChangeNotifier {
   }
 
   Future atualizarUsuario(UsuarioModel model) async {
+    print(this.usuarioModel.NomeUsuario);
+    print(this.usuarioModel.Nome);
     var response = await usuarioRepository.atualizarUsuario(model);
   }
 

@@ -4,16 +4,13 @@ import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/pages/cadastro-usuario.page.dart';
-import 'package:app_noticia/views/pages/comentario-noticia.page.dart';
 import 'package:app_noticia/views/shared/progress-indicator.widget.dart';
-import 'package:app_noticia/views/widgets/perfil-usuario.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'comentario-noticia.widget.dart';
 
 class FazerLoginWidget extends StatefulWidget {
   @override
@@ -30,6 +27,7 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: ThemeApp.backGround,
       child: Scaffold(
         floatingActionButton: carregando ? Align(
             child: FloatingActionButton(
@@ -39,20 +37,23 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
               elevation: 0,),
             alignment: Alignment(-0.2,0)) : Container(),
         key: _scaffoldKey,
-        body: Container(
-          color: ThemeApp.backGround,
+        body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 140),
-              Align(
-                alignment: Alignment.center,
-                child: CircleAvatar(
-                  radius: 30.0,
-                  backgroundImage: NetworkImage(
-                      "https://www.pinpng.com/pngs/m/131-1315114_png-pain-pain-akatsuki-black-and-white-transparent.png"),
+              Container(
+                margin: EdgeInsets.only(top: 150),
+                child:Align(
+                  alignment: Alignment.center,
+                  child:
+                  CircleAvatar(
+                    radius: 30.0,
+                    backgroundImage: NetworkImage(
+                        "https://www.pinpng.com/pngs/m/131-1315114_png-pain-pain-akatsuki-black-and-white-transparent.png"),
+                  ),
                 ),
               ),
               Container(
+                margin: EdgeInsets.only(bottom: 30),
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Text(
@@ -61,7 +62,6 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                   ),
                 ),
               ),
-              SizedBox(height: 30),
               Column(
                 children: [
                   Container(
@@ -81,6 +81,7 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                     ),
                   ),
                   Container(
+                    margin: EdgeInsets.only(bottom: 10),
                     width: MediaQuery.of(context).size.width * 0.65,
                     height: MediaQuery.of(context).size.height * 0.06,
                     padding: EdgeInsets.all(5),
@@ -97,8 +98,8 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
                   Container(
+                    margin: EdgeInsets.only(bottom: 50),
                     width: MediaQuery.of(context).size.width * 0.65,
                     height: MediaQuery.of(context).size.height * 0.06,
                     child: ElevatedButton(
@@ -132,7 +133,6 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                   //   ),
                   // )
                   //     : Container(),
-                  SizedBox(height: 50),
                   RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(children: [
@@ -150,7 +150,6 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                             ..onTap = () {
                             Navigator.push(context,
                               MaterialPageRoute(builder: (context) => TelaCadastroUsuario()),
-                              // MaterialPageRoute(builder: (context) => PerfilUsuario()),
                               );
                             },
                             //
@@ -160,44 +159,47 @@ class _FazerLoginWidget extends State<FazerLoginWidget> {
                             //     => new TelaComentarioNoticia(noticiaModel: noticia)
                             )
                       ])),
-                  SizedBox(height: 15),
-                  RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(children: [
-                        TextSpan(
+                  Container(
+                  padding: EdgeInsets.only(top: 50),
+                    child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(children: [
+                          TextSpan(
+                              style: TextStyle(color: Colors.black, fontSize: 10),
+                              text: "Ao continuar, voce aceita os "),
+                          TextSpan(
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline),
+                            text: "Termos de uso ",
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () {
+                                launch(
+                                    'https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                              },
+                          ),
+                          TextSpan(
                             style: TextStyle(color: Colors.black, fontSize: 10),
-                            text: "Ao continuar, voce aceita os "),
-                        TextSpan(
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline),
-                          text: "Termos de uso ",
-                          recognizer: new TapGestureRecognizer()
-                            ..onTap = () {
-                              launch(
-                                  'https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                            },
-                        ),
-                        TextSpan(
-                          style: TextStyle(color: Colors.black, fontSize: 10),
-                          text: "e a\n",
-                        ),
-                        TextSpan(
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline),
-                          text: "Politica de Privacidade.",
-                          recognizer: new TapGestureRecognizer()
-                            ..onTap = () {
-                              launch(
-                                  'https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                            },
-                        )
-                      ]))
+                            text: "e a\n",
+                          ),
+                          TextSpan(
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline),
+                            text: "Politica de Privacidade.",
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () {
+                                launch(
+                                    'https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                              },
+                          )
+                        ])
+                    ),
+                  )
                 ],
               ),
             ],

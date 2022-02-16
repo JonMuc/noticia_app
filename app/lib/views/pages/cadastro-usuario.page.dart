@@ -181,6 +181,7 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
               ),
             ),
             Container(
+              margin: EdgeInsets.only(bottom: 30),
               width: MediaQuery.of(context).size.width * 0.65,
               height: MediaQuery.of(context).size.height * 0.06,
               child: ElevatedButton(
@@ -204,9 +205,6 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
                 ),
               ),
             ),
-            SizedBox(
-              height: 30,
-            ),
             RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
@@ -227,9 +225,6 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
                       },
                   )
                 ])),
-            SizedBox(
-              height: 10,
-            ),
             RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [

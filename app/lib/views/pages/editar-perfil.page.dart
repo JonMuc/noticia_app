@@ -48,9 +48,6 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                 child: GestureDetector(
                   onTap: () {
                     salvarEdicao(context);
-                    // initState() {
-                    //   PerfilUsuarioPage();
-                    // }
                       Navigator.push(context,
                       MaterialPageRoute(builder: (context) => PerfilUsuarioPage()));
                   },
@@ -76,21 +73,16 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                     children: [
                       Column(
                         children: [
-                          CircleAvatar(
-                            radius: 50.0,
-                            // backgroundImage: this.usuario.Foto == null || this.usuario.Foto == "" ? AssetImage("assets/user.png") : AssetImage(this.usuario.Foto),
-                            backgroundImage:AssetImage("assets/user.png")
-                          ),
-                          SizedBox(
-                            height: 15,
+                          Container(
+                            child: CircleAvatar(
+                                radius: 50.0,
+                                backgroundImage: this.usuario.Foto == null || this.usuario.Foto == "" ? AssetImage("assets/user.png") : AssetImage(this.usuario.Foto),
+                            ),
                           ),
                           Text("Alterar foto de perfil", style: TextStyle(color: Colors.blue.withOpacity(0.7)))
                         ],
                       ),
                     ],
-                  ),
-                  SizedBox(
-                    height: 20,
                   ),
                   TextField(
                     decoration: InputDecoration(
@@ -99,7 +91,9 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                   ),
                   TextField(
                     decoration: InputDecoration(
-                      labelText: "Nome de Usuario")),
+                      labelText: "Nome de Usuario"),
+                  controller: nomeUsuarioController,
+                  ),
                   TextField(
                     decoration: InputDecoration(
                       labelText: "E-mail",),
@@ -110,14 +104,8 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                       labelText: "Bio",),
                     controller: descricaoController
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
                   Column(
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
                       Row(
                         children: [
                           IconButton(onPressed: () {print('Linkedin');},
@@ -149,7 +137,6 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                             child: TextField(
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  // hintText: this.usuario.PerfilFacebook == null ? "@" : this.usuario.PerfilFacebook,
                                   labelText: "Facebook", labelStyle: TextStyle(color: Colors.blue.withOpacity(0.7))),
                               controller: facebookController,
                             ),
@@ -195,9 +182,7 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+
                 ],
               )
           ),
@@ -242,9 +227,8 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
     this.usuario.PerfilTwitter = twitterController.text;
     this.usuario.PerfilFacebook = facebookController.text;
     var response = await service.atualizarUsuario(this.usuario);
-    setState(() {
-      obterUsuario();
-    });
+    print(this.usuario.NomeUsuario);
+    print(this.usuario.Nome);
   }
 
   obterUsuario()  async{

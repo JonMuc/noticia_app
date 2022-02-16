@@ -28,33 +28,25 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
             color: ThemeApp.backGround,
             child: Column(
               children: [
-                SizedBox(
-                  height: 20,
-                ),
                 new Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      width: 5,
-                    ),
-                    // Container(
-                    //   margin: EdgeInsets.only(left: 5, right: 5),
-                    //   child:  Align(
-                    //     child: CircleAvatar(
-                    //       radius: 50.0,
-                    //       backgroundImage: this.usuario.Foto == null ? AssetImage("assets/user.png") : this.usuario.Foto,
-                    //     ),
-                    //   ),
-                    // ),
-                    Align(
-                      child: CircleAvatar(
-                        radius: 50.0,
-                        backgroundImage: this.usuario != null && this.usuario.Foto != null ? NetworkImage(this.usuario.Foto,) : AssetImage("assets/user.png")
+                    Container(
+                      margin: EdgeInsets.all(20),
+                      // margin: EdgeInsets.only(left: 10, right: 10),
+                      child:  Align(
+                        child: CircleAvatar(
+                          radius: 50.0,
+                          backgroundImage: this.usuario.Foto == null || this.usuario.Foto == "" ? AssetImage("assets/user.png") : AssetImage(this.usuario.Foto),
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
+                    // Align(
+                    //   child: CircleAvatar(
+                    //     radius: 50.0,
+                    //     backgroundImage: this.usuario != null && this.usuario.Foto != null ? NetworkImage(this.usuario.Foto,) : AssetImage("assets/user.png")
+                    //   ),
+                    // ),
                     this.usuario.PerfilLinkedin == null || this.usuario.PerfilLinkedin == "" ? Container() :
                     Container(
                         margin: EdgeInsets.only(left: 5, right: 5),
@@ -92,8 +84,10 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                       child: Column(
                         children: [
                           IconButton(onPressed: () {
-                            print('Facebook');
-                            launchLink("http://www.facebook.com/${this.usuario.PerfilInstagram}");
+                            print(this.usuario.PerfilFacebook);
+                            print(this.usuario.NomeUsuario);
+                            print(this.usuario.Nome);
+                            launchLink("http://www.facebook.com/${this.usuario.PerfilFacebook}");
                           },
                             icon: Image.asset("assets/logo_noticias/facebook.png"),
                             iconSize: 25,
@@ -115,24 +109,18 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                         ],
                       ),
                     ),
-                    SizedBox(width: 10),
                   ],
-                ),
-                SizedBox(
-                  height: 15,
                 ),
                 new Row(
                   children: [
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Align(
+                    Container(
                       child: Text(this.usuario.Nome == null ? "Null" : this.usuario.Nome, style:
-                      TextStyle(
+                        TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold
+                        ),
                       ),
-                      ),
+                      margin: EdgeInsets.only(left: 15)
                     ),
                   ],
                 ),
@@ -165,32 +153,25 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
                 new Row(
                   children: [
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Align(
+                    Container(
+                      margin: EdgeInsets.all(20),
                       child: Text(this.usuario.Descricao == null ? "Usuario sem descricao " : this.usuario.Descricao, style:
-                      TextStyle(
+                        TextStyle(
                           color: Colors.black.withOpacity(0.6)
-                      ),
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: 50,
-                    )
                   ],
                 ),
                 Container(
+                  margin: EdgeInsets.all(10),
                   height: MediaQuery.of(context).size.width * 0.1,
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            EdgeInsets.all(11)),
                         shape:
                         MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
@@ -216,8 +197,6 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            EdgeInsets.all(11)),
                         shape:
                         MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
