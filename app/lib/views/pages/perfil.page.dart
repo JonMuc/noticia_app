@@ -37,6 +37,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                       child:  Align(
                         child: CircleAvatar(
                           radius: 50.0,
+                              // backgroundImage: this.usuario != null && this.usuario.Foto != null ? AssetImage(this.usuario.Foto) : AssetImage("assets/user.png")
                           backgroundImage: this.usuario.Foto == null || this.usuario.Foto == "" ? AssetImage("assets/user.png") : AssetImage(this.usuario.Foto),
                         ),
                       ),
@@ -53,8 +54,8 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                         child: Column(
                           children: [
                             IconButton(onPressed: () {
-                              print(this.usuario.Nome);
-                              print('Linkedin');},
+                              launch("https://www.linkedin.com/in/${this.usuario.PerfilLinkedin}");
+                             },
                               icon: Image.asset("assets/logo_noticias/Linkedin.png"),
                               iconSize: 25,
                             ),
@@ -69,7 +70,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                         children: [
                           IconButton(onPressed: () {
                             // print(this.usuario.PerfilInstagram);
-                            launchLink("http://www.instagram.com/${this.usuario.PerfilInstagram}");
+                            launch("http://www.instagram.com/${this.usuario.PerfilInstagram}");
                           },
                             icon: Image.asset("assets/logo_noticias/Instagram.png"),
                             iconSize: 25,
@@ -84,10 +85,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                       child: Column(
                         children: [
                           IconButton(onPressed: () {
-                            print(this.usuario.PerfilFacebook);
-                            print(this.usuario.NomeUsuario);
-                            print(this.usuario.Nome);
-                            launchLink("http://www.facebook.com/${this.usuario.PerfilFacebook}");
+                            launch("https://www.facebook.com/${this.usuario.PerfilFacebook}");
                           },
                             icon: Image.asset("assets/logo_noticias/facebook.png"),
                             iconSize: 25,
@@ -101,7 +99,9 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                       margin: EdgeInsets.only(left: 5, right: 5),
                       child: Column(
                         children: [
-                          IconButton(onPressed: () {print('Twitter');},
+                          IconButton(onPressed: () {
+                            launch("https://www.twitter.com/${this.usuario.PerfilTwitter}");
+                            },
                             icon: Image.asset("assets/logo_noticias/twitter.png"),
                             iconSize: 25,
                           ),

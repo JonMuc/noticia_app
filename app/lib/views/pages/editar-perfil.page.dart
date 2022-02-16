@@ -182,7 +182,6 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                       ),
                     ],
                   ),
-
                 ],
               )
           ),
