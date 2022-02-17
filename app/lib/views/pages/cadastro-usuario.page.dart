@@ -270,8 +270,7 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
   Future getImageCamera() async {
     final UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     service.quantPermissaoSolicita++;
-    if (service.quantPermissaoSolicita >= 3) {
-      if (await Permission.camera.request().isGranted) {
+    if (service.quantPermissaoSolicita <= 3 || await Permission.camera.request().isGranted) {
         final cameras = await availableCameras();
         final result = Navigator.push(
             context,
@@ -280,26 +279,7 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
         result.then((value) => {
           atualizarUrl(value)
         });
-      }else {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text("De permissao de camera"),
-              content: Text("De permissao de camera"),
-              actions: <Widget>[
-                CupertinoDialogAction(
-                  child: Text("Fechar"),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                CupertinoDialogAction(
-                  child: Text("Permissoes"),
-                  onPressed: () => openAppSettings()
-                      .then((value) => Navigator.of(context).pop()),
-                ),
-              ],
-            ));
-      }
-    } else if (await Permission.camera.request().isGranted) {
+      } else if (await Permission.camera.request().isGranted) {
       final cameras = await availableCameras();
       final result = Navigator.push(
           context,
