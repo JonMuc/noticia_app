@@ -20,8 +20,8 @@ class ComentarioService extends ChangeNotifier {
     }
   }
 
-  Future curtirComentario(int idUsuario, int idComentario) async {
-    var result = await this.comentarioRepository.curtirComentario(idUsuario, idComentario, 1);
+  Future avaliarComentario(int idComentario, int tipoAvaliacao) async {
+    var result = await this.comentarioRepository.curtirComentario(idComentario, tipoAvaliacao);
   }
 
   Future excluirAvaliacaoComentario(int idUsuario, int idComentario) async {
@@ -29,7 +29,7 @@ class ComentarioService extends ChangeNotifier {
   }
 
  Future descurtirComentario(int idUsuario, int idComentario) async {
-    var result = await this.comentarioRepository.curtirComentario(idUsuario, idComentario, 2);
+    var result = await this.comentarioRepository.curtirComentario(idComentario, 2);
  }
 
   Future<bool> fazerComentario(String mensagem, int idNoticia) async{

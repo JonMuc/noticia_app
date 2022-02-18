@@ -88,7 +88,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     child: Text.rich(
@@ -112,83 +112,83 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                       setState(() {});
                     },
                   ),
-                  Container(
-                    child: IconButton(
-                      onPressed: () async {
-                        if (comentarioCurtido == 0 || comentarioCurtido == 1) {
-                          deslikeComentario(
-                              context, widget.comentarioViewModel.IdComentario);
-                          comentarioCurtido = 2;
-                          widget.comentarioViewModel.ComentarioAvaliado = 2;
-                        } else {
-
-                          excluirLikeComentario(
-                              context, widget.comentarioViewModel.IdComentario);
-                          widget.comentarioViewModel.ComentarioAvaliado = 0;
-                          comentarioCurtido = 0;
-                        }
-                        setState(() {});
-                      },
-                      icon: Icon(
-                        Icons.thumb_down_alt,
-                        color:
-                            comentarioCurtido == 2 ? Colors.red : Colors.grey,
-                        // color: Colors.red,
-                      ),
-                      iconSize: 15.0,
-                    ),
-                  ),
-                  Container(
-                    child: Text.rich(
-                      TextSpan(
-                        style: TextStyle(color: Colors.black, fontSize: 15),
-                        children: [
+                  Row(
+                    children: [
+                      Container(
+                        child: Text.rich(
                           TextSpan(
-                            text: widget.comentarioViewModel.QuantidadeDeslike
-                                .toString(),
-                          )
-                        ],
+                            style: TextStyle(color: Colors.black, fontSize: 15),
+                            children: [
+                              TextSpan(
+                                text: widget.comentarioViewModel.QuantidadeLike
+                                    .toString(),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    child: IconButton(
-                      onPressed: () async {
-                        if (comentarioCurtido == 1) {
-                          excluirLikeComentario(
-                              context, widget.comentarioViewModel.IdComentario);
-                          comentarioCurtido = 0;
-                          widget.comentarioViewModel.ComentarioAvaliado = 0;
-                        } else if (comentarioCurtido == 2 ||
-                            comentarioCurtido == 0) {
-                          likeComentario(
-                              context, widget.comentarioViewModel.IdComentario);
-                          comentarioCurtido = 1;
-                          widget.comentarioViewModel.ComentarioAvaliado = 1;
-                        }
-                        setState(() {});
-                      },
-                      icon: Icon(
-                        Icons.thumb_up_alt,
-                        color:
+                      Container(
+                        child: IconButton(
+                          onPressed: () async {
+                            likeComentario(context, widget.comentarioViewModel.IdComentario);
+                          },
+                          icon: Icon(
+                            Icons.thumb_up_alt,
+                            color:
                             comentarioCurtido == 1 ? Colors.blue : Colors.grey,
+                          ),
+                          iconSize: 15.0,
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        child: Text.rich(
+                          TextSpan(
+                            style: TextStyle(color: Colors.black, fontSize: 15),
+                            children: [
+                              TextSpan(
+                                text: widget.comentarioViewModel.QuantidadeDeslike
+                                    .toString(),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: IconButton(
+                          onPressed: () async {
+                            deslikeComentario(context,widget.comentarioViewModel.IdComentario);
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            Icons.thumb_down_alt,
+                            color:
+                            comentarioCurtido == 2 ? Colors.red : Colors.grey,
+                            // color: Colors.red,
+                          ),
+                          iconSize: 15.0,
+                        ),
+                      )
+                    ],
+                  ),
+                  widget.comentarioViewModel.IdUsuario != idUsuarioLogado ? Container(
+                    child: IconButton(
+                      onPressed: () async {
+                        print('reply');
+                        setState(() {
+                          // mostrarCampoRespostaComentario = mostrarCampoRespostaComentario ? false : true;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.reply,
+                        color: Colors.blue,
                       ),
                       iconSize: 15.0,
                     ),
-                  ),
-                  Container(
-                    child: Text.rich(
-                      TextSpan(
-                        style: TextStyle(color: Colors.black, fontSize: 15),
-                        children: [
-                          TextSpan(
-                            text: widget.comentarioViewModel.QuantidadeLike
-                                .toString(),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                  ) : Container(),
                   widget.comentarioViewModel.IdUsuario == idUsuarioLogado ? Container(
                     child: PopupMenuButton<bool>(
                       key: _menuKey,
@@ -206,6 +206,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                       ],
                     ),
                   ) : Container(),
+
                 ],
               ),
               mostrarRespostaComentario
@@ -268,29 +269,13 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
   }
 
   void likeComentario(BuildContext context, int idComentario) async {
-    // UsuarioService usuarioService = Provider.of<UsuarioService>(context, listen: false);
-    //UsuarioModel usuarioLogado = await usuarioService.obterUsuarioLogado();
-    //var usuarioId = usuarioLogado.Id;
-    var usuarioId = 1;
-    var likeComentarioResponse =
-        await comentarioService.curtirComentario(usuarioId, idComentario);
+    var likeComentarioResponse =  await comentarioService.avaliarComentario(idComentario, 1);
+    widget.comentarioViewModel.QuantidadeLike++;
   }
 
   void deslikeComentario(BuildContext context, int idComentario) async {
-    // UsuarioService usuarioService = Provider.of<UsuarioService>(context, listen: false);
-    //UsuarioModel usuarioLogado = await usuarioService.obterUsuarioLogado();
-    //var usuarioId = usuarioLogado.Id;
-    var usuarioId = 1;
-    var deslikeComentarioResponse =
-        await comentarioService.descurtirComentario(usuarioId, idComentario);
+    var likeComentarioResponse =  await comentarioService.avaliarComentario(idComentario, 2);
+    widget.comentarioViewModel.QuantidadeDeslike++;
   }
 
-  void excluirLikeComentario(BuildContext context, int idComentario) async {
-    // UsuarioService usuarioService = Provider.of<UsuarioService>(context, listen: false);
-    //UsuarioModel usuarioLogado = await usuarioService.obterUsuarioLogado();
-    //var usuarioId = usuarioLogado.Id;
-    var usuarioId = 1;
-    var excluirLikeComentarioResponse = await comentarioService
-        .excluirAvaliacaoComentario(usuarioId, idComentario);
-  }
 }

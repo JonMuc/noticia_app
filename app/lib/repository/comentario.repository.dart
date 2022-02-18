@@ -35,19 +35,23 @@ class ComentarioRepository {
     return responseModel.Sucesso;
   }
 
-  Future curtirComentario(int idUsuario, int idComentario, int tipo) async {
+  Future curtirComentario(int idComentario, int tipo) async {
     var url = "${Settings.apiUrl}/avaliacao/comentario";
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
     Dio dio = new Dio();
-    //print(Settings.apiUrl);
-    var request = {
+    dio.options.headers['token'] = usuarioModel.Token;
 
-      "IdUsuario": idUsuario,
+    var request = {
       "IdComentario": idComentario,
       "TipoAvaliacao": tipo
     };
+
     Response response = await dio.post(url, data: request);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
   }
+
+
   Future excluirAvaliacaoComentario(int idUsuario, int idComentario) async {
     var url = "${Settings.apiUrl}/avaliacao/excluir-avaliacao-comentario";
     Dio dio = new Dio();

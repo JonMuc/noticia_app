@@ -85,7 +85,7 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: 30),
-                child: urlFoto == "" ? CircleAvatar(
+                child: urlFoto == "" || urlFoto == null ? CircleAvatar(
                   radius: 70.0,
                   backgroundImage: AssetImage("assets/user.png"),
                 ) : ClipOval(
