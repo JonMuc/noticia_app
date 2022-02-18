@@ -29,47 +29,38 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
             child: Column(
               children: [
                 new Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
                       margin: EdgeInsets.all(20),
-                      // margin: EdgeInsets.only(left: 10, right: 10),
-                      child:  Align(
+                      child: Align(
                         child: CircleAvatar(
-                          radius: 50.0,
-                              // backgroundImage: this.usuario != null && this.usuario.Foto != null ? AssetImage(this.usuario.Foto) : AssetImage("assets/user.png")
-                          backgroundImage: this.usuario.Foto == null || this.usuario.Foto == "" ? AssetImage("assets/user.png") : NetworkImage(this.usuario.Foto),
+                            radius: 50.0,
+                            backgroundImage: this.usuario != null && this.usuario.Foto != null ? NetworkImage(this.usuario.Foto) : AssetImage("assets/user.png")
                         ),
                       ),
                     ),
-                    // Align(
-                    //   child: CircleAvatar(
-                    //     radius: 50.0,
-                    //     backgroundImage: this.usuario != null && this.usuario.Foto != null ? NetworkImage(this.usuario.Foto,) : AssetImage("assets/user.png")
-                    //   ),
-                    // ),
-                    this.usuario.PerfilLinkedin == null || this.usuario.PerfilLinkedin == "" ? Container() :
+                    this.usuario != null && this.usuario.PerfilLinkedin != null && this.usuario.PerfilLinkedin != "" ?
                     Container(
                         margin: EdgeInsets.only(left: 5, right: 5),
                         child: Column(
                           children: [
                             IconButton(onPressed: () {
                               launch("https://www.linkedin.com/in/${this.usuario.PerfilLinkedin}");
-                             },
+                            },
                               icon: Image.asset("assets/logo_noticias/Linkedin.png"),
                               iconSize: 25,
                             ),
                             Text("Linkedin", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
                           ],
                         )
-                    ),
-                    this.usuario.PerfilInstagram == null || this.usuario.PerfilInstagram == "" ? Container() :
+                    ) : Container(),
+                    this.usuario != null && this.usuario.PerfilInstagram != null && this.usuario.PerfilInstagram != "" ?
                     Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
                       child: Column(
                         children: [
                           IconButton(onPressed: () {
-                            // print(this.usuario.PerfilInstagram);
                             launch("http://www.instagram.com/${this.usuario.PerfilInstagram}");
                           },
                             icon: Image.asset("assets/logo_noticias/Instagram.png"),
@@ -78,8 +69,8 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                           Text("Instagram", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
                         ],
                       ),
-                    ),
-                    this.usuario.PerfilFacebook == null || this.usuario.PerfilFacebook == "" ? Container() :
+                    ) : Container(),
+                    this.usuario != null && this.usuario.PerfilFacebook != null && this.usuario.PerfilFacebook != "" ?
                     Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
                       child: Column(
@@ -93,34 +84,34 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                           Text("Facebook", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
                         ],
                       ),
-                    ),
-                    this.usuario.PerfilTwitter == null || this.usuario.PerfilTwitter == "" ? Container() :
+                    ) : Container(),
+                    this.usuario != null && this.usuario.PerfilTwitter != null && this.usuario.PerfilTwitter != ""?
                     Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
                       child: Column(
                         children: [
                           IconButton(onPressed: () {
                             launch("https://www.twitter.com/${this.usuario.PerfilTwitter}");
-                            },
+                          },
                             icon: Image.asset("assets/logo_noticias/twitter.png"),
                             iconSize: 25,
                           ),
                           Text("Twitter", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
                         ],
                       ),
-                    ),
+                    ) : Container(),
                   ],
                 ),
                 new Row(
                   children: [
                     Container(
-                      child: Text(this.usuario.Nome == null ? "Null" : this.usuario.Nome, style:
+                        child: Text(this.usuario != null && this.usuario.Nome != null ? this.usuario.Nome : "name Null", style:
                         TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold
                         ),
-                      ),
-                      margin: EdgeInsets.only(left: 15)
+                        ),
+                        margin: EdgeInsets.only(left: 15)
                     ),
                   ],
                 ),
@@ -157,10 +148,10 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                   children: [
                     Container(
                       margin: EdgeInsets.all(20),
-                      child: Text(this.usuario.Descricao == null ? "Usuario sem descricao " : this.usuario.Descricao, style:
-                        TextStyle(
+                      child: Text(this.usuario != null && this.usuario.Descricao != null ? this.usuario.Descricao : "Descricao null", style:
+                      TextStyle(
                           color: Colors.black.withOpacity(0.6)
-                        ),
+                      ),
                       ),
                     ),
                   ],

@@ -48,8 +48,8 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                 child: GestureDetector(
                   onTap: () {
                     salvarEdicao(context);
-                      Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => PerfilUsuarioPage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PerfilUsuarioPage()));
                   },
                   child: Icon(
                     Icons.check,
@@ -74,12 +74,18 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                       Column(
                         children: [
                           Container(
-                            child: CircleAvatar(
-                                radius: 50.0,
-                                backgroundImage: this.usuario.Foto == null || this.usuario.Foto == "" ? AssetImage("assets/user.png") : AssetImage(this.usuario.Foto),
+                            margin: EdgeInsets.all(20),
+                            child: Align(
+                              child: CircleAvatar(
+                                  radius: 50.0,
+                                  backgroundImage: this.usuario != null && this.usuario.Foto != null ? NetworkImage(this.usuario.Foto) : AssetImage("assets/user.png")
+                              ),
                             ),
                           ),
-                          Text("Alterar foto de perfil", style: TextStyle(color: Colors.blue.withOpacity(0.7)))
+                          TextButton(onPressed: (){
+                            selecionarFoto(context);
+                          }, child:
+                          Text("Alterar foto de perfil", style: TextStyle(color: Colors.blue.withOpacity(0.7))))
                         ],
                       ),
                     ],
@@ -91,18 +97,18 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
                   ),
                   TextField(
                     decoration: InputDecoration(
-                      labelText: "Nome de Usuario"),
-                  controller: nomeUsuarioController,
+                        labelText: "Nome de Usuario"),
+                    controller: nomeUsuarioController,
                   ),
                   TextField(
-                    decoration: InputDecoration(
-                      labelText: "E-mail",),
-                    controller: emailController
+                      decoration: InputDecoration(
+                        labelText: "E-mail",),
+                      controller: emailController
                   ),
                   TextField(
-                    decoration: InputDecoration(
-                      labelText: "Bio",),
-                    controller: descricaoController
+                      decoration: InputDecoration(
+                        labelText: "Bio",),
+                      controller: descricaoController
                   ),
                   Column(
                     children: [
@@ -198,14 +204,14 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
             children: <Widget>[
               ListTile(
                 leading: new Icon(Icons.camera),
-                title: new Text('Teste 1'),
+                title: new Text('Camera'),
                 onTap: () {
                   // getImageCamera();
                 },
               ),
               ListTile(
                 leading: new Icon(Icons.photo),
-                title: new Text('teste 2'),
+                title: new Text('Galeria'),
                 onTap: (){
                 },
               ),
@@ -218,7 +224,7 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
     print('salvar edicao');
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     this.usuario.Nome = nomeController.text;
-    this.usuario.NomeUsuario = nomeUsuarioController.text;
+    // this.usuario.NomeUsuario = nomeUsuarioController.text;
     this.usuario.Descricao = descricaoController.text;
     this.usuario.Email = emailController.text;
     this.usuario.PerfilLinkedin = linkedinController.text;
@@ -226,8 +232,6 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
     this.usuario.PerfilTwitter = twitterController.text;
     this.usuario.PerfilFacebook = facebookController.text;
     var response = await service.atualizarUsuario(this.usuario);
-    print(this.usuario.NomeUsuario);
-    print(this.usuario.Nome);
   }
 
   obterUsuario()  async{
@@ -236,7 +240,7 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
     setState(() {
       this.usuario = value;
       nomeController = new TextEditingController(text: this.usuario.Nome);
-      nomeUsuarioController = new TextEditingController(text: this.usuario.NomeUsuario);
+      // nomeUsuarioController = new TextEditingController(text: this.usuario.NomeUsuario);
       emailController = new TextEditingController(text: this.usuario.Email);
       descricaoController = new TextEditingController(text: this.usuario.Descricao);
       twitterController = new TextEditingController(text: this.usuario.PerfilTwitter);
