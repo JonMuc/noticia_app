@@ -3,7 +3,7 @@ import 'package:app_noticia/views/widgets/menu-usuario.widget.dart';
 import 'package:app_noticia/views/widgets/modal.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+// import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class HomePage extends StatefulWidget {
 

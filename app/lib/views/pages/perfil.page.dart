@@ -38,7 +38,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                         child: CircleAvatar(
                           radius: 50.0,
                               // backgroundImage: this.usuario != null && this.usuario.Foto != null ? AssetImage(this.usuario.Foto) : AssetImage("assets/user.png")
-                          backgroundImage: this.usuario.Foto == null || this.usuario.Foto == "" ? AssetImage("assets/user.png") : AssetImage(this.usuario.Foto),
+                          backgroundImage: this.usuario.Foto == null || this.usuario.Foto == "" ? AssetImage("assets/user.png") : NetworkImage(this.usuario.Foto),
                         ),
                       ),
                     ),
