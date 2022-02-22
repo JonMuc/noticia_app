@@ -224,7 +224,7 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
     print('salvar edicao');
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     this.usuario.Nome = nomeController.text;
-    // this.usuario.NomeUsuario = nomeUsuarioController.text;
+    this.usuario.NomeUsuario = nomeUsuarioController.text;
     this.usuario.Descricao = descricaoController.text;
     this.usuario.Email = emailController.text;
     this.usuario.PerfilLinkedin = linkedinController.text;
@@ -240,7 +240,7 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
     setState(() {
       this.usuario = value;
       nomeController = new TextEditingController(text: this.usuario.Nome);
-      // nomeUsuarioController = new TextEditingController(text: this.usuario.NomeUsuario);
+      nomeUsuarioController = new TextEditingController(text: this.usuario.NomeUsuario);
       emailController = new TextEditingController(text: this.usuario.Email);
       descricaoController = new TextEditingController(text: this.usuario.Descricao);
       twitterController = new TextEditingController(text: this.usuario.PerfilTwitter);
@@ -249,5 +249,4 @@ class _EditarPerfilPage extends State<EditarPerfilPage> with SingleTickerProvide
       linkedinController = new TextEditingController(text: this.usuario.PerfilLinkedin);
     });
   }
-
 }
