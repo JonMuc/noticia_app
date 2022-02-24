@@ -172,6 +172,8 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                     onPressed: () async {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => EditarPerfilPage()));
+                      print(this.usuario.Nome);
+                      print(this.usuario.NomeUsuario);
                     },
                     child: Text(
                       "Editar Perfil",

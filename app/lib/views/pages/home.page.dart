@@ -1,6 +1,9 @@
 import 'package:app_noticia/views/widgets/lista-manchetes.widget.dart';
 import 'package:app_noticia/views/widgets/menu-usuario.widget.dart';
 import 'package:app_noticia/views/widgets/modal.widget.dart';
+import 'package:app_noticia/views/widgets/buscar-usuario.widget.dart';
+import 'package:app_noticia/views/widgets/navigationItem-home3.dart';
+import 'package:app_noticia/views/widgets/navigationItem-home4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -15,7 +18,14 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   // UsuarioModel usuarioLogado;
   ScrollController _scrollViewController;
   TabController _tabController;
-
+  int currentIndex = 0;
+  final List<Widget> _telas = [
+    // MenuInferiorWidget(),
+    ListaManchetesWidget(),
+    BuscarUsuarioWidget(),
+    NavigationItemHome3(),
+    NavigationItemHome4(),
+  ];
   @override
   void initState() {
     // usuarioLogado = null;
@@ -44,7 +54,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       endDrawer: new MenuUsuario(),
       drawer: new ModalWidget(),
@@ -86,17 +95,12 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
             ),
           ];
         },
-        body: new TabBarView(
-          children: <Widget>[
-            new ListaManchetesWidget(),
-            new ListaManchetesWidget(),
-          ],
-          controller: _tabController,
-        ),
+        body: _telas[currentIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        onTap: onTabTapped,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -122,5 +126,10 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
         selectedItemColor: Colors.white,
       ),
     );
+  }
+  void onTabTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
   }
 }

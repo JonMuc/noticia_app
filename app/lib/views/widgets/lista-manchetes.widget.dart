@@ -58,8 +58,6 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
     );
   }
 
-
-
   void listar(BuildContext context) async {
     NoticiaService service = Provider.of<NoticiaService>(context, listen: false);
     var listarResponse = await service.obterManchetes();
