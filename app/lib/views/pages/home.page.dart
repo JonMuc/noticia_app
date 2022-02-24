@@ -20,7 +20,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   TabController _tabController;
   int currentIndex = 0;
   final List<Widget> _telas = [
-    // MenuInferiorWidget(),
     ListaManchetesWidget(),
     BuscarUsuarioWidget(),
     NavigationItemHome3(),

@@ -5,10 +5,8 @@ class BuscarUsuarioWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) => Scaffold(
     body: Column(
-
       children: [
         Row(
-
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
