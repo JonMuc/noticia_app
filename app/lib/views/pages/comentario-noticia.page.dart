@@ -1,5 +1,4 @@
 import 'package:app_noticia/models/comentario-view.model.dart';
-import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/models/view-noticia.model.dart';
 import 'package:app_noticia/services/avaliacao.service.dart';
 import 'package:app_noticia/services/comentario.service.dart';
@@ -10,20 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-class
-TelaComentarioNoticia extends StatefulWidget {
+class TelaComentarioNoticia extends StatefulWidget {
   final ViewNoticiaModel noticiaModel;
   TelaComentarioNoticia({@required this.noticiaModel});
 
   @override
   _TelaComentarioNoticia createState() => _TelaComentarioNoticia();
 }
+
 class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
   List<ComentarioViewModel> listaDeComentarios = List.empty();
   final comentarioService = new ComentarioService();
   final usuarioService = new UsuarioService();
   final TextEditingController commentController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  ComentarioViewModel respostaComentario;
 
 
   @override
@@ -54,12 +54,23 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
           child: Row(
             children: [
               Expanded(child: TextField(
+                maxLines: 20,
+                minLines: 1,
                 controller: commentController,
                 decoration: InputDecoration(
                   // border: OutlineInputBorder(),
-                  hintText: 'Digite um comentario',
+                  hintText: respostaComentario == null ? 'Digite um comentario' : 'Responder ' + respostaComentario.Nome,
                 ),
               )),
+              respostaComentario == null ? SizedBox() : GestureDetector(
+                onTap: () {
+                  cancelarResposta();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: 15),
+                  child: Icon(Icons.clear),
+                ),
+              ),
               Container(
                 margin: EdgeInsets.only(right: 8),
                 child: GestureDetector(
@@ -133,7 +144,7 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
               children: [
                 for(ComentarioViewModel come in listaDeComentarios) Container(
                   child: Center(
-                      child: WidgetComentarioNoticia(comentarioViewModel: come, atualizarComentarios: listarComentarios,)
+                      child: WidgetComentarioNoticia(comentarioViewModel: come, atualizarComentarios: listarComentarios, responderComentario: responderComentario, msgNaoLogado: alertaNaoLogado,)
                   ),
                 )
               ],
@@ -144,9 +155,17 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
     );
   }
 
+  cancelarResposta() {
+    ComentarioService comentarioService = Provider.of<ComentarioService>(context, listen: false);
+    comentarioService.responderComentarioModel = null;
+    setState(() {
+      respostaComentario = null;
+    });
+    commentController.clear();
+  }
+
   avaliar(int tipoAvaliar) async {
-    UsuarioService service =
-    Provider.of<UsuarioService>(context, listen: false);
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var user = await service.obterUsuarioLogado();
     if (user == null) {
       final snackbar = SnackBar(
@@ -223,12 +242,21 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
     });
   }
 
+  void responderComentario() async {
+    ComentarioService comentarioService = Provider.of<ComentarioService>(context, listen: false);
+    setState(() {
+      respostaComentario = comentarioService.responderComentarioModel;
+    });
+  }
+
   Future fazerComentario() async {
     var user = await usuarioService.obterUsuarioLogado();
     if(commentController.text.isNotEmpty){
       if(user != null){
-        var flagComentou = await comentarioService.fazerComentario(commentController.text, widget.noticiaModel.IdNoticia);
+        ComentarioService _comentarioService = Provider.of<ComentarioService>(context, listen: false);
+        var flagComentou = await _comentarioService.fazerComentario(commentController.text, widget.noticiaModel.IdNoticia);
         if(flagComentou){
+          cancelarResposta();
           commentController.clear();
           FocusManager.instance.primaryFocus?.unfocus();
           listarComentarios();

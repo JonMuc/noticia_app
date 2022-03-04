@@ -1,4 +1,5 @@
 import 'package:app_noticia/services/avaliacao.service.dart';
+import 'package:app_noticia/services/comentario.service.dart';
 import 'package:app_noticia/services/noticia.service.dart';
 import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<NoticiaService>.value(value: NoticiaService()),
         ChangeNotifierProvider<UsuarioService>.value(value: UsuarioService()),
         ChangeNotifierProvider<AvaliacaoService>.value(value: AvaliacaoService()),
+        ChangeNotifierProvider<ComentarioService>.value(value: ComentarioService()),
       ],
       child: Main(),
     );

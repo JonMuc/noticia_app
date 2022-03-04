@@ -35,7 +35,6 @@ class UsuarioService extends ChangeNotifier {
           var multipartFile = new http.MultipartFile('image', stream, length,
               filename: basename(imageFile.path));
           response.Foto = await usuarioRepository.salvarFotoUser(multipartFile, response.Id);
-          print(response.Foto);
         }
 
         this.usuarioModel = response;
@@ -60,7 +59,6 @@ class UsuarioService extends ChangeNotifier {
 
   Future<bool> verificarUsuarioLogado() async {
       SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      print(sharedPreferences.get("usuario"));
       if(sharedPreferences.containsKey("usuario")){
         return true;
       }
@@ -68,8 +66,6 @@ class UsuarioService extends ChangeNotifier {
   }
 
   Future atualizarUsuario(UsuarioModel model) async {
-    print(this.usuarioModel.NomeUsuario);
-    print(this.usuarioModel.Nome);
     var response = await usuarioRepository.atualizarUsuario(model);
   }
 

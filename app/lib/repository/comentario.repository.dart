@@ -24,6 +24,22 @@ class ComentarioRepository {
     return responseModel.Sucesso;
   }
 
+  Future<bool> salvarSubComentario(String mensagem, int idNoticia, int idComentario) async {
+    var data =  {
+      "Mensagem": mensagem.toString(),
+      "IdNoticia": idNoticia,
+      "IdComentario": idComentario,
+    };
+    var url = "${Settings.apiUrl}/comentario/comentar-comentario";
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
+    Dio dio = new Dio();
+    dio.options.headers['token'] = usuarioModel.Token;
+    Response response = await dio.post(url, data: data);
+    ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    return responseModel.Sucesso;
+  }
+
   Future<bool> excluirComentario(int idComentario) async {
     var url = "${Settings.apiUrl}/comentario/excluir-comentario-noticia/" + idComentario.toString();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -35,7 +51,18 @@ class ComentarioRepository {
     return responseModel.Sucesso;
   }
 
-  Future curtirComentario(int idComentario, int tipo) async {
+  Future<bool> excluirSubComentario(int idComentario) async {
+    var url = "${Settings.apiUrl}/comentario/excluir-comentario-noticia/" + idComentario.toString();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
+    Dio dio = new Dio();
+    dio.options.headers['token'] = usuarioModel.Token;
+    Response response = await dio.get(url);
+    ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    return responseModel.Sucesso;
+  }
+
+  Future<bool> curtirComentario(int idComentario, int tipo) async {
     var url = "${Settings.apiUrl}/avaliacao/comentario";
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
@@ -49,6 +76,7 @@ class ComentarioRepository {
 
     Response response = await dio.post(url, data: request);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    return responseModel.Sucesso;
   }
 
 
@@ -105,4 +133,23 @@ class ComentarioRepository {
     return (responseModel.Objeto as List).map((comentario) => ComentarioViewModel.fromJson(comentario)).toList();
   }
 
+
+  Future<List<ComentarioViewModel>> listarSubComentario(int idComentario) async {
+    var url = "${Settings.apiUrl}/comentario/obter-comentarios-de-comentario/" + idComentario.toString();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
+    Dio dio = new Dio();
+    dio.options.headers['token'] = usuarioModel.Token;
+    Response response = await dio.get(url);
+    ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    return (responseModel.Objeto as List).map((comentario) => ComentarioViewModel.fromJson(comentario)).toList();
+  }
+
+  Future<List<ComentarioViewModel>> listarSubComentarioDeslogado(int idComentario) async {
+    var url = "${Settings.apiUrl}/comentario/obter-comentarios-de-comentario-deslogado/" + idComentario.toString();
+    Dio dio = new Dio();
+    Response response = await dio.get(url);
+    ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    return (responseModel.Objeto as List).map((comentario) => ComentarioViewModel.fromJson(comentario)).toList();
+  }
 }

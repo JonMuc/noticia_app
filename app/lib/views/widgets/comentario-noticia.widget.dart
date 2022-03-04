@@ -3,14 +3,16 @@ import 'package:app_noticia/services/comentario.service.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/widgets/resposta-comentario-noticia.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-enum WhyFarther { harder, smarter, selfStarter, tradingCharter }
 
 class WidgetComentarioNoticia extends StatefulWidget {
   final ComentarioViewModel comentarioViewModel;
   Function() atualizarComentarios;
+  Function() responderComentario;
+  Function() msgNaoLogado;
 
-  WidgetComentarioNoticia({@required this.comentarioViewModel, this.atualizarComentarios});
+  WidgetComentarioNoticia({@required this.comentarioViewModel, this.atualizarComentarios, this.responderComentario, this.msgNaoLogado});
 
   @override
   _WidgetComentarioNoticia createState() => _WidgetComentarioNoticia();
@@ -30,17 +32,18 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
 
   @override
   void initState() {
+    ComentarioService service = Provider.of<ComentarioService>(context, listen: false);
+
+    //evento ao responder
+    service.subComentarioRealizado.on("subComentarioRealizado", null, (ev, context) {
+      listarSubComentariosAoResponder();
+    });
     obterIdUsuario();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.comentarioViewModel.ComentarioAvaliado == 1) {
-      comentarioCurtido = 1;
-    } else if (widget.comentarioViewModel.ComentarioAvaliado == 2) {
-      comentarioCurtido = 2;
-    }
 
     return GestureDetector(
       onDoubleTap: () {
@@ -103,13 +106,11 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    child: Text('ver resposta'),
+                  mostrarRespostaComentario ? Container() : GestureDetector(
+                    child: widget.comentarioViewModel.QuantidadeSubComentario != 0 ?
+                    Text('ver ' + widget.comentarioViewModel.QuantidadeSubComentario.toString() + ' resposta') : Container(),
                     onTap: () {
-                      listarComentarios(context);
-                      mostrarRespostaComentario =
-                          mostrarRespostaComentario ? false : true;
-                      setState(() {});
+                      listarSubComentarios();
                     },
                   ),
                   Row(
@@ -135,7 +136,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                           icon: Icon(
                             Icons.thumb_up_alt,
                             color:
-                            comentarioCurtido == 1 ? Colors.blue : Colors.grey,
+                            widget.comentarioViewModel.ComentarioAvaliado == 1 ? Colors.blue : Colors.grey,
                           ),
                           iconSize: 15.0,
                         ),
@@ -166,7 +167,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                           icon: Icon(
                             Icons.thumb_down_alt,
                             color:
-                            comentarioCurtido == 2 ? Colors.red : Colors.grey,
+                            widget.comentarioViewModel.ComentarioAvaliado == 2 ? Colors.red : Colors.grey,
                             // color: Colors.red,
                           ),
                           iconSize: 15.0,
@@ -177,10 +178,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                   widget.comentarioViewModel.IdUsuario != idUsuarioLogado ? Container(
                     child: IconButton(
                       onPressed: () async {
-                        print('reply');
-                        setState(() {
-                          // mostrarCampoRespostaComentario = mostrarCampoRespostaComentario ? false : true;
-                        });
+                        responderComentario();
                       },
                       icon: Icon(
                         Icons.reply,
@@ -210,43 +208,40 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                 ],
               ),
               mostrarRespostaComentario
-                  ? Container(
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: listaRespostaComentarios.length,
-                        separatorBuilder: (BuildContext context, int index) =>
-                            Divider(
-                          color: Colors.transparent,
-                          height: 0,
+                  ? Column(
+                    children: [
+                      for(ComentarioViewModel item in listaRespostaComentarios) RespostaComentarioNoticiaWidget(comentarioViewModel: item, atualizarComentarios: listarSubComentarios, msgNaoLogado: msgErroUser),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 20),
+                        alignment: Alignment.centerLeft,
+                        child: GestureDetector(
+                          child: Text('ocultar resposta'),
+                          onTap: () {
+                            setState(() {
+                              mostrarRespostaComentario = false;
+                            });
+                          },
                         ),
-                        itemBuilder: (BuildContext context, int index) {
-                          listarComentarios(context);
-                          final ComentarioViewModel comentarioViewModel =
-                              listaRespostaComentarios[index];
-                          return Center(
-                              child: WidgetRespostaComentarioNoticia(
-                                  comentarioViewModel: comentarioViewModel));
-                        },
                       ),
-                    )
+                    ],
+              )
                   : Container(),
-              mostrarCampoRespostaComentario
-                  ? Container(
-                      child: SizedBox(
-                      width: 250,
-                      child: TextField(),
-                    ))
-                  : Container()
             ],
           )),
     );
   }
 
+  msgErroUser() {
+    widget.msgNaoLogado();
+  }
+
   obterIdUsuario() async{
     var user = await usuarioService.obterUsuarioLogado();
-    setState(() {
-      idUsuarioLogado = user.Id;
-    });
+    if(user != null){
+      setState(() {
+        idUsuarioLogado = user.Id;
+      });
+    }
   }
 
 
@@ -257,25 +252,75 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
     }
   }
 
-  void responderComentario() {}
+  void responderComentario() {
+    if(idUsuarioLogado != 0){
+      ComentarioService comentarioService = Provider.of<ComentarioService>(context, listen: false);
+      comentarioService.responderComentarioModel = widget.comentarioViewModel;
+      widget.responderComentario();
+    }else{
+      widget.msgNaoLogado();
+    }
 
+  }
 
-  void listarComentarios(BuildContext context) async {
-    // print('listar comentarios');
-    // var listaRespostaComentarioResponse = await comentarioService.listarComentario();
-    // this.listaRespostaComentarios = listaRespostaComentarioResponse;
-    // setState(() {
-    // });
+  void listarSubComentariosAoResponder() async {
+    ComentarioService comentarioService = Provider.of<ComentarioService>(context, listen: false);
+    var listaSubComentario = await comentarioService.listarSubComentario(widget.comentarioViewModel.IdComentario);
+    setState(() {
+      listaRespostaComentarios = listaSubComentario;
+    });
+  }
+
+  void listarSubComentarios() async {
+    ComentarioService comentarioService = Provider.of<ComentarioService>(context, listen: false);
+    var listaSubComentario = await comentarioService.listarSubComentario(widget.comentarioViewModel.IdComentario);
+    setState(() {
+      listaRespostaComentarios = listaSubComentario;
+      mostrarRespostaComentario = true;
+    });
   }
 
   void likeComentario(BuildContext context, int idComentario) async {
-    var likeComentarioResponse =  await comentarioService.avaliarComentario(idComentario, 1);
-    widget.comentarioViewModel.QuantidadeLike++;
+    if(idUsuarioLogado != 0){
+      var likeComentarioResponse =  await comentarioService.avaliarComentario(idComentario, 1);
+      if(likeComentarioResponse){
+        setState(() {
+          if(widget.comentarioViewModel.ComentarioAvaliado == 1){
+            widget.comentarioViewModel.ComentarioAvaliado = 0;
+            widget.comentarioViewModel.QuantidadeLike--;
+          }else{
+            if(widget.comentarioViewModel.ComentarioAvaliado == 2){
+              widget.comentarioViewModel.QuantidadeDeslike--;
+            }
+            widget.comentarioViewModel.ComentarioAvaliado = 1;
+            widget.comentarioViewModel.QuantidadeLike++;
+          }
+        });
+      }
+    }else{
+      widget.msgNaoLogado();
+    }
   }
 
   void deslikeComentario(BuildContext context, int idComentario) async {
-    var likeComentarioResponse =  await comentarioService.avaliarComentario(idComentario, 2);
-    widget.comentarioViewModel.QuantidadeDeslike++;
+    if(idUsuarioLogado != 0){
+      var likeComentarioResponse =  await comentarioService.avaliarComentario(idComentario, 2);
+      if(likeComentarioResponse){
+        setState(() {
+          if(widget.comentarioViewModel.ComentarioAvaliado == 2){
+            widget.comentarioViewModel.ComentarioAvaliado = 0;
+            widget.comentarioViewModel.QuantidadeDeslike--;
+          }else{
+            if(widget.comentarioViewModel.ComentarioAvaliado == 1){
+              widget.comentarioViewModel.QuantidadeLike--;
+            }
+            widget.comentarioViewModel.ComentarioAvaliado = 2;
+            widget.comentarioViewModel.QuantidadeDeslike++;
+          }
+        });
+      }
+    }else{
+      widget.msgNaoLogado();
+    }
   }
-
 }

@@ -1,5 +1,7 @@
 class ComentarioViewModel{
+  int Id;
   int IdComentario;
+  int QuantidadeSubComentario;
   int IdUsuario;
   String Mensagem;
   String Nome;
@@ -11,11 +13,12 @@ class ComentarioViewModel{
   int QuantidadeDeslike;
 
 
-  ComentarioViewModel.t(
-      this.IdComentario, this.IdUsuario, this.Mensagem, this.Nome);
+  ComentarioViewModel.t( this.IdComentario, this.IdUsuario, this.Mensagem, this.Nome);
 
   ComentarioViewModel.fromJson(Map<String, dynamic> json) {
+    Id = json['Id'];
     IdComentario = json['IdComentario'];
+    QuantidadeSubComentario = json['QuantidadeSubComentario'];
     IdUsuario = json['IdUsuario'];
     Mensagem = json['Mensagem'];
     Nome = json['Nome'];
@@ -29,6 +32,8 @@ class ComentarioViewModel{
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Id'] = this.Id;
+    data['QuantidadeSubComentario'] = this.QuantidadeSubComentario;
     data['IdComentario'] = this.IdComentario;
     data['IdUsuario'] = this.IdUsuario;
     data['Mensagem'] = this.Mensagem;
