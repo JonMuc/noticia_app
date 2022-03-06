@@ -34,7 +34,7 @@ class UsuarioRepository {
     try{
       var url = "${Settings.apiUrl}/usuario/criar-usuario-step";
       Dio dio = new Dio();
-       Response response = await dio.post(url, data: jsonEncode(criarContaModel));
+      Response response = await dio.post(url, data: jsonEncode(criarContaModel));
       ResponseModel responseModel = ResponseModel.fromJson(response.data);
       return UsuarioModel.fromJson(responseModel.Objeto);
     } catch (e) {
@@ -53,6 +53,16 @@ class UsuarioRepository {
       return ResponseModel.fromJson(e.response.data);
     }
   }
+
+  Future <List<UsuarioModel>> buscarUsuario(String nomeUsuario) async {
+    var url = "${Settings.apiUrl}/usuario/buscar-usuario/" + nomeUsuario.toString();
+    Dio dio = new Dio();
+    Response response = await dio.get(url);
+    ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    print(responseModel.Sucesso);
+    return (responseModel.Objeto as List).map((usuario) => UsuarioModel.fromJson(usuario)).toList();
+  }
+
 
   Future<String> salvarFotoUser(dynamic multipartFile, int idUsuario) async {
     var url = "${Settings.apiUrl}/usuario/enviar-foto/" + idUsuario.toString();

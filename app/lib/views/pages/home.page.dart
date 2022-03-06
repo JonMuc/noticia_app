@@ -46,11 +46,6 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  // startTime() async {
-  //   NoticiaService service = Provider.of<NoticiaService>(context, listen: false);
-  //   var asd = service.obterManchetes();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +62,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
                     icon: Icon(Icons.person),
                     onPressed: () => Scaffold.of(context).openEndDrawer(),
                     tooltip:
-                        MaterialLocalizations.of(context).openAppDrawerTooltip,
+                    MaterialLocalizations.of(context).openAppDrawerTooltip,
                   ),
                 ),
               ],

@@ -25,7 +25,6 @@ class UsuarioService extends ChangeNotifier {
 
   Future criarUsuario(CriarContaModel criarContaModel) async{
     try{
-
       var response = await this.usuarioRepository.criarUsuario(criarContaModel);
       if(response is UsuarioModel){
         if(criarContaModel.UrlFoto != ""){
@@ -35,10 +34,9 @@ class UsuarioService extends ChangeNotifier {
           var multipartFile = new http.MultipartFile('image', stream, length,
               filename: basename(imageFile.path));
           response.Foto = await usuarioRepository.salvarFotoUser(multipartFile, response.Id);
+          print(response.Foto);
         }
-
         this.usuarioModel = response;
-
         await fazerLogin(new UsuarioLoginModel(response.Email, criarContaModel.Senha));
         //ADICIONANDO USUARIO
         // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -58,15 +56,22 @@ class UsuarioService extends ChangeNotifier {
   }
 
   Future<bool> verificarUsuarioLogado() async {
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      if(sharedPreferences.containsKey("usuario")){
-        return true;
-      }
-      return false;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    print(sharedPreferences.get("usuario"));
+    if(sharedPreferences.containsKey("usuario")){
+      return true;
+    }
+    return false;
   }
 
   Future atualizarUsuario(UsuarioModel model) async {
     var response = await usuarioRepository.atualizarUsuario(model);
+  }
+
+  Future <List<UsuarioModel>> buscarUsuario(String nomeUsuario) async {
+    var response = await usuarioRepository.buscarUsuario(nomeUsuario);
+    print(response.length);
+    return response;
   }
 
   Future<UsuarioModel> obterUsuarioLogado() async {
