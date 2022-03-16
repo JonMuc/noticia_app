@@ -8,11 +8,12 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PerfilUsuarioPage extends StatefulWidget {
-
   @override
   _PerfilUsuarioPage createState() => _PerfilUsuarioPage();
 }
-class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProviderStateMixin {
+
+class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
+    with SingleTickerProviderStateMixin {
   UsuarioModel usuario;
 
   @override
@@ -22,7 +23,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
             color: ThemeApp.backGround,
@@ -36,122 +37,164 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                       child: Align(
                         child: CircleAvatar(
                             radius: 50.0,
-                            backgroundImage: this.usuario != null && this.usuario.Foto != null ? NetworkImage(this.usuario.Foto) : AssetImage("assets/user.png")
-                        ),
+                            backgroundImage: this.usuario != null &&
+                                    this.usuario.Foto != null
+                                ? NetworkImage(this.usuario.Foto)
+                                : AssetImage("assets/user.png")),
                       ),
                     ),
-                    this.usuario != null && this.usuario.PerfilLinkedin != null && this.usuario.PerfilLinkedin != "" ?
-                    Container(
-                        margin: EdgeInsets.only(left: 5, right: 5),
-                        child: Column(
-                          children: [
-                            IconButton(onPressed: () {
-                              launch("https://www.linkedin.com/in/${this.usuario.PerfilLinkedin}");
-                            },
-                              icon: Image.asset("assets/logo_noticias/Linkedin.png"),
-                              iconSize: 25,
+                    this.usuario != null &&
+                            this.usuario.PerfilLinkedin != null &&
+                            this.usuario.PerfilLinkedin != ""
+                        ? Container(
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    launch(
+                                        "https://www.linkedin.com/in/${this.usuario.PerfilLinkedin}");
+                                  },
+                                  icon: Image.asset(
+                                      "assets/logo_noticias/Linkedin.png"),
+                                  iconSize: 25,
+                                ),
+                                Text("Linkedin",
+                                    style: TextStyle(
+                                        color: Colors.blue.withOpacity(0.9),
+                                        fontSize: 12)),
+                              ],
+                            ))
+                        : Container(),
+                    this.usuario != null &&
+                            this.usuario.PerfilInstagram != null &&
+                            this.usuario.PerfilInstagram != ""
+                        ? Container(
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    launch(
+                                        "http://www.instagram.com/${this.usuario.PerfilInstagram}");
+                                  },
+                                  icon: Image.asset(
+                                      "assets/logo_noticias/Instagram.png"),
+                                  iconSize: 25,
+                                ),
+                                Text("Instagram",
+                                    style: TextStyle(
+                                        color: Colors.blue.withOpacity(0.9),
+                                        fontSize: 12)),
+                              ],
                             ),
-                            Text("Linkedin", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
-                          ],
-                        )
-                    ) : Container(),
-                    this.usuario != null && this.usuario.PerfilInstagram != null && this.usuario.PerfilInstagram != "" ?
-                    Container(
-                      margin: EdgeInsets.only(left: 5, right: 5),
-                      child: Column(
-                        children: [
-                          IconButton(onPressed: () {
-                            launch("http://www.instagram.com/${this.usuario.PerfilInstagram}");
-                          },
-                            icon: Image.asset("assets/logo_noticias/Instagram.png"),
-                            iconSize: 25,
-                          ),
-                          Text("Instagram", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
-                        ],
-                      ),
-                    ) : Container(),
-                    this.usuario != null && this.usuario.PerfilFacebook != null && this.usuario.PerfilFacebook != "" ?
-                    Container(
-                      margin: EdgeInsets.only(left: 5, right: 5),
-                      child: Column(
-                        children: [
-                          IconButton(onPressed: () {
-                            launch("https://www.facebook.com/${this.usuario.PerfilFacebook}");
-                          },
-                            icon: Image.asset("assets/logo_noticias/facebook.png"),
-                            iconSize: 25,
-                          ),
-                          Text("Facebook", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
-                        ],
-                      ),
-                    ) : Container(),
-                    this.usuario != null && this.usuario.PerfilTwitter != null && this.usuario.PerfilTwitter != ""?
-                    Container(
-                      margin: EdgeInsets.only(left: 5, right: 5),
-                      child: Column(
-                        children: [
-                          IconButton(onPressed: () {
-                            launch("https://www.twitter.com/${this.usuario.PerfilTwitter}");
-                          },
-                            icon: Image.asset("assets/logo_noticias/twitter.png"),
-                            iconSize: 25,
-                          ),
-                          Text("Twitter", style: TextStyle(color: Colors.blue.withOpacity(0.9), fontSize: 12)),
-                        ],
-                      ),
-                    ) : Container(),
+                          )
+                        : Container(),
+                    this.usuario != null &&
+                            this.usuario.PerfilFacebook != null &&
+                            this.usuario.PerfilFacebook != ""
+                        ? Container(
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    launch(
+                                        "https://www.facebook.com/${this.usuario.PerfilFacebook}");
+                                  },
+                                  icon: Image.asset(
+                                      "assets/logo_noticias/facebook.png"),
+                                  iconSize: 25,
+                                ),
+                                Text("Facebook",
+                                    style: TextStyle(
+                                        color: Colors.blue.withOpacity(0.9),
+                                        fontSize: 12)),
+                              ],
+                            ),
+                          )
+                        : Container(),
+                    this.usuario != null &&
+                            this.usuario.PerfilTwitter != null &&
+                            this.usuario.PerfilTwitter != ""
+                        ? Container(
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    launch(
+                                        "https://www.twitter.com/${this.usuario.PerfilTwitter}");
+                                  },
+                                  icon: Image.asset(
+                                      "assets/logo_noticias/twitter.png"),
+                                  iconSize: 25,
+                                ),
+                                Text("Twitter",
+                                    style: TextStyle(
+                                        color: Colors.blue.withOpacity(0.9),
+                                        fontSize: 12)),
+                              ],
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
                 new Row(
                   children: [
                     Container(
-                        child: Text(this.usuario != null && this.usuario.Nome != null ? this.usuario.Nome : "name Null", style:
-                        TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold
+                        child: Text(
+                          this.usuario != null && this.usuario.Nome != null
+                              ? this.usuario.Nome
+                              : "name Null",
+                          style: TextStyle(
+                              fontSize: 26, fontWeight: FontWeight.bold),
                         ),
-                        ),
-                        margin: EdgeInsets.only(left: 15)
-                    ),
+                        margin: EdgeInsets.only(left: 15)),
                   ],
                 ),
                 new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RichText(text:
-                    TextSpan(
-                        children: [
-                          TextSpan(
-                              style: TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 12),
-                              text: "@matias.way     "
-                          ),
-                          TextSpan(
-                            style: TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 12,),
-                            text: "99 seguidores     ",
-                            // recognizer: new TapGestureRecognizer()
-                            //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                            //   },
-                          ),
-                          TextSpan(
-                            style: TextStyle(color: Colors.black.withOpacity(0.5), fontSize: 12,),
-                            text: "seguindo 77     ",
-                            // recognizer: new TapGestureRecognizer()
-                            //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                            //   },
-                          )
-                        ]
-                    )
-                    ),
+                    RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                          style: TextStyle(
+                              color: Colors.black.withOpacity(0.5),
+                              fontSize: 12),
+                          text: "@matias.way     "),
+                      TextSpan(
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.5),
+                          fontSize: 12,
+                        ),
+                        text: "99 seguidores     ",
+                        // recognizer: new TapGestureRecognizer()
+                        //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                        //   },
+                      ),
+                      TextSpan(
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.5),
+                          fontSize: 12,
+                        ),
+                        text: "seguindo 77     ",
+                        // recognizer: new TapGestureRecognizer()
+                        //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                        //   },
+                      )
+                    ])),
                   ],
                 ),
                 new Row(
                   children: [
                     Container(
                       margin: EdgeInsets.all(20),
-                      child: Text(this.usuario != null && this.usuario.Descricao != null ? this.usuario.Descricao : "Descricao null", style:
-                      TextStyle(
-                          color: Colors.black.withOpacity(0.6)
-                      ),
+                      child: Text(
+                        this.usuario != null && this.usuario.Descricao != null
+                            ? this.usuario.Descricao
+                            : "Descricao null",
+                        style: TextStyle(color: Colors.black.withOpacity(0.6)),
                       ),
                     ),
                   ],
@@ -164,16 +207,13 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              //side: BorderSide(color: Colors.red)
-                            ))),
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          //side: BorderSide(color: Colors.red)
+                        ))),
                     onPressed: () async {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => EditarPerfilPage()));
-                      print(this.usuario.Nome);
-                      print(this.usuario.NomeUsuario);
+                      abrirEditarPerfil();
                     },
                     child: Text(
                       "Editar Perfil",
@@ -191,14 +231,13 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              //side: BorderSide(color: Colors.red)
-                            ))),
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          //side: BorderSide(color: Colors.red)
+                        ))),
                     onPressed: () async {
                       deslogarUsuario();
-
                     },
                     child: Text(
                       "Sair",
@@ -209,33 +248,46 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage> with SingleTickerProvi
                   ),
                 )
               ],
-            )
-        )
-    );
+            )));
+  }
+
+  abrirEditarPerfil() {
+    Navigator.push(context,
+            MaterialPageRoute(builder: (context) => EditarPerfilPage()))
+        .then((value) => {
+              if (value is UsuarioModel)
+                {
+                  setState(() {
+                    usuario = value;
+                  })
+                }
+            });
   }
 
   var url = 'http://www.youtube.com';
-  Future<void>launchLink(url) async{
-    if(await canLaunch(url)){
+
+  Future<void> launchLink(url) async {
+    if (await canLaunch(url)) {
       await launch(url);
-    }else{
+    } else {
       print('nao pode executar o link $url');
     }
   }
 
-  obterUsuario() async{
-    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+  obterUsuario() async {
+    UsuarioService service =
+        Provider.of<UsuarioService>(context, listen: false);
     var value = await service.obterUsuarioLogado();
     setState(() {
       this.usuario = value;
     });
   }
 
-  deslogarUsuario()  async{
-    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+  deslogarUsuario() async {
+    UsuarioService service =
+        Provider.of<UsuarioService>(context, listen: false);
     await service.limparSecao();
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-        builder: (context) => HomePage()
-    ), (route) => false);
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
   }
 }

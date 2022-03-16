@@ -6,6 +6,7 @@ import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/settings.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class UsuarioRepository {
@@ -44,8 +45,11 @@ class UsuarioRepository {
 
   Future atualizarUsuario(UsuarioModel model) async {
     try{
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
       var url = "${Settings.apiUrl}/usuario/atualizar-usuario";
       Dio dio = new Dio();
+      dio.options.headers['token'] = usuarioModel.Token;
       Response response = await dio.post(url, data: jsonEncode(model));
       ResponseModel responseModel = ResponseModel.fromJson(response.data);
       return UsuarioModel.fromJson(responseModel.Objeto);
@@ -75,4 +79,17 @@ class UsuarioRepository {
     return responseModel.Objeto;
   }
 
+  Future<String> editarFotoUser(dynamic multipartFile) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
+    var url = "${Settings.apiUrl}/usuario/editar-foto";
+    var uri = Uri.parse(url);
+    var request = new http.MultipartRequest("POST", uri);
+    request.headers["token"] = usuarioModel.Token;
+    request.files.add(multipartFile);
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    ResponseModel responseModel = ResponseModel.fromJson(json.decode(response.body));
+    return responseModel.Objeto;
+  }
 }

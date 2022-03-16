@@ -66,6 +66,16 @@ class UsuarioService extends ChangeNotifier {
 
   Future atualizarUsuario(UsuarioModel model) async {
     var response = await usuarioRepository.atualizarUsuario(model);
+    if(response is UsuarioModel){
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString("usuario", jsonEncode(response));
+      return response;
+    }
+  }
+
+  Future atualizarCacheUsuario(UsuarioModel model) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setString("usuario", jsonEncode(model));
   }
 
   Future <List<UsuarioModel>> buscarUsuario(String nomeUsuario) async {
@@ -109,19 +119,15 @@ class UsuarioService extends ChangeNotifier {
     return this.usuarioRepository.salvarFotoUser(multipartFile, idUser);
   }
 
-  Future<bool> alterarFoto(XFile imageFile) async {
-    var stream =
-    new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+  Future<String> alterarFoto(XFile imageFile) async {
+    var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
     var multipartFile = new http.MultipartFile('image', stream, length,
         filename: basename(imageFile.path));
-    // var pathFotoUsuario = await configuracoesRepository.alterarFoto(multipartFile);
-
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.getString("usuario")));
-    // usuarioModel. = pathFotoUsuario;
-    // sharedPreferences.remove("usuario");
-    // sharedPreferences.setString("usuario", jsonEncode(usuarioModel));
-    return true;
+    var url = await this.usuarioRepository.editarFotoUser(multipartFile);
+    var user = await obterUsuarioLogado();
+    user.Foto = url;
+    await atualizarUsuario(user);
+    return url;
   }
 }
