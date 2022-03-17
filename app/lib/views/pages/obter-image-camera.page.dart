@@ -104,7 +104,7 @@ class _ObterImagemCameraPage extends State<ObterImagemCameraPage> {
     ]);
   }
   _cropImage(filePath) async {
-    File croppedImage = await ImageCropper.cropImage(
+    File croppedImage = await ImageCropper().cropImage(
         sourcePath: filePath,
         maxWidth: 1080,
         maxHeight: 1080,
