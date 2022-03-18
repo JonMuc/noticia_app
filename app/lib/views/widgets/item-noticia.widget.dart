@@ -2,8 +2,10 @@ import 'package:app_noticia/models/view-noticia.model.dart';
 import 'package:app_noticia/services/avaliacao.service.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/pages/comentario-noticia.page.dart';
+import 'package:app_noticia/views/widgets/abrindo-link-noticia.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItemNoticiaWidget extends StatefulWidget {
   ViewNoticiaModel noticiaModel;
@@ -75,58 +77,63 @@ class _ItemNoticiaWidget extends State<ItemNoticiaWidget> {
                           )
                         ],
                       ),
-                      Stack(
-                        children: [
-                          ClipRRect(
-                              child: Stack(children: <Widget>[
-                            Container(
-                              foregroundDecoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.black,
-                                    Colors.transparent,
-                                    Colors.transparent,
-                                    Colors.black
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  stops: [0, 0, 0.6, 1],
-                                ),
-                              ),
-                              child: Image.network(
-                                widget.noticiaModel.UrlImage,
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          ])),
-                          Positioned(
-                              bottom: 10,
-                              left: 10,
-                              child: Container(
-                                padding: EdgeInsets.all(3),
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                child: Text(
-                                  widget.noticiaModel.Titulo.toString(),
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      shadows: [
-                                        Shadow(
-                                          offset: Offset(0.5, 0.5),
-                                          blurRadius: 10.0,
-                                          color: Colors.black,
-                                          // color: Color.fromARGB(50, 0, 0, 255),
-                                        ),
-                                        Shadow(
-                                          blurRadius: 10.0,
-                                          color: Colors.black,
-                                          offset: Offset(0.5, 0.5),
-                                        ),
-                                      ]),
-                                ),
-                              )),
-                        ],
+                      GestureDetector(
+                        onTap: () {
+                          encaminharUrl();
+                        },
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                                child: Stack(children: <Widget>[
+                                  Container(
+                                    foregroundDecoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.black,
+                                          Colors.transparent,
+                                          Colors.transparent,
+                                          Colors.black
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        stops: [0, 0, 0.6, 1],
+                                      ),
+                                    ),
+                                    child: Image.network(
+                                      widget.noticiaModel.UrlImage,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                ])),
+                            Positioned(
+                                bottom: 10,
+                                left: 10,
+                                child: Container(
+                                  padding: EdgeInsets.all(3),
+                                  width: MediaQuery.of(context).size.width * 0.9,
+                                  child: Text(
+                                    widget.noticiaModel.Titulo.toString(),
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        shadows: [
+                                          Shadow(
+                                            offset: Offset(0.5, 0.5),
+                                            blurRadius: 10.0,
+                                            color: Colors.black,
+                                            // color: Color.fromARGB(50, 0, 0, 255),
+                                          ),
+                                          Shadow(
+                                            blurRadius: 10.0,
+                                            color: Colors.black,
+                                            offset: Offset(0.5, 0.5),
+                                          ),
+                                        ]),
+                                  ),
+                                )),
+                          ],
+                        ),
                       ),
                       Container(
                         height: 40,
@@ -183,6 +190,14 @@ class _ItemNoticiaWidget extends State<ItemNoticiaWidget> {
         ),
       ),
     );
+  }
+
+  encaminharUrl() async{
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new AbrindoLinkNoticiaWidget(noticiaModel: widget.noticiaModel,)));
+    //await launch(widget.noticiaModel.Link, universalLinksOnly: true);
   }
 
   avaliar(int tipoAvaliar) async {

@@ -18,7 +18,7 @@ dependencies:
   eventify: ^1.0.0
   # google_sign_in: any
   http: any
-  url_launcher: ^6.0.18
+  url_launcher: ^6.0.20
   email_validator: ^2.0.1
   camera: ^0.9.4+16
   shared_preferences: ^2.0.13
@@ -29,6 +29,7 @@ dependencies:
   permission_handler: ^9.1.0
   image_cropper: ^1.4.0
   path_provider: ^2.0.1
+  webview_flutter: ^3.0.1
 
 
 flutter_icons:
