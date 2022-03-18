@@ -28,6 +28,7 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
     with SingleTickerProviderStateMixin {
   TextEditingController nomeController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController nomeUsuarioController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
   TextEditingController confirmarSenhaController = TextEditingController();
   CriarContaModel model;
@@ -110,6 +111,26 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
                 validator: _validarNome,
                 onSaved: (String val) {
                   nome = val;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10, left: 20, right: 20),
+              child: TextFormField(
+                controller: nomeUsuarioController,
+                decoration: new InputDecoration(
+                    isDense: true,
+                    contentPadding: new EdgeInsets.fromLTRB(15, 30, 10, 0),
+                    labelText: "Nome Usuario",
+                    fillColor: ThemeApp.input,
+                    filled: true,
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(9.0),
+                    )),
+                keyboardType: TextInputType.emailAddress,
+                validator: _validarEmail,
+                onSaved: (String val) {
+                  email = val;
                 },
               ),
             ),
@@ -441,7 +462,8 @@ class _TelaCadastroUsuario extends State<TelaCadastroUsuario>
         emailController.text,
         senhaController.text,
         confirmarSenhaController.text,
-        urlFoto
+        urlFoto,
+        nomeUsuarioController.text
     );
     var response = await service.criarUsuario(usuarioModel);
 
