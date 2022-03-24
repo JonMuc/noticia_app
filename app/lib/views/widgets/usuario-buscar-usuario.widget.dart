@@ -54,7 +54,7 @@ class _UsuarioBuscarUsuarioWidget extends State<UsuarioBuscarUsuarioWidget> {
                             ..onTap = () {
                             print("abre tela");
                               Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => PerfilVisitantePage(usuarioModel: widget.usuarioModel)),
+                                MaterialPageRoute(builder: (context) => PerfilVisitantePage(idUsuario: widget.usuarioModel.Id)),
                               );
                             }
                         )),

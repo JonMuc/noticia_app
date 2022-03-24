@@ -2,8 +2,12 @@ import 'package:app_noticia/models/comentario-view.model.dart';
 import 'package:app_noticia/services/comentario.service.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/widgets/resposta-comentario-noticia.widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/usuario.model.dart';
+import '../pages/perfil.visitante.page..dart';
 
 
 class WidgetComentarioNoticia extends StatefulWidget {
@@ -75,11 +79,18 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                       text: TextSpan(
                         children: <TextSpan>[
                           TextSpan(
-                              text: widget.comentarioViewModel.Nome + ": ",
+                              text: widget.comentarioViewModel.Nome + ":: ",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
-                                  color: Colors.black)),
+                                  color: Colors.black),
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = (){
+                                Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => PerfilVisitantePage(idUsuario: widget.comentarioViewModel.IdUsuario)),
+                                );
+                              }
+                          ),
                           TextSpan(
                               text: widget.comentarioViewModel.Mensagem,
                               style:

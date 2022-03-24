@@ -67,6 +67,13 @@ class UsuarioRepository {
     return (responseModel.Objeto as List).map((usuario) => UsuarioModel.fromJson(usuario)).toList();
   }
 
+  Future <UsuarioModel> buscarUsuarioPorId(int idUsuario) async {
+    var url = "${Settings.apiUrl}/usuario/visualizar-usuario/" + idUsuario.toString();
+    Dio dio = new Dio();
+    Response response = await dio.get(url);
+    ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    return UsuarioModel.fromJson(responseModel.Objeto);
+  }
 
   Future<String> salvarFotoUser(dynamic multipartFile, int idUsuario) async {
     var url = "${Settings.apiUrl}/usuario/enviar-foto/" + idUsuario.toString();

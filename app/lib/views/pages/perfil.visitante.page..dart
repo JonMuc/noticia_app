@@ -8,20 +8,23 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PerfilVisitantePage extends StatefulWidget {
-  final UsuarioModel usuarioModel;
-  PerfilVisitantePage({@required this.usuarioModel});
+  final int idUsuario;
+  PerfilVisitantePage({@required this.idUsuario});
   @override
   _PerfilVisitantePage createState() => _PerfilVisitantePage();
 }
 
+
+
 class _PerfilVisitantePage extends State<PerfilVisitantePage>
     with SingleTickerProviderStateMixin {
-
-  // @override
-  // initState() {
-  //   obterUsuario();
-  //   super.initState();
-  // }
+  UsuarioModel usuarioModel;
+  @override
+  void initState() {
+    print("ID PASSOU => " + widget.idUsuario.toString());
+    buscarUsuarioPorId(widget.idUsuario);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +41,15 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                       child: Align(
                         child: CircleAvatar(
                             radius: 50.0,
-                            backgroundImage: widget.usuarioModel.NomeUsuario != null &&
-                                widget.usuarioModel.Foto != null
-                                ? NetworkImage(widget.usuarioModel.Foto)
+                            backgroundImage: this.usuarioModel.NomeUsuario != null &&
+                                this.usuarioModel.Foto != null
+                                ? NetworkImage(this.usuarioModel.Foto)
                                 : AssetImage("assets/user.png")),
                       ),
                     ),
-                  widget.usuarioModel != null &&
-                      widget.usuarioModel.PerfilLinkedin != null &&
-                      widget.usuarioModel.PerfilLinkedin != ""
+                  this.usuarioModel != null &&
+                      this.usuarioModel.PerfilLinkedin != null &&
+                      this.usuarioModel.PerfilLinkedin != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -54,7 +57,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "https://www.linkedin.com/in/${widget.usuarioModel.PerfilLinkedin}");
+                                        "https://www.linkedin.com/in/${this.usuarioModel.PerfilLinkedin}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/Linkedin.png"),
@@ -67,9 +70,9 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                               ],
                             ))
                         : Container(),
-                    widget.usuarioModel != null &&
-                        widget.usuarioModel.PerfilInstagram != null &&
-                        widget.usuarioModel.PerfilInstagram != ""
+                    this.usuarioModel != null &&
+                        this.usuarioModel.PerfilInstagram != null &&
+                        this.usuarioModel.PerfilInstagram != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -77,7 +80,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "http://www.instagram.com/${widget.usuarioModel.PerfilInstagram}");
+                                        "http://www.instagram.com/${this.usuarioModel.PerfilInstagram}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/Instagram.png"),
@@ -91,9 +94,9 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                             ),
                           )
                         : Container(),
-                          widget.usuarioModel != null &&
-                          widget.usuarioModel.PerfilFacebook != null &&
-                          widget.usuarioModel.PerfilFacebook != ""
+                    this.usuarioModel != null &&
+                        this.usuarioModel.PerfilFacebook != null &&
+                        this.usuarioModel.PerfilFacebook != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -101,7 +104,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "https://www.facebook.com/${widget.usuarioModel.PerfilFacebook}");
+                                        "https://www.facebook.com/${this.usuarioModel.PerfilFacebook}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/facebook.png"),
@@ -115,9 +118,9 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                             ),
                           )
                         : Container(),
-                          widget.usuarioModel != null &&
-                          widget.usuarioModel.PerfilTwitter != null &&
-                          widget.usuarioModel.PerfilTwitter != ""
+                        this.usuarioModel != null &&
+                        this.usuarioModel.PerfilTwitter != null &&
+                        this.usuarioModel.PerfilTwitter != ""
                           ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -125,7 +128,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "https://www.twitter.com/${widget.usuarioModel.PerfilTwitter}");
+                                        "https://www.twitter.com/${this.usuarioModel.PerfilTwitter}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/twitter.png"),
@@ -145,8 +148,8 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                   children: [
                     Container(
                         child: Text(
-                          widget.usuarioModel != null && widget.usuarioModel.Nome != null
-                              ? widget.usuarioModel.Nome
+                          this.usuarioModel != null && this.usuarioModel.Nome != null
+                              ? this.usuarioModel.Nome
                               : "name Null",
                           style: TextStyle(
                               fontSize: 26, fontWeight: FontWeight.bold),
@@ -192,8 +195,8 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                     Container(
                       margin: EdgeInsets.all(20),
                       child: Text(
-                        widget.usuarioModel != null && widget.usuarioModel.Descricao != null
-                            ? widget.usuarioModel.Descricao
+                        this.usuarioModel != null && this.usuarioModel.Descricao != null
+                            ? this.usuarioModel.Descricao
                             : "Descricao null",
                         style: TextStyle(color: Colors.black.withOpacity(0.6)),
                       ),
@@ -213,6 +216,16 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
       print('nao pode executar o link $url');
     }
   }
+
+  void buscarUsuarioPorId(int idUsuario) async {
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var user = await service.buscarUsuarioPorId(idUsuario);
+    setState(() {
+      usuarioModel = user;
+    });
+  }
+
+
 
   deslogarUsuario() async {
     UsuarioService service =
