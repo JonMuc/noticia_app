@@ -76,11 +76,17 @@ class UsuarioRepository {
   }
 
     Future seguirUsuario(int idUsuarioSeguido, int idUsuarioSeguidor) async {
-    print("seguir usuario repos");
     var url = "${Settings.apiUrl}/usuario/seguir-usuario/" + idUsuarioSeguido.toString() + "/" + idUsuarioSeguidor.toString();
     Dio dio = new Dio();
     Response response = await dio.post(url);
     print("Seguidor:" + idUsuarioSeguidor.toString() + "  Seguido:" + idUsuarioSeguido.toString());
+  }
+
+  Future deseguirUsuario(int idUsuarioDeseguido, int idUsuarioSeguindo) async {
+    var url = "${Settings.apiUrl}/usuario/deseguir-usuario/" + idUsuarioDeseguido.toString() + "/" + idUsuarioSeguindo.toString();
+    Dio dio = new Dio();
+    Response response = await dio.post(url);
+    print("Deseguido:" + idUsuarioDeseguido.toString() + "  Deseguindo:" + idUsuarioSeguindo.toString());
   }
 
   Future desseguirUsuario(int idUsuarioSeguido, int idUsuarioSeguidor) async {

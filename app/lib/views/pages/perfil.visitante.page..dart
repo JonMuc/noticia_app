@@ -188,19 +188,39 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                         //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                         //   },
                       ),
+                    ])),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                        text: TextSpan(children: [
                           TextSpan(
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
                             ),
-                            text: "seguir usuario     ",
+                            text: "  Seguir usuario     ",
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                              print("seguir usuario " + this.usuarioModel.Id.toString());
-                              seguirUsuario(this.usuarioModel.Id);
+                                print("seguir usuario " + this.usuarioModel.Id.toString());
+                                seguirUsuario(this.usuarioModel.Id);
+                              },
+                          ),
+                          TextSpan(
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                            ),
+                            text: " Deseguir usuario     ",
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () {
+                                print("Deseguir usuario " + this.usuarioModel.Id.toString());
+                                deseguirUsuario(this.usuarioModel.Id);
                               },
                           )
-                    ])),
+                        ])),
                   ],
                 ),
                 new Row(
@@ -233,6 +253,11 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
   void seguirUsuario(int idUsuarioSeguido){
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     service.seguirUsuario(idUsuarioSeguido);
+  }
+
+  void deseguirUsuario(int idUsuarioSeguido){
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    service.deseguirUsuario(idUsuarioSeguido);
   }
 
   void buscarUsuarioPorId(int idUsuario) async {
