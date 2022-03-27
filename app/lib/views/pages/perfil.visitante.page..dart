@@ -3,6 +3,7 @@ import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/pages/editar-perfil.page.dart';
 import 'package:app_noticia/views/pages/home.page.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,7 +22,6 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
   UsuarioModel usuarioModel;
   @override
   void initState() {
-    print("ID PASSOU => " + widget.idUsuario.toString());
     buscarUsuarioPorId(widget.idUsuario);
     super.initState();
   }
@@ -36,6 +36,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                 new Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+                    this.usuarioModel == null ? Container() :
                     Container(
                       margin: EdgeInsets.all(20),
                       child: Align(
@@ -186,7 +187,19 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                         // recognizer: new TapGestureRecognizer()
                         //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                         //   },
-                      )
+                      ),
+                          TextSpan(
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                            ),
+                            text: "seguir usuario     ",
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () {
+                              print("seguir usuario " + this.usuarioModel.Id.toString());
+                              seguirUsuario(this.usuarioModel.Id);
+                              },
+                          )
                     ])),
                   ],
                 ),
@@ -215,6 +228,11 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
     } else {
       print('nao pode executar o link $url');
     }
+  }
+
+  void seguirUsuario(int idUsuarioSeguido){
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    service.seguirUsuario(idUsuarioSeguido);
   }
 
   void buscarUsuarioPorId(int idUsuario) async {

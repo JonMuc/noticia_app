@@ -83,6 +83,12 @@ class UsuarioService extends ChangeNotifier {
     return response;
   }
 
+  void seguirUsuario(int idUsuario) async {
+    var usuarioLogado = new UsuarioModel.d();
+    usuarioLogado = await obterUsuarioLogado();
+    await usuarioRepository.seguirUsuario(idUsuario, usuarioLogado.Id);
+  }
+
   Future <UsuarioModel> buscarUsuarioPorId(int idUsuario) async {
     var response = await usuarioRepository.buscarUsuarioPorId(idUsuario);
     return response;

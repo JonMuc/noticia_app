@@ -143,6 +143,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                         child: IconButton(
                           onPressed: () async {
                             likeComentario(context, widget.comentarioViewModel.IdComentario);
+
                           },
                           icon: Icon(
                             Icons.thumb_up_alt,

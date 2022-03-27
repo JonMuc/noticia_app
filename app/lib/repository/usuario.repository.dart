@@ -75,6 +75,22 @@ class UsuarioRepository {
     return UsuarioModel.fromJson(responseModel.Objeto);
   }
 
+    Future seguirUsuario(int idUsuarioSeguido, int idUsuarioSeguidor) async {
+    print("seguir usuario repos");
+    var url = "${Settings.apiUrl}/usuario/seguir-usuario/" + idUsuarioSeguido.toString() + "/" + idUsuarioSeguidor.toString();
+    Dio dio = new Dio();
+    Response response = await dio.post(url);
+    print("Seguidor:" + idUsuarioSeguidor.toString() + "  Seguido:" + idUsuarioSeguido.toString());
+  }
+
+  Future desseguirUsuario(int idUsuarioSeguido, int idUsuarioSeguidor) async {
+    print("seguir usuario repos");
+    var url = "${Settings.apiUrl}/usuario/seguir-usuario/" + idUsuarioSeguido.toString() + "/" + idUsuarioSeguidor.toString();
+    Dio dio = new Dio();
+    Response response = await dio.post(url);
+    print("Seguidor:" + idUsuarioSeguidor.toString() + "  Seguido:" + idUsuarioSeguido.toString());
+  }
+
   Future<String> salvarFotoUser(dynamic multipartFile, int idUsuario) async {
     var url = "${Settings.apiUrl}/usuario/enviar-foto/" + idUsuario.toString();
     var uri = Uri.parse(url);
