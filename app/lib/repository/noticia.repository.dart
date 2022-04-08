@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:app_noticia/models/request/noticia-request.model.dart';
 import 'package:app_noticia/models/response.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/models/view-noticia.model.dart';
@@ -21,10 +22,10 @@ class NoticiaRepository {
         .toList();
   }
 
-  Future<List<ViewNoticiaModel>> listarMancheteDeslogado() async {
+  Future<List<ViewNoticiaModel>> listarMancheteDeslogado(NoticiaRequestModel request) async {
     var url = "${Settings.apiUrl}/noticiaG1/listar-manchete";
     Dio dio = new Dio();
-    Response response = await dio.get(url);
+    Response response = await dio.post(url, data: request);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
     return (responseModel.Objeto as List)
         .map((noticia) => ViewNoticiaModel.fromJson(noticia))

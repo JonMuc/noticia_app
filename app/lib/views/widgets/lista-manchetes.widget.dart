@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_noticia/models/view-noticia.model.dart';
 import 'package:app_noticia/services/noticia.service.dart';
 import 'package:app_noticia/views/shared/loader.widget.dart';
@@ -13,14 +15,24 @@ class ListaManchetesWidget extends StatefulWidget {
 }
 
 class _ListaManchetesWidget extends State<ListaManchetesWidget> {
-  List<ViewNoticiaModel> noticiaList = List.empty();
+  // List<ViewNoticiaModel> noticiaList = List.empty();
+  List<ViewNoticiaModel> noticiaList = List.filled(0, null, growable: true);
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  ScrollController controller;
+  bool chamandoApi = false;
+  int pageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController()..addListener(_scrollListener);
+  }
 
   @override
   Widget build(BuildContext context) {
     if(mounted){
       if(noticiaList.isEmpty){
-        listar(context);
+        listar();
       }
     }
     return Loader(
@@ -43,7 +55,15 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
               ],
             )
         ),
-        child: ListView.separated(
+        child:
+        // ListView(
+        //   controller: controller,
+        //   children: [
+        //     for(ViewNoticiaModel obj in noticiaList) ItemNoticiaWidget(noticiaModel: obj, notifyUsuarioNaoLogado: alertaNaoLogado,)
+        //   ],
+        // )
+        ListView.separated(
+          controller: controller,
           padding: EdgeInsets.only(top: 5),
           itemCount: noticiaList.length,
           separatorBuilder: (BuildContext context, int index) => Divider(
@@ -58,14 +78,40 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
     );
   }
 
-  void listar(BuildContext context) async {
-    NoticiaService service = Provider.of<NoticiaService>(context, listen: false);
-    var listarResponse = await service.obterManchetes();
-    if(mounted){
+  void _scrollListener() {
+    // print(controller.position.extentAfter);
+    if (controller.position.extentAfter < 500 && !chamandoApi) {
       setState(() {
-        this.noticiaList = listarResponse;
+        chamandoApi = true;
       });
+      listar();
     }
+  }
+
+  void listar() async {
+    print(11111111111);
+    print(this.noticiaList.length);
+    print(pageIndex);
+    NoticiaService service = Provider.of<NoticiaService>(context, listen: false);
+    var listarResponse = await service.obterManchetes(pageIndex);
+    removerCarregando();
+    setState(() {
+      pageIndex = pageIndex + 1;
+      for(ViewNoticiaModel item in listarResponse){
+        this.noticiaList.add(item);
+      }
+      // this.noticiaList.addAll(listarResponse);
+      //this.noticiaList.addAll(listarResponse);
+      //   this.noticiaList = listarResponse;
+    });
+  }
+
+  void removerCarregando(){
+    Timer(Duration(seconds: 2), () {
+      setState(() {
+        chamandoApi = false;
+      });
+    });
   }
 
   alertaNaoLogado(){
