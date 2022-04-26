@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
@@ -173,7 +175,8 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                           color: Colors.black.withOpacity(0.5),
                           fontSize: 12,
                         ),
-                        text: "99 seguidores     ",
+                        // text: "99 seguidores     ",
+                        text: mostrarSeguidores(184).toString(),
                         // recognizer: new TapGestureRecognizer()
                         //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                         //   },
@@ -183,7 +186,8 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                           color: Colors.black.withOpacity(0.5),
                           fontSize: 12,
                         ),
-                        text: "seguindo 77     ",
+                        // text: "seguindo 7777     ",
+                        text: "",
                         // recognizer: new TapGestureRecognizer()
                         //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                         //   },
@@ -268,7 +272,14 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
     });
   }
 
+   int mostrarSeguidores(int idUsuario)  {
+    // List<UsuarioModel> mdlist = [];
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var mdlist = service.mostrarSeguidores(idUsuario);
+    // print(mdlist.length);
+    return mdlist.length;
 
+  }
 
   deslogarUsuario() async {
     UsuarioService service =

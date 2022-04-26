@@ -35,12 +35,15 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                     Container(
                       margin: EdgeInsets.all(20),
                       child: Align(
-                        child: CircleAvatar(
-                            radius: 50.0,
-                            backgroundImage: this.usuario != null &&
-                                    this.usuario.Foto != null
-                                ? NetworkImage(this.usuario.Foto)
-                                : AssetImage("assets/user.png")),
+                        // child: CircleAvatar(
+                        //     radius: 50.0,
+                        //     backgroundImage: this.usuario != null &&
+                        //             this.usuario.Foto != null
+                        //         ? NetworkImage(this.usuario.Foto)
+                        //         : AssetImage("assets/user.png")),
+                          child: CircleAvatar(
+                              radius: 50.0,
+                              backgroundImage: AssetImage("assets/user.png"))
                       ),
                     ),
                     this.usuario != null &&
@@ -168,7 +171,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                           color: Colors.black.withOpacity(0.5),
                           fontSize: 12,
                         ),
-                        text: "99 seguidores     ",
+                        text: "99999 seguidores     ",
                         // recognizer: new TapGestureRecognizer()
                         //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                         //   },
@@ -178,7 +181,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                           color: Colors.black.withOpacity(0.5),
                           fontSize: 12,
                         ),
-                        text: "seguindo 77     ",
+                        text: "seguindo 788777     ",
                         // recognizer: new TapGestureRecognizer()
                         //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                         //   },
@@ -281,6 +284,12 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
     setState(() {
       this.usuario = value;
     });
+  }
+
+  mostrarSeguidores(int idUsuario) async {
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var value = await service.mostrarSeguidores(idUsuario);
+    return value;
   }
 
   deslogarUsuario() async {

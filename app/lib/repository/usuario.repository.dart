@@ -67,6 +67,15 @@ class UsuarioRepository {
     return (responseModel.Objeto as List).map((usuario) => UsuarioModel.fromJson(usuario)).toList();
   }
 
+  Future <List<UsuarioModel>> mostrarSeguidores(int idUsuario) async {
+    var url = "${Settings.apiUrl}/usuario/visualizar-seguidores/" + idUsuario.toString();
+    Dio dio = new Dio();
+    Response response = await dio.get(url);
+    ResponseModel responseModel = ResponseModel.fromJson(response.data);
+    print(responseModel.Sucesso);
+    return (responseModel.Objeto as List).map((usuario) => UsuarioModel.fromJson(usuario)).toList();
+  }
+
   Future <UsuarioModel> buscarUsuarioPorId(int idUsuario) async {
     var url = "${Settings.apiUrl}/usuario/visualizar-usuario/" + idUsuario.toString();
     Dio dio = new Dio();

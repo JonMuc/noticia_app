@@ -13,12 +13,10 @@ class UsuarioBuscarUsuarioWidget extends StatefulWidget {
   final UsuarioModel usuarioModel;
   UsuarioBuscarUsuarioWidget({@required this.usuarioModel}); // aqu
 
-
   @override
   _UsuarioBuscarUsuarioWidget createState() => _UsuarioBuscarUsuarioWidget();
 
 }
-
 
 class _UsuarioBuscarUsuarioWidget extends State<UsuarioBuscarUsuarioWidget> {
 
