@@ -152,7 +152,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                     Container(
                         child: Text(
                           this.usuarioModel != null && this.usuarioModel.Nome != null
-                              ? this.usuarioModel.Nome
+                              ? this.usuarioModel.Nome + "   ID " + this.usuarioModel.Id.toString()
                               : "name Null",
                           style: TextStyle(
                               fontSize: 26, fontWeight: FontWeight.bold),
@@ -161,33 +161,38 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                   ],
                 ),
                 new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     RichText(
                         text: TextSpan(children: [
-                      TextSpan(
-                          style: TextStyle(
-                              color: Colors.black.withOpacity(0.5),
-                              fontSize: 12),
-                          text: "@matias.way     "),
-                      TextSpan(
-                        style: TextStyle(
-                          color: Colors.black.withOpacity(0.5),
-                          fontSize: 12,
-                        ),
-                        // text: "99 seguidores     ",
-                        text: mostrarSeguidores(184).toString(),
-                        // recognizer: new TapGestureRecognizer()
-                        //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                        //   },
-                      ),
+                          TextSpan(
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.5),
+                                  fontSize: 12),
+                              text: "@${this.usuarioModel != null && this.usuarioModel.NomeUsuario != null ? this.usuarioModel.NomeUsuario : "unknow"}" ),
+                        ])),
+                    RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              style: TextStyle(
+                                color: Colors.black.withOpacity(0.5),
+                                fontSize: 12,
+                              ),
+                              text: "Seguido por ${this.usuarioModel == null ? "" : this.usuarioModel.quantidadeSeguidores.toString()} usuario(s)"
+                            // recognizer: new TapGestureRecognizer()
+                            //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
+                            //   },
+                          ),
+                        ])),
+                    RichText(
+                        text: TextSpan(children: [
                       TextSpan(
                         style: TextStyle(
                           color: Colors.black.withOpacity(0.5),
                           fontSize: 12,
                         ),
                         // text: "seguindo 7777     ",
-                        text: "",
+                        text: "Seguindo ${this.usuarioModel == null ? "" : this.usuarioModel.quantidadeSeguindo.toString()} usuario(s)"
                         // recognizer: new TapGestureRecognizer()
                         //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
                         //   },
@@ -267,18 +272,15 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
   void buscarUsuarioPorId(int idUsuario) async {
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var user = await service.buscarUsuarioPorId(idUsuario);
+    if(user.quantidadeSeguidores == null){
+      user.quantidadeSeguidores = 0;
+    }
+    if(user.quantidadeSeguindo == null){
+      user.quantidadeSeguindo = 0;
+    }
     setState(() {
       usuarioModel = user;
     });
-  }
-
-   int mostrarSeguidores(int idUsuario)  {
-    // List<UsuarioModel> mdlist = [];
-    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    var mdlist = service.mostrarSeguidores(idUsuario);
-    // print(mdlist.length);
-    return mdlist.length;
-
   }
 
   deslogarUsuario() async {

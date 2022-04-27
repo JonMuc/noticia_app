@@ -19,6 +19,8 @@ class UsuarioModel {
   String PerfilFacebook;
   String Descricao;
   String Token;
+  int quantidadeSeguidores;
+  int quantidadeSeguindo;
 
   UsuarioModel.d();
 
@@ -42,6 +44,8 @@ class UsuarioModel {
       this.PerfilTwitter,
       this.PerfilFacebook,
       this.Descricao,
+      this.quantidadeSeguidores,
+      this.quantidadeSeguindo,
       this.Token);
 
   UsuarioModel.fromJson(Map<String, dynamic> json) {
@@ -65,6 +69,8 @@ class UsuarioModel {
     PerfilFacebook = json['PerfilFacebook'];
     Descricao = json['Descricao'];
     Token = json['Token'];
+    quantidadeSeguidores = json['quantidadeSeguidores'];
+    quantidadeSeguindo = json['quantidadeSeguindo'];
   }
 
   Map<String, dynamic> toJson() {
@@ -88,6 +94,8 @@ class UsuarioModel {
     data['PerfilFacebook'] = this.PerfilFacebook;
     data['Descricao'] = this.Descricao;
     data['Token'] = this.Token;
+    data['quantidadeSeguidores'] = this.quantidadeSeguidores;
+    data['quantidadeSeguindo'] = this.quantidadeSeguindo;
     return data;
   }
 }

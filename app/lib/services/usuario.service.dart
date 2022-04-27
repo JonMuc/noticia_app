@@ -104,6 +104,14 @@ class UsuarioService extends ChangeNotifier {
 
   Future <UsuarioModel> buscarUsuarioPorId(int idUsuario) async {
     var response = await usuarioRepository.buscarUsuarioPorId(idUsuario);
+    var perfilUsuario = await usuarioRepository.visualizarPerfilUsuario(idUsuario);
+    response.quantidadeSeguidores = perfilUsuario.quantidadeSeguidores;
+    response.quantidadeSeguindo = perfilUsuario.quantidadeSeguindo;
+    return response;
+  }
+
+  Future <UsuarioModel> visualizarPerfilUsuario(int idUsuario) async {
+    var response = await usuarioRepository.visualizarPerfilUsuario(idUsuario);
     return response;
   }
 
