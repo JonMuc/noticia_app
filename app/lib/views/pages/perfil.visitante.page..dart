@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'mostrar-usuarios-seguidores.page.dart';
+import 'mostrar-usuarios-seguindo.page.dart';
+
 class PerfilVisitantePage extends StatefulWidget {
   final int idUsuario;
   PerfilVisitantePage({@required this.idUsuario});
@@ -22,6 +25,8 @@ class PerfilVisitantePage extends StatefulWidget {
 class _PerfilVisitantePage extends State<PerfilVisitantePage>
     with SingleTickerProviderStateMixin {
   UsuarioModel usuarioModel;
+  List<UsuarioModel> seguidoresList = List.empty();
+  List<UsuarioModel> seguindoList = List.empty();
   @override
   void initState() {
     buscarUsuarioPorId(widget.idUsuario);
@@ -73,7 +78,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                               ],
                             ))
                         : Container(),
-                    this.usuarioModel != null &&
+                        this.usuarioModel != null &&
                         this.usuarioModel.PerfilInstagram != null &&
                         this.usuarioModel.PerfilInstagram != ""
                         ? Container(
@@ -174,14 +179,20 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                     RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(0.5),
-                                fontSize: 12,
-                              ),
-                              text: "Seguido por ${this.usuarioModel == null ? "" : this.usuarioModel.quantidadeSeguidores.toString()} usuario(s)"
-                            // recognizer: new TapGestureRecognizer()
-                            //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                            //   },
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(0.5),
+                              fontSize: 12,
+                            ),
+                            text: "Seguidores ${this.usuarioModel == null ? "" : this.usuarioModel.quantidadeSeguidores.toString()}",
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () async {
+                                this.mostrarSeguindo(this.usuarioModel.Id);
+                                Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => MostrarUsuariosSeguidoresPage(usuarioModelList: this.seguidoresList, usuarioModel: this.usuarioModel)),
+                                );
+                                print("mostrar seguidores page do usuario ID" + this.usuarioModel.Id.toString());
+                                print("usuario tem seguidores " + this.usuarioModel.quantidadeSeguidores.toString());
+                              },
                           ),
                         ])),
                     RichText(
@@ -191,11 +202,15 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                           color: Colors.black.withOpacity(0.5),
                           fontSize: 12,
                         ),
-                        // text: "seguindo 7777     ",
-                        text: "Seguindo ${this.usuarioModel == null ? "" : this.usuarioModel.quantidadeSeguindo.toString()} usuario(s)"
-                        // recognizer: new TapGestureRecognizer()
-                        //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                        //   },
+                        text: "Seguindo ${this.usuarioModel == null ? "" : this.usuarioModel.quantidadeSeguindo.toString()}",
+                        recognizer: new TapGestureRecognizer()
+                          ..onTap = () async {
+                            this.mostrarSeguidores(this.usuarioModel.Id);
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => MostrarUsuariosSeguindoPage(usuarioModelList: this.seguindoList, usuarioModel: this.usuarioModel)),
+                            );
+                            print("usuario segue " + this.usuarioModel.quantidadeSeguindo.toString());
+                            },
                       ),
                     ])),
                   ],
@@ -258,6 +273,23 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
       print('nao pode executar o link $url');
     }
   }
+
+  void mostrarSeguidores(int idUsuario) async {
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var value = await service.mostrarSeguidores(idUsuario);
+    setState(() {
+      this.seguidoresList = value;
+    });
+  }
+
+  void mostrarSeguindo(int idUsuario) async { //repositorio
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var value = await service.mostrarSeguindo(idUsuario);
+    setState(() {
+      this.seguindoList = value;
+    });
+  }
+
 
   void seguirUsuario(int idUsuarioSeguido){
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);

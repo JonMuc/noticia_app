@@ -5,16 +5,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BuscarUsuarioWidget extends StatefulWidget{
+class MostrarUsuariosSeguidoresPage extends StatefulWidget{
+  final UsuarioModel usuarioModel;
+  List<UsuarioModel> usuarioModelList = List.empty();
+  MostrarUsuariosSeguidoresPage({@required this.usuarioModelList, this.usuarioModel }); // aqu
 
   @override
-  _BuscarUsuarioWidget createState() => _BuscarUsuarioWidget();
+  _MostrarUsuariosSeguidoresPage createState() => _MostrarUsuariosSeguidoresPage();
 }
 
 
-class _BuscarUsuarioWidget extends State<BuscarUsuarioWidget>{
+class _MostrarUsuariosSeguidoresPage extends State<MostrarUsuariosSeguidoresPage>{
   TextEditingController buscarUsuarioController = TextEditingController();
-  List<UsuarioModel> usuarioModelList = List.empty();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,33 +27,24 @@ class _BuscarUsuarioWidget extends State<BuscarUsuarioWidget>{
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 10),
-                  height: 50,
-                  width: MediaQuery.of(context).size.width * 0.65,
-                  child:
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: "Buscar Usuario",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(color: Colors.blue)),
-                      filled: true,
-                    ),
-                    controller: buscarUsuarioController,
-                  ),
+                    padding: EdgeInsets.only(top: 25),
+                    height: 50,
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    child:
+                    Text(widget.usuarioModel == null ? "Seguidores de [Usuario null]" :  "Seguidores de ${widget.usuarioModel.NomeUsuario}")
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 10),
                   child: ElevatedButton.icon(
                       onPressed: (){
-                        buscarUsuario(context, buscarUsuarioController.text);
+                        print("botao buscar");
                       },
                       icon: Icon(Icons.search),
                       label: Text("Buscar")),
                 )
               ],
             ),
-            for(UsuarioModel usuario in usuarioModelList) Container(
+            for(UsuarioModel usuario in widget.usuarioModelList) Container(
               child: Center(
                   child: UsuarioCardWidget(usuarioModel: usuario)
               ),
@@ -67,8 +60,10 @@ class _BuscarUsuarioWidget extends State<BuscarUsuarioWidget>{
     var response = await service.buscarUsuario(nomeUsuario);
     // print(response.length);
     setState(() {
-      this.usuarioModelList = response;
+      widget.usuarioModelList = response;
     });
-    print(usuarioModelList.length);
+    print(widget.usuarioModelList.length);
   }
+
+
 }

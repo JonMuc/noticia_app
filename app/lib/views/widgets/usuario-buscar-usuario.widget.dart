@@ -9,16 +9,16 @@ import 'package:flutter/material.dart';
 import '../pages/cadastro-usuario.page.dart';
 import '../pages/perfil.visitante.page..dart';
 
-class UsuarioBuscarUsuarioWidget extends StatefulWidget {
+class UsuarioCardWidget extends StatefulWidget {
   final UsuarioModel usuarioModel;
-  UsuarioBuscarUsuarioWidget({@required this.usuarioModel}); // aqu
+  UsuarioCardWidget({@required this.usuarioModel}); // aqu
 
   @override
-  _UsuarioBuscarUsuarioWidget createState() => _UsuarioBuscarUsuarioWidget();
+  _UsuarioCardWidget createState() => _UsuarioCardWidget();
 
 }
 
-class _UsuarioBuscarUsuarioWidget extends State<UsuarioBuscarUsuarioWidget> {
+class _UsuarioCardWidget extends State<UsuarioCardWidget> {
 
   @override
   Widget build(BuildContext context) {
