@@ -60,8 +60,12 @@ class UsuarioRepository {
 
   Future <List<UsuarioModel>> buscarUsuario(String nomeUsuario) async {
     var url = "${Settings.apiUrl}/usuario/buscar-usuario/" + nomeUsuario.toString();
+
     Dio dio = new Dio();
+    print(nomeUsuario);
+
     Response response = await dio.get(url);
+
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
     print(responseModel.Sucesso);
     return (responseModel.Objeto as List).map((usuario) => UsuarioModel.fromJson(usuario)).toList();

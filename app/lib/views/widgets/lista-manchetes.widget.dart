@@ -89,7 +89,6 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
   }
 
   void listar() async {
-    print(11111111111);
     print(this.noticiaList.length);
     print(pageIndex);
     NoticiaService service = Provider.of<NoticiaService>(context, listen: false);

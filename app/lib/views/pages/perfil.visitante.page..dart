@@ -20,11 +20,10 @@ class PerfilVisitantePage extends StatefulWidget {
   _PerfilVisitantePage createState() => _PerfilVisitantePage();
 }
 
-
-
 class _PerfilVisitantePage extends State<PerfilVisitantePage>
     with SingleTickerProviderStateMixin {
-  UsuarioModel usuarioModel;
+  UsuarioModel usuarioLogado;
+  UsuarioModel usuarioPerfil;
   List<UsuarioModel> seguidoresList = List.empty();
   List<UsuarioModel> seguindoList = List.empty();
   @override
@@ -43,21 +42,21 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                 new Row(
                   // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    this.usuarioModel == null ? Container() :
+                    this.usuarioPerfil == null ? Container() :
                     Container(
                       margin: EdgeInsets.all(20),
                       child: Align(
                         child: CircleAvatar(
                             radius: 50.0,
-                            backgroundImage: this.usuarioModel.NomeUsuario != null &&
-                                this.usuarioModel.Foto != null
-                                ? NetworkImage(this.usuarioModel.Foto)
+                            backgroundImage: this.usuarioPerfil.NomeUsuario != null &&
+                                this.usuarioPerfil.Foto != null
+                                ? NetworkImage(this.usuarioPerfil.Foto)
                                 : AssetImage("assets/user.png")),
                       ),
                     ),
-                  this.usuarioModel != null &&
-                      this.usuarioModel.PerfilLinkedin != null &&
-                      this.usuarioModel.PerfilLinkedin != ""
+                  this.usuarioPerfil != null &&
+                      this.usuarioPerfil.PerfilLinkedin != null &&
+                      this.usuarioPerfil.PerfilLinkedin != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -65,7 +64,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "https://www.linkedin.com/in/${this.usuarioModel.PerfilLinkedin}");
+                                        "https://www.linkedin.com/in/${this.usuarioPerfil.PerfilLinkedin}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/Linkedin.png"),
@@ -78,9 +77,9 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                               ],
                             ))
                         : Container(),
-                        this.usuarioModel != null &&
-                        this.usuarioModel.PerfilInstagram != null &&
-                        this.usuarioModel.PerfilInstagram != ""
+                        this.usuarioPerfil != null &&
+                        this.usuarioPerfil.PerfilInstagram != null &&
+                        this.usuarioPerfil.PerfilInstagram != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -88,7 +87,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "http://www.instagram.com/${this.usuarioModel.PerfilInstagram}");
+                                        "http://www.instagram.com/${this.usuarioPerfil.PerfilInstagram}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/Instagram.png"),
@@ -102,9 +101,9 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                             ),
                           )
                         : Container(),
-                    this.usuarioModel != null &&
-                        this.usuarioModel.PerfilFacebook != null &&
-                        this.usuarioModel.PerfilFacebook != ""
+                    this.usuarioPerfil != null &&
+                        this.usuarioPerfil.PerfilFacebook != null &&
+                        this.usuarioPerfil.PerfilFacebook != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -112,7 +111,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "https://www.facebook.com/${this.usuarioModel.PerfilFacebook}");
+                                        "https://www.facebook.com/${this.usuarioPerfil.PerfilFacebook}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/facebook.png"),
@@ -126,9 +125,9 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                             ),
                           )
                         : Container(),
-                        this.usuarioModel != null &&
-                        this.usuarioModel.PerfilTwitter != null &&
-                        this.usuarioModel.PerfilTwitter != ""
+                        this.usuarioPerfil != null &&
+                        this.usuarioPerfil.PerfilTwitter != null &&
+                        this.usuarioPerfil.PerfilTwitter != ""
                           ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -136,7 +135,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "https://www.twitter.com/${this.usuarioModel.PerfilTwitter}");
+                                        "https://www.twitter.com/${this.usuarioPerfil.PerfilTwitter}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/twitter.png"),
@@ -156,8 +155,8 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                   children: [
                     Container(
                         child: Text(
-                          this.usuarioModel != null && this.usuarioModel.Nome != null
-                              ? this.usuarioModel.Nome + "   ID " + this.usuarioModel.Id.toString()
+                          this.usuarioPerfil != null && this.usuarioPerfil.Nome != null
+                              ? this.usuarioPerfil.Nome + "   ID " + this.usuarioPerfil.Id.toString()
                               : "name Null",
                           style: TextStyle(
                               fontSize: 26, fontWeight: FontWeight.bold),
@@ -174,7 +173,7 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                               style: TextStyle(
                                   color: Colors.black.withOpacity(0.5),
                                   fontSize: 12),
-                              text: "@${this.usuarioModel != null && this.usuarioModel.NomeUsuario != null ? this.usuarioModel.NomeUsuario : "unknow"}" ),
+                              text: "@${this.usuarioPerfil != null && this.usuarioPerfil.NomeUsuario != null ? this.usuarioPerfil.NomeUsuario : "unknow"}" ),
                         ])),
                     RichText(
                         text: TextSpan(children: [
@@ -183,15 +182,15 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                               color: Colors.black.withOpacity(0.5),
                               fontSize: 12,
                             ),
-                            text: "Seguidores ${this.usuarioModel == null ? "" : this.usuarioModel.quantidadeSeguidores.toString()}",
+                            text: Jasegue ? "vc ja segue este usuario" : "Seguidores ${this.usuarioPerfil == null ? "" : this.usuarioPerfil.quantidadeSeguidores.toString()}",
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () async {
-                                this.mostrarSeguindo(this.usuarioModel.Id);
+                                this.mostrarSeguindo(this.usuarioPerfil.Id);
                                 Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => MostrarUsuariosSeguidoresPage(usuarioModelList: this.seguidoresList, usuarioModel: this.usuarioModel)),
+                                  MaterialPageRoute(builder: (context) => MostrarUsuariosSeguidoresPage(usuarioModelList: this.seguidoresList, usuarioModel: this.usuarioPerfil)),
                                 );
-                                print("mostrar seguidores page do usuario ID" + this.usuarioModel.Id.toString());
-                                print("usuario tem seguidores " + this.usuarioModel.quantidadeSeguidores.toString());
+                                print("mostrar seguidores page do usuario ID" + this.usuarioPerfil.Id.toString());
+                                print("usuario tem seguidores " + this.usuarioPerfil.quantidadeSeguidores.toString());
                               },
                           ),
                         ])),
@@ -202,14 +201,14 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                           color: Colors.black.withOpacity(0.5),
                           fontSize: 12,
                         ),
-                        text: "Seguindo ${this.usuarioModel == null ? "" : this.usuarioModel.quantidadeSeguindo.toString()}",
+                        text: "Seguindo ${this.usuarioPerfil == null ? "" : this.usuarioPerfil.quantidadeSeguindo.toString()}",
                         recognizer: new TapGestureRecognizer()
                           ..onTap = () async {
-                            this.mostrarSeguidores(this.usuarioModel.Id);
+                            this.mostrarSeguidores(this.usuarioPerfil.Id);
                             Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => MostrarUsuariosSeguindoPage(usuarioModelList: this.seguindoList, usuarioModel: this.usuarioModel)),
+                              MaterialPageRoute(builder: (context) => MostrarUsuariosSeguindoPage(usuarioModelList: this.seguindoList, usuarioModel: this.usuarioPerfil)),
                             );
-                            print("usuario segue " + this.usuarioModel.quantidadeSeguindo.toString());
+                            print("usuario segue " + this.usuarioPerfil.quantidadeSeguindo.toString());
                             },
                       ),
                     ])),
@@ -228,8 +227,8 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                             text: "  Seguir usuario     ",
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                print("seguir usuario " + this.usuarioModel.Id.toString());
-                                seguirUsuario(this.usuarioModel.Id);
+                                print("seguir usuario " + this.usuarioPerfil.Id.toString());
+                                seguirUsuario(this.usuarioPerfil.Id);
                               },
                           ),
                           TextSpan(
@@ -240,8 +239,8 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                             text: " Deseguir usuario     ",
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                print("Deseguir usuario " + this.usuarioModel.Id.toString());
-                                deseguirUsuario(this.usuarioModel.Id);
+                                print("Deseguir usuario " + this.usuarioPerfil.Id.toString());
+                                deseguirUsuario(this.usuarioPerfil.Id);
                               },
                           )
                         ])),
@@ -252,8 +251,8 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                     Container(
                       margin: EdgeInsets.all(20),
                       child: Text(
-                        this.usuarioModel != null && this.usuarioModel.Descricao != null
-                            ? this.usuarioModel.Descricao
+                        this.usuarioPerfil != null && this.usuarioPerfil.Descricao != null
+                            ? this.usuarioPerfil.Descricao
                             : "Descricao null",
                         style: TextStyle(color: Colors.black.withOpacity(0.6)),
                       ),
@@ -274,6 +273,24 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
     }
   }
 
+  var Jasegue = false;
+
+  Future<bool> usuarioJaSeguido(int id) async{
+    mostrarSeguidores(this.usuarioPerfil.Id);
+    obterUsuario();
+    print("Id thisusuario Perfil " + this.usuarioPerfil.Id.toString());
+    print("Id thisusuario Logado " + this.usuarioLogado.Id.toString());
+    // print("id widget usuario " + widget.idUsuario.toString());
+    Jasegue = true;
+    // for(UsuarioModel usuarioSeguidor in seguidoresList){
+    //   if(usuarioSeguidor.Id == widget.idUsuario){
+    //     return true;
+    //   }else{
+    //     return false;
+    //   }
+    // }
+  }
+
   void mostrarSeguidores(int idUsuario) async {
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var value = await service.mostrarSeguidores(idUsuario);
@@ -282,14 +299,13 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
     });
   }
 
-  void mostrarSeguindo(int idUsuario) async { //repositorio
+  void mostrarSeguindo(int idUsuario) async {
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var value = await service.mostrarSeguindo(idUsuario);
     setState(() {
       this.seguindoList = value;
     });
   }
-
 
   void seguirUsuario(int idUsuarioSeguido){
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
@@ -302,6 +318,8 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
   }
 
   void buscarUsuarioPorId(int idUsuario) async {
+    print("perfil visitanteeeee");
+    print(widget.idUsuario);
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var user = await service.buscarUsuarioPorId(idUsuario);
     if(user.quantidadeSeguidores == null){
@@ -311,15 +329,17 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
       user.quantidadeSeguindo = 0;
     }
     setState(() {
-      usuarioModel = user;
+      usuarioPerfil = user;
     });
   }
 
-  deslogarUsuario() async {
-    UsuarioService service =
-        Provider.of<UsuarioService>(context, listen: false);
-    await service.limparSecao();
-    Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
+  obterUsuario()  async{
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var value = await service.obterUsuarioLogado();
+    setState(() {
+      this.usuarioLogado = value;
+    });
   }
+
+
 }

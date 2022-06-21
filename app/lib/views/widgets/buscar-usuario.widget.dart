@@ -44,10 +44,11 @@ class _BuscarUsuarioWidget extends State<BuscarUsuarioWidget>{
                   padding: EdgeInsets.only(top: 10),
                   child: ElevatedButton.icon(
                       onPressed: (){
+                        print('botao');
                         buscarUsuario(context, buscarUsuarioController.text);
                       },
                       icon: Icon(Icons.search),
-                      label: Text("Buscar")),
+                      label: Text("Buscarrrr")),
                 )
               ],
             ),
@@ -64,8 +65,11 @@ class _BuscarUsuarioWidget extends State<BuscarUsuarioWidget>{
 
   void buscarUsuario(BuildContext context, String nomeUsuario) async{
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+
     var response = await service.buscarUsuario(nomeUsuario);
-    // print(response.length);
+    print("function");
+
+    print(response);
     setState(() {
       this.usuarioModelList = response;
     });

@@ -46,6 +46,12 @@ class _MostrarUsuariosSeguidoresPage extends State<MostrarUsuariosSeguidoresPage
             ),
             for(UsuarioModel usuario in widget.usuarioModelList) Container(
               child: Center(
+                  // child: ElevatedButton(
+                  //   onPressed: (){
+                  //     print(usuario.Nome);
+                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => UsuarioCardWidget(usuarioModel: usuario)));
+                  //   },
+                  // )
                   child: UsuarioCardWidget(usuarioModel: usuario)
               ),
             )

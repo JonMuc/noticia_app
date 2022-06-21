@@ -2,6 +2,7 @@ import 'package:app_noticia/models/comentario-view.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/comentario.service.dart';
 import 'package:app_noticia/services/usuario.service.dart';
+import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/widgets/resposta-comentario-noticia.widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +16,13 @@ class UsuarioCardWidget extends StatefulWidget {
 
   @override
   _UsuarioCardWidget createState() => _UsuarioCardWidget();
-
 }
 
 class _UsuarioCardWidget extends State<UsuarioCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       child: Container(
           width: MediaQuery.of(context).size.width * 0.95,
@@ -50,7 +51,8 @@ class _UsuarioCardWidget extends State<UsuarioCardWidget> {
                           text: widget.usuarioModel.NomeUsuario, style: TextStyle(fontSize: 18, color: Colors.black),
                           recognizer: new TapGestureRecognizer()
                             ..onTap = () {
-                            print("abre tela");
+                            print("usuario clicado " + widget.usuarioModel.Nome);
+                            print(widget.usuarioModel.toJson());
                               Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => PerfilVisitantePage(idUsuario: widget.usuarioModel.Id)),
                               );

@@ -147,7 +147,6 @@ class _ObterImagemCameraPage extends State<ObterImagemCameraPage> {
       final String filePath = '$dirPath/${DateTime.now().millisecondsSinceEpoch}.jpg';
       // await _cameraController!.takePicture(filePath);
       var file = await _cameraController.takePicture();
-      print(111111);
       print(file.path);
       _cropImage(file.path);
       // _cropImage(filePath);
