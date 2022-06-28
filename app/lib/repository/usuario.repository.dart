@@ -58,21 +58,18 @@ class UsuarioRepository {
     }
   }
 
-  Future <List<UsuarioModel>> buscarUsuario(String nomeUsuario) async {
-    var url = "${Settings.apiUrl}/usuario/buscar-usuario/" + nomeUsuario.toString();
-
+  Future <List<UsuarioModel>> buscarUsuario(String nomeUsuario, int pageIndex, int pageSize) async {
+    var url = "${Settings.apiUrl}/usuario/buscar-usuario/" + nomeUsuario.toString() + "/" + pageIndex.toString() + "/" + pageSize.toString();
     Dio dio = new Dio();
     print(nomeUsuario);
-
     Response response = await dio.get(url);
-
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
     print(responseModel.Sucesso);
     return (responseModel.Objeto as List).map((usuario) => UsuarioModel.fromJson(usuario)).toList();
   }
 
-  Future <List<UsuarioModel>> mostrarSeguidores(int idUsuario) async {
-    var url = "${Settings.apiUrl}/usuario/visualizar-seguidores/" + idUsuario.toString();
+  Future <List<UsuarioModel>> mostrarSeguidores(int idUsuario, int pageIndex, int pageSize) async {
+    var url = "${Settings.apiUrl}/usuario/visualizar-seguidores/" + idUsuario.toString() + "/" + pageIndex.toString() + "/" + pageSize.toString();
     Dio dio = new Dio();
     Response response = await dio.get(url);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
@@ -80,8 +77,8 @@ class UsuarioRepository {
     return (responseModel.Objeto as List).map((usuario) => UsuarioModel.fromJson(usuario)).toList();
   }
 
-  Future <List<UsuarioModel>> mostrarSeguindo(int idUsuario) async { //AJEITAR
-    var url = "${Settings.apiUrl}/usuario/visualizar-seguindo/" + idUsuario.toString();
+  Future <List<UsuarioModel>> mostrarSeguindo(int idUsuario, int pageIndex, int pageSize) async { //AJEITAR
+    var url = "${Settings.apiUrl}/usuario/visualizar-seguindo/" + idUsuario.toString() + "/" + pageIndex.toString() + "/" + pageSize.toString();
     Dio dio = new Dio();
     Response response = await dio.get(url);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);

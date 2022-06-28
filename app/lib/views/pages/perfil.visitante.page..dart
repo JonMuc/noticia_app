@@ -189,8 +189,6 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                                 Navigator.push(context,
                                   MaterialPageRoute(builder: (context) => MostrarUsuariosSeguidoresPage(usuarioModelList: this.seguidoresList, usuarioModel: this.usuarioPerfil)),
                                 );
-                                print("mostrar seguidores page do usuario ID" + this.usuarioPerfil.Id.toString());
-                                print("usuario tem seguidores " + this.usuarioPerfil.quantidadeSeguidores.toString());
                               },
                           ),
                         ])),
@@ -204,11 +202,10 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
                         text: "Seguindo ${this.usuarioPerfil == null ? "" : this.usuarioPerfil.quantidadeSeguindo.toString()}",
                         recognizer: new TapGestureRecognizer()
                           ..onTap = () async {
-                            this.mostrarSeguidores(this.usuarioPerfil.Id);
+                            this.mostrarSeguindo(this.usuarioPerfil.Id);
                             Navigator.push(context,
                               MaterialPageRoute(builder: (context) => MostrarUsuariosSeguindoPage(usuarioModelList: this.seguindoList, usuarioModel: this.usuarioPerfil)),
                             );
-                            print("usuario segue " + this.usuarioPerfil.quantidadeSeguindo.toString());
                             },
                       ),
                     ])),
@@ -278,30 +275,24 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
   Future<bool> usuarioJaSeguido(int id) async{
     mostrarSeguidores(this.usuarioPerfil.Id);
     obterUsuario();
-    print("Id thisusuario Perfil " + this.usuarioPerfil.Id.toString());
-    print("Id thisusuario Logado " + this.usuarioLogado.Id.toString());
-    // print("id widget usuario " + widget.idUsuario.toString());
     Jasegue = true;
-    // for(UsuarioModel usuarioSeguidor in seguidoresList){
-    //   if(usuarioSeguidor.Id == widget.idUsuario){
-    //     return true;
-    //   }else{
-    //     return false;
-    //   }
-    // }
   }
 
   void mostrarSeguidores(int idUsuario) async {
+    var pageIndex = 0;
+    var pageSize = 0;
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    var value = await service.mostrarSeguidores(idUsuario);
+    var value = await service.mostrarSeguidores(idUsuario, pageIndex, pageSize);
     setState(() {
       this.seguidoresList = value;
     });
   }
 
   void mostrarSeguindo(int idUsuario) async {
+    var pageIndex = 0;
+    var pageSize = 0;
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    var value = await service.mostrarSeguindo(idUsuario);
+    var value = await service.mostrarSeguindo(idUsuario, pageIndex, pageSize);
     setState(() {
       this.seguindoList = value;
     });
@@ -318,7 +309,6 @@ class _PerfilVisitantePage extends State<PerfilVisitantePage>
   }
 
   void buscarUsuarioPorId(int idUsuario) async {
-    print("perfil visitanteeeee");
     print(widget.idUsuario);
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var user = await service.buscarUsuarioPorId(idUsuario);

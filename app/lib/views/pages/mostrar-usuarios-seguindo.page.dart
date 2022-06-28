@@ -57,7 +57,7 @@ class _MostrarUsuariosSeguindoPage extends State<MostrarUsuariosSeguindoPage>{
 
   void buscarUsuario(BuildContext context, String nomeUsuario) async{
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    var response = await service.buscarUsuario(nomeUsuario);
+    var response = await service.buscarUsuario(nomeUsuario, 0, 0);
     // print(response.length);
     setState(() {
       widget.usuarioModelList = response;

@@ -3,9 +3,13 @@ import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
 import 'package:app_noticia/views/pages/editar-perfil.page.dart';
 import 'package:app_noticia/views/pages/home.page.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'mostrar-usuarios-seguidores.page.dart';
+import 'mostrar-usuarios-seguindo.page.dart';
 
 class PerfilUsuarioPage extends StatefulWidget {
   @override
@@ -14,12 +18,16 @@ class PerfilUsuarioPage extends StatefulWidget {
 
 class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
     with SingleTickerProviderStateMixin {
-  UsuarioModel usuario;
+  UsuarioModel usuarioLogado;
+  List<UsuarioModel> seguidoresList = List.empty();
+  List<UsuarioModel> seguindoList = List.empty();
+  int totalSeguidores = 0;
 
   @override
   initState() {
     obterUsuario();
     super.initState();
+    mostrarSeguidoresTotal(usuarioLogado != null ? usuarioLogado.Id : 0);
   }
 
   @override
@@ -46,9 +54,9 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                               backgroundImage: AssetImage("assets/user.png"))
                       ),
                     ),
-                    this.usuario != null &&
-                            this.usuario.PerfilLinkedin != null &&
-                            this.usuario.PerfilLinkedin != ""
+                    this.usuarioLogado != null &&
+                            this.usuarioLogado.PerfilLinkedin != null &&
+                            this.usuarioLogado.PerfilLinkedin != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -56,7 +64,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "https://www.linkedin.com/in/${this.usuario.PerfilLinkedin}");
+                                        "https://www.linkedin.com/in/${this.usuarioLogado.PerfilLinkedin}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/Linkedin.png"),
@@ -69,9 +77,9 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                               ],
                             ))
                         : Container(),
-                    this.usuario != null &&
-                            this.usuario.PerfilInstagram != null &&
-                            this.usuario.PerfilInstagram != ""
+                    this.usuarioLogado != null &&
+                            this.usuarioLogado.PerfilInstagram != null &&
+                            this.usuarioLogado.PerfilInstagram != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -79,7 +87,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "http://www.instagram.com/${this.usuario.PerfilInstagram}");
+                                        "http://www.instagram.com/${this.usuarioLogado.PerfilInstagram}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/Instagram.png"),
@@ -93,9 +101,9 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                             ),
                           )
                         : Container(),
-                    this.usuario != null &&
-                            this.usuario.PerfilFacebook != null &&
-                            this.usuario.PerfilFacebook != ""
+                    this.usuarioLogado != null &&
+                            this.usuarioLogado.PerfilFacebook != null &&
+                            this.usuarioLogado.PerfilFacebook != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -103,7 +111,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "https://www.facebook.com/${this.usuario.PerfilFacebook}");
+                                        "https://www.facebook.com/${this.usuarioLogado.PerfilFacebook}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/facebook.png"),
@@ -117,9 +125,9 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                             ),
                           )
                         : Container(),
-                    this.usuario != null &&
-                            this.usuario.PerfilTwitter != null &&
-                            this.usuario.PerfilTwitter != ""
+                    this.usuarioLogado != null &&
+                            this.usuarioLogado.PerfilTwitter != null &&
+                            this.usuarioLogado.PerfilTwitter != ""
                         ? Container(
                             margin: EdgeInsets.only(left: 5, right: 5),
                             child: Column(
@@ -127,7 +135,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                                 IconButton(
                                   onPressed: () {
                                     launch(
-                                        "https://www.twitter.com/${this.usuario.PerfilTwitter}");
+                                        "https://www.twitter.com/${this.usuarioLogado.PerfilTwitter}");
                                   },
                                   icon: Image.asset(
                                       "assets/logo_noticias/twitter.png"),
@@ -147,8 +155,8 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                   children: [
                     Container(
                         child: Text(
-                          this.usuario != null && this.usuario.Nome != null
-                              ? this.usuario.Nome
+                          this.usuarioLogado != null && this.usuarioLogado.Nome != null
+                              ? this.usuarioLogado.Nome
                               : "name Null",
                           style: TextStyle(
                               fontSize: 26, fontWeight: FontWeight.bold),
@@ -171,20 +179,31 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                           color: Colors.black.withOpacity(0.5),
                           fontSize: 12,
                         ),
-                        text: "99999 seguidores     ",
-                        // recognizer: new TapGestureRecognizer()
-                        //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                        //   },
+                        // text: "Seguidores: ",
+                        // text: "Seguidores: " + (this.usuarioLogado == null? "0" : totalSeguidores.toString()),
+                        text: "Seguidores: " + (this.usuarioLogado == null? "0" : this.usuarioLogado.quantidadeSeguidores.toString()),
+                          recognizer: new TapGestureRecognizer()
+                            ..onTap = () async {
+                              this.mostrarSeguidores(this.usuarioLogado != null ? this.usuarioLogado.Id : "");
+                              Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => MostrarUsuariosSeguidoresPage(usuarioModelList: this.seguidoresList, usuarioModel: this.usuarioLogado)),
+                              );
+                            },
                       ),
                       TextSpan(
                         style: TextStyle(
                           color: Colors.black.withOpacity(0.5),
                           fontSize: 12,
                         ),
-                        text: "seguindo 788777     ",
-                        // recognizer: new TapGestureRecognizer()
-                        //   ..onTap = () { launch('https://docs.flutter.io/flutter/services/UrlLauncher-class.html');
-                        //   },
+                        // text: "     Seguindo: " ,
+                        text: "     Seguindo: " + (this.usuarioLogado == null? "0" : this.usuarioLogado.quantidadeSeguindo.toString()),
+                        recognizer: new TapGestureRecognizer()
+                          ..onTap = () async {
+                            this.mostrarSeguindo(this.usuarioLogado.Id);
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => MostrarUsuariosSeguindoPage(usuarioModelList: this.seguindoList, usuarioModel: this.usuarioLogado)),
+                            );
+                          },
                       )
                     ])),
                   ],
@@ -194,8 +213,8 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                     Container(
                       margin: EdgeInsets.all(20),
                       child: Text(
-                        this.usuario != null && this.usuario.Descricao != null
-                            ? this.usuario.Descricao
+                        this.usuarioLogado != null && this.usuarioLogado.Descricao != null
+                            ? this.usuarioLogado.Descricao
                             : "Descricao null",
                         style: TextStyle(color: Colors.black.withOpacity(0.6)),
                       ),
@@ -261,7 +280,7 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
               if (value is UsuarioModel)
                 {
                   setState(() {
-                    usuario = value;
+                    usuarioLogado = value;
                   })
                 }
             });
@@ -278,19 +297,45 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
   }
 
   obterUsuario() async {
-    UsuarioService service =
-        Provider.of<UsuarioService>(context, listen: false);
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
     var value = await service.obterUsuarioLogado();
+    var user = await service.buscarUsuarioPorId(value.Id);
     setState(() {
-      this.usuario = value;
+      this.usuarioLogado = user;
     });
   }
 
-  mostrarSeguidores(int idUsuario) async {
+  void mostrarSeguindo(int idUsuario) async {
+    var pageIndex = 0;
+    var pageSize = 0;
     UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    var value = await service.mostrarSeguidores(idUsuario);
-    return value;
+    var value = await service.mostrarSeguindo(idUsuario, pageIndex, pageSize);
+    setState(() {
+      this.seguindoList = value;
+    });
   }
+
+  void mostrarSeguidores(int idUsuario) async {
+    var pageIndex = 0;
+    var pageSize = 0;
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var value = await service.mostrarSeguidores(idUsuario, pageIndex, pageSize);
+    setState(() {
+      this.seguidoresList = value;
+    });
+  }
+
+  void mostrarSeguidoresTotal(int idUsuario) async {
+    var pageIndex = 0;
+    var pageSize = 9999;
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var value = await service.mostrarSeguidores(idUsuario, pageIndex, pageSize);
+    setState(() {
+      this.totalSeguidores = value.length;
+      print(this.totalSeguidores);
+    });
+  }
+
 
   deslogarUsuario() async {
     UsuarioService service =

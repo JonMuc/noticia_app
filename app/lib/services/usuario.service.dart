@@ -78,21 +78,20 @@ class UsuarioService extends ChangeNotifier {
     await sharedPreferences.setString("usuario", jsonEncode(model));
   }
 
-  Future <List<UsuarioModel>> buscarUsuario(String nomeUsuario) async {
-    var response = await usuarioRepository.buscarUsuario(nomeUsuario);
+  Future <List<UsuarioModel>> buscarUsuario(String nomeUsuario, int pageIndex, int pageSize) async {
+    var response = await usuarioRepository.buscarUsuario(nomeUsuario, pageIndex, pageSize);
     return response;
   }
 
- Future <List<UsuarioModel>> mostrarSeguidores(int idUsuario) async {
-   var response = await usuarioRepository.mostrarSeguidores(idUsuario);
+ Future <List<UsuarioModel>> mostrarSeguidores(int idUsuario, int pageIndex, int pageSize) async {
+   var response = await usuarioRepository.mostrarSeguidores(idUsuario, pageIndex, pageSize);
     return response;
   }
 
-  Future <List<UsuarioModel>> mostrarSeguindo(int idUsuario) async {
-    var response = await usuarioRepository.mostrarSeguindo(idUsuario);
+  Future <List<UsuarioModel>> mostrarSeguindo(int idUsuario, int pageIndex, int pageSize) async {
+    var response = await usuarioRepository.mostrarSeguindo(idUsuario, pageIndex, pageSize);
     return response;
   }
-
 
   void seguirUsuario(int idUsuario) async {
     var usuarioLogado = new UsuarioModel.d();
@@ -111,6 +110,8 @@ class UsuarioService extends ChangeNotifier {
     var perfilUsuario = await usuarioRepository.visualizarPerfilUsuario(idUsuario);
     response.quantidadeSeguidores = perfilUsuario.quantidadeSeguidores;
     response.quantidadeSeguindo = perfilUsuario.quantidadeSeguindo;
+    response.quantidadeSeguindo == null ? response.quantidadeSeguindo = 0 : response.quantidadeSeguindo = response.quantidadeSeguindo;
+    response.quantidadeSeguidores == null ? response.quantidadeSeguidores = 0 : response.quantidadeSeguidores = response.quantidadeSeguidores;
     return response;
   }
 

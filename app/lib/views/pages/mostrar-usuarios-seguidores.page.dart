@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/views/widgets/usuario-buscar-usuario.widget.dart';
@@ -7,20 +9,31 @@ import 'package:provider/provider.dart';
 
 class MostrarUsuariosSeguidoresPage extends StatefulWidget{
   final UsuarioModel usuarioModel;
-  List<UsuarioModel> usuarioModelList = List.empty();
+  List<UsuarioModel> usuarioModelList = [];
   MostrarUsuariosSeguidoresPage({@required this.usuarioModelList, this.usuarioModel }); // aqu
 
   @override
   _MostrarUsuariosSeguidoresPage createState() => _MostrarUsuariosSeguidoresPage();
 }
 
-
 class _MostrarUsuariosSeguidoresPage extends State<MostrarUsuariosSeguidoresPage>{
-  TextEditingController buscarUsuarioController = TextEditingController();
+  ScrollController controller;
+  bool chamandoApi = false;
+  int pageIndex = 0;
+  int pageSize = 20;
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController()..addListener(_scrollListener);
+    print("lista seguidores : " + widget.usuarioModelList.length.toString());
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        controller: controller,
         child: Column(
           children: [
             Row(
@@ -40,7 +53,7 @@ class _MostrarUsuariosSeguidoresPage extends State<MostrarUsuariosSeguidoresPage
                         print("botao buscar");
                       },
                       icon: Icon(Icons.search),
-                      label: Text("Buscar")),
+                      label: Text(widget.usuarioModelList.length.toString() + "  " + widget.usuarioModel.NomeUsuario)),
                 )
               ],
             ),
@@ -61,15 +74,35 @@ class _MostrarUsuariosSeguidoresPage extends State<MostrarUsuariosSeguidoresPage
     );
   }
 
-  void buscarUsuario(BuildContext context, String nomeUsuario) async{
-    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
-    var response = await service.buscarUsuario(nomeUsuario);
-    // print(response.length);
-    setState(() {
-      widget.usuarioModelList = response;
-    });
-    print(widget.usuarioModelList.length);
+  void _scrollListener() {
+    print(controller.position.extentAfter);
+    if (controller.position.extentAfter < 200 && !chamandoApi) {
+    // if (controller.position.extentAfter < 200) {
+      pageIndex = pageIndex + 20;
+      print("chamar api  pageIndeex> " + pageIndex.toString());
+      setState(() {
+        chamandoApi = true;
+      });
+      mostrarSeguidores(widget.usuarioModel.Id, pageIndex, pageSize);
+    }
   }
 
+  void mostrarSeguidores(int idUsuario, int pageIndex, int pageSize) async {
+    UsuarioService service = Provider.of<UsuarioService>(context, listen: false);
+    var value = await service.mostrarSeguidores(idUsuario, pageIndex, pageSize);
+    removerCarregando();
+    setState(() {
+      widget.usuarioModelList.addAll(value);
+    });
+    print("lista seguidores > " + widget.usuarioModelList.length.toString());
+  }
+
+  void removerCarregando(){
+    Timer(Duration(seconds: 2), () {
+      setState(() {
+        chamandoApi = false;
+      });
+    });
+  }
 
 }
