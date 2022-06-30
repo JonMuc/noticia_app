@@ -12,14 +12,13 @@ class ComentarioService extends ChangeNotifier {
   ComentarioViewModel responderComentarioModel = null;
   EventEmitter subComentarioRealizado = new EventEmitter();
 
-
-
-  Future <List<ComentarioViewModel>> listarComentario(int idNoticia) async {
+  Future <List<ComentarioViewModel>> listarComentario(int idNoticia, int pageIndex, int pageSize) async {
     if(await usuarioService.verificarUsuarioLogado()){
-      var result = await this.comentarioRepository.listarComentario(idNoticia);
+      var result = await this.comentarioRepository.listarComentario(idNoticia, pageIndex, pageSize);
+      print("numero de comentarios > "  +result.length.toString());
       return result;
     }else{
-      var result = await this.comentarioRepository.listarComentarioDeslogado(idNoticia);
+      var result = await this.comentarioRepository.listarComentarioDeslogado(idNoticia, pageIndex, pageSize);
       return result;
     }
   }

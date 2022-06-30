@@ -84,7 +84,6 @@ class _BuscarUsuarioWidget extends State<BuscarUsuarioWidget>{
 
   void _scrollListener() {
     // print(controller.position.extentAfter);
-    print(controller.position.extentAfter);
     if (controller.position.extentAfter < 300 && !chamandoApi) {
       pageIndex = pageIndex + 20;
       print("chamar api  pageIndeex> " + pageIndex.toString());

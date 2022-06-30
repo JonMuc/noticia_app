@@ -31,6 +31,8 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
   bool mostrarCampoRespostaComentario = false;
   int comentarioCurtido = 0;
   int idUsuarioLogado = 0;
+  int pageIndex;
+  int pageSize;
   final GlobalKey _menuKey = GlobalKey();
 
 

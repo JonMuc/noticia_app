@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_noticia/models/comentario-view.model.dart';
 import 'package:app_noticia/models/view-noticia.model.dart';
 import 'package:app_noticia/services/avaliacao.service.dart';
@@ -18,18 +20,23 @@ class TelaComentarioNoticia extends StatefulWidget {
 }
 
 class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
-  List<ComentarioViewModel> listaDeComentarios = List.empty();
+  List<ComentarioViewModel> listaDeComentarios = [];
   final comentarioService = new ComentarioService();
   final usuarioService = new UsuarioService();
   final TextEditingController commentController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   ComentarioViewModel respostaComentario;
-
+  bool chamandoApi = false;
+  int pageIndex = 0;
+  int pageSize = 5;
+  ScrollController _scrollController;
 
   @override
   void initState() {
-    listarComentarios();
     super.initState();
+    listarComentarios();
+    _scrollController = ScrollController()..addListener(_scrollListener);
+
   }
 
   @override
@@ -85,6 +92,7 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
         ),
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: [
             Stack(
@@ -235,10 +243,13 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
     }
   }
 
-  void listarComentarios() async {
-    var listaComentarioResponse = await comentarioService.listarComentario(widget.noticiaModel.IdNoticia);
+   void listarComentarios() async {
+    var listaComentarioResponse = await comentarioService.listarComentario(widget.noticiaModel.IdNoticia, pageIndex, pageSize);
+    removerCarregando();
     setState(() {
-      this.listaDeComentarios = listaComentarioResponse;
+      this.listaDeComentarios.addAll(listaComentarioResponse);
+      print("total comentarios paginaa >> " + listaDeComentarios.length.toString());
+
     });
   }
 
@@ -265,6 +276,26 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
         alertaNaoLogado();
       }
     }
+  }
+
+  void _scrollListener() {
+    // print(controller.position.extentAfter);
+    if (_scrollController.position.extentAfter < 300 && !chamandoApi) {
+      pageIndex = pageIndex + 5;
+      print("chamar api  pageIndeex> " + pageIndex.toString());
+      setState(() {
+        chamandoApi = true;
+      });
+      listarComentarios();
+    }
+  }
+
+  void removerCarregando(){
+    Timer(Duration(seconds: 2), () {
+      setState(() {
+        chamandoApi = false;
+      });
+    });
   }
 
   alertaNaoLogado(){
