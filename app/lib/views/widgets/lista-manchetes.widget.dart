@@ -21,6 +21,7 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
   ScrollController controller;
   bool chamandoApi = false;
   int pageIndex = 0;
+  int idBase = 0;
 
   @override
   void initState() {
@@ -92,11 +93,14 @@ class _ListaManchetesWidget extends State<ListaManchetesWidget> {
     print(this.noticiaList.length);
     print(pageIndex);
     NoticiaService service = Provider.of<NoticiaService>(context, listen: false);
-    var listarResponse = await service.obterManchetes(pageIndex);
+    var listarResponse = await service.obterManchetes(pageIndex, idBase);
     removerCarregando();
     setState(() {
       pageIndex = pageIndex + 1;
       for(ViewNoticiaModel item in listarResponse){
+        if(this.noticiaList.isEmpty){
+          this.idBase = item.IdNoticia;
+        }
         this.noticiaList.add(item);
       }
       // this.noticiaList.addAll(listarResponse);

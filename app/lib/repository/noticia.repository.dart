@@ -9,13 +9,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class NoticiaRepository {
-  Future<List<ViewNoticiaModel>> listarManchete() async {
+  Future<List<ViewNoticiaModel>> listarManchete(NoticiaRequestModel request) async {
     var url = "${Settings.apiUrl}/noticia/listar-noticias";
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
     Dio dio = new Dio();
     dio.options.headers['token'] = usuarioModel.Token;
-    Response response = await dio.get(url);
+    Response response = await dio.post(url, data: request);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);
     return (responseModel.Objeto as List)
         .map((noticia) => ViewNoticiaModel.fromJson(noticia))

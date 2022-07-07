@@ -11,16 +11,15 @@ class NoticiaService extends ChangeNotifier {
   final usuarioService = new UsuarioService();
   NoticiaRequestModel request = new NoticiaRequestModel(0, 5, 0);
 
-  Future<List<ViewNoticiaModel>> obterManchetes(int pageIndex) async{
+  Future<List<ViewNoticiaModel>> obterManchetes(int pageIndex, int idBase) async{
+    request.PageIndex = pageIndex;
+    request.IdBase = idBase;
     var user = await usuarioService.obterUsuarioLogado();
     if(user == null){
-      request.PageIndex = pageIndex;
-      print(2222222222);
-      print(request.PageIndex);
       var result = await this.noticiaRepository.listarMancheteDeslogado(request);
       return result;
     }else{
-      return await this.noticiaRepository.listarManchete();
+      return await this.noticiaRepository.listarManchete(request);
     }
   }
 
