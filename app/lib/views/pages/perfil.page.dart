@@ -1,6 +1,7 @@
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
+import 'package:app_noticia/views/pages/chat.page.dart';
 import 'package:app_noticia/views/pages/editar-perfil.page.dart';
 import 'package:app_noticia/views/pages/home.page.dart';
 import 'package:flutter/gestures.dart';
@@ -229,6 +230,30 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                         shape:
+                        MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              //side: BorderSide(color: Colors.red)
+                            ))),
+                    onPressed: () async {
+                      abrirChat();
+                    },
+                    child: Text(
+                      "Chat",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(10),
+                  height: MediaQuery.of(context).size.width * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.blue),
+                        shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -271,6 +296,19 @@ class _PerfilUsuarioPage extends State<PerfilUsuarioPage>
                 )
               ],
             )));
+  }
+
+  abrirChat() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ChatPage()))
+        .then((value) => {
+      if (value is UsuarioModel)
+        {
+          setState(() {
+            usuarioLogado = value;
+          })
+        }
+    });
   }
 
   abrirEditarPerfil() {
