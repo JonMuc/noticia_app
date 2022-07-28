@@ -134,8 +134,8 @@ class ComentarioRepository {
   }
 
 
-  Future<List<ComentarioViewModel>> listarSubComentario(int idComentario) async {
-    var url = "${Settings.apiUrl}/comentario/obter-comentarios-de-comentario/" + idComentario.toString();
+  Future<List<ComentarioViewModel>> listarSubComentario(int idComentario, int pageIndex, int pageSize) async {
+    var url = "${Settings.apiUrl}/comentario/obter-comentarios-de-comentario/" + idComentario.toString() + "/" + pageIndex.toString() + "/" + pageSize.toString();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     UsuarioModel usuarioModel = UsuarioModel.fromJson(jsonDecode(sharedPreferences.get("usuario")));
     Dio dio = new Dio();
@@ -145,8 +145,8 @@ class ComentarioRepository {
     return (responseModel.Objeto as List).map((comentario) => ComentarioViewModel.fromJson(comentario)).toList();
   }
 
-  Future<List<ComentarioViewModel>> listarSubComentarioDeslogado(int idComentario) async {
-    var url = "${Settings.apiUrl}/comentario/obter-comentarios-de-comentario-deslogado/" + idComentario.toString();
+  Future<List<ComentarioViewModel>> listarSubComentarioDeslogado(int idComentario, int pageIndex, int pageSize) async {
+    var url = "${Settings.apiUrl}/comentario/obter-comentarios-de-comentario-deslogado/" + idComentario.toString() + "/" + pageIndex.toString() + "/" + pageSize.toString();
     Dio dio = new Dio();
     Response response = await dio.get(url);
     ResponseModel responseModel = ResponseModel.fromJson(response.data);

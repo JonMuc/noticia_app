@@ -23,12 +23,12 @@ class ComentarioService extends ChangeNotifier {
     }
   }
 
-  Future <List<ComentarioViewModel>> listarSubComentario(int idComentario) async {
+  Future <List<ComentarioViewModel>> listarSubComentario(int idComentario, int pageIndex, int pageSize) async {
     if(await usuarioService.verificarUsuarioLogado()){
-      var result = await this.comentarioRepository.listarSubComentario(idComentario);
+      var result = await this.comentarioRepository.listarSubComentario(idComentario, pageIndex, pageSize);
       return result;
     }else{
-      var result = await this.comentarioRepository.listarSubComentarioDeslogado(idComentario);
+      var result = await this.comentarioRepository.listarSubComentarioDeslogado(idComentario, pageIndex, pageSize);
       return result;
     }
   }

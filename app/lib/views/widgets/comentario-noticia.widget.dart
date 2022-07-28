@@ -24,15 +24,15 @@ class WidgetComentarioNoticia extends StatefulWidget {
 
 
 class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
+  int pageIndex = 0;
+  int pageSize = 3;
   final comentarioService = new ComentarioService();
   final usuarioService = new UsuarioService();
-  List<ComentarioViewModel> listaRespostaComentarios;
+  List<ComentarioViewModel> listaRespostaComentarios = [];
   bool mostrarRespostaComentario = false;
   bool mostrarCampoRespostaComentario = false;
   int comentarioCurtido = 0;
   int idUsuarioLogado = 0;
-  int pageIndex;
-  int pageSize;
   final GlobalKey _menuKey = GlobalKey();
 
 
@@ -121,8 +121,9 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                   ),
                   mostrarRespostaComentario ? Container() : GestureDetector(
                     child: widget.comentarioViewModel.QuantidadeSubComentario != 0 ?
-                    Text('ver ' + widget.comentarioViewModel.QuantidadeSubComentario.toString() + ' resposta') : Container(),
+                    Text('ver ' + widget.comentarioViewModel.QuantidadeSubComentario.toString() + ' resposta(s)') : Container(),
                     onTap: () {
+                      this.pageIndex = 0;
                       listarSubComentarios();
                     },
                   ),
@@ -218,7 +219,6 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                       ],
                     ),
                   ) : Container(),
-
                 ],
               ),
               mostrarRespostaComentario
@@ -228,14 +228,56 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
                       Container(
                         margin: EdgeInsets.only(bottom: 20),
                         alignment: Alignment.centerLeft,
-                        child: GestureDetector(
-                          child: Text('ocultar resposta'),
-                          onTap: () {
-                            setState(() {
-                              mostrarRespostaComentario = false;
-                            });
-                          },
-                        ),
+                        child:
+                        RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(children: [
+                              TextSpan(
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    // fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic
+                                    ),
+                                text: "Ocultar respostas",
+                                recognizer: new TapGestureRecognizer()
+                                  ..onTap = () {
+                                   setState(() {
+                                     this.pageIndex = 0;
+                                     listaRespostaComentarios = [];
+                                     print("page index >> " + this.pageIndex.toString());
+                                     mostrarRespostaComentario = false;
+                                   });
+                                  },
+                              ),
+                              TextSpan(
+                                style: TextStyle(
+                                  fontSize: 13,
+                                ),
+                                text: "                   ",
+                                recognizer: new TapGestureRecognizer()
+                                  ..onTap = () {
+                                  },
+                              ),
+                              TextSpan(
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 13,
+                                  // fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic
+                                ),
+                                text: "Carregar mais",
+                                recognizer: new TapGestureRecognizer()
+                                  ..onTap = () {
+                                    setState(() {
+                                      print("page index carregar mais >> " + this.pageIndex.toString());
+                                      this.pageIndex = this.pageIndex + 3;
+                                      listarSubComentarios();
+                                      print('funcao');
+                                    });
+                                  },
+                              )
+                            ])),
                       ),
                     ],
               )
@@ -258,7 +300,6 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
     }
   }
 
-
   void deletarComentario() async {
     var responseDelete = await comentarioService.excluirComentario(widget.comentarioViewModel.IdComentario);
     if(responseDelete){
@@ -267,6 +308,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
   }
 
   void responderComentario() {
+    print("respondendo");
     if(idUsuarioLogado != 0){
       ComentarioService comentarioService = Provider.of<ComentarioService>(context, listen: false);
       comentarioService.responderComentarioModel = widget.comentarioViewModel;
@@ -279,7 +321,7 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
 
   void listarSubComentariosAoResponder() async {
     ComentarioService comentarioService = Provider.of<ComentarioService>(context, listen: false);
-    var listaSubComentario = await comentarioService.listarSubComentario(widget.comentarioViewModel.IdComentario);
+    var listaSubComentario = await comentarioService.listarSubComentario(widget.comentarioViewModel.IdComentario, 0, 3);
     setState(() {
       listaRespostaComentarios = listaSubComentario;
     });
@@ -287,9 +329,9 @@ class _WidgetComentarioNoticia extends State<WidgetComentarioNoticia> {
 
   void listarSubComentarios() async {
     ComentarioService comentarioService = Provider.of<ComentarioService>(context, listen: false);
-    var listaSubComentario = await comentarioService.listarSubComentario(widget.comentarioViewModel.IdComentario);
+    var listaSubComentarioResponse = await comentarioService.listarSubComentario(widget.comentarioViewModel.IdComentario, pageIndex, pageSize);
     setState(() {
-      listaRespostaComentarios = listaSubComentario;
+      this.listaRespostaComentarios.addAll(listaSubComentarioResponse);
       mostrarRespostaComentario = true;
     });
   }

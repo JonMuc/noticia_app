@@ -248,8 +248,6 @@ class _TelaComentarioNoticia extends State<TelaComentarioNoticia> {
     removerCarregando();
     setState(() {
       this.listaDeComentarios.addAll(listaComentarioResponse);
-      print("total comentarios paginaa >> " + listaDeComentarios.length.toString());
-
     });
   }
 
