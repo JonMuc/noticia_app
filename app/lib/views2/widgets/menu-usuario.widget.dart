@@ -1,6 +1,6 @@
 import 'package:app_noticia/services/usuario.service.dart';
-import 'package:app_noticia/views/pages/perfil.page.dart';
-import 'package:app_noticia/views/widgets/fazer-login.widget.dart';
+import 'package:app_noticia/views/pages/perfil-usuario/perfil-usuario.page.dart';
+import 'package:app_noticia/views/widgets/fazer-login/fazer-login.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -49,7 +49,7 @@ class _HomePage extends State<HomePage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: MenuUsuarioWidget(),
+      endDrawer: new MenuUsuario(),
       drawer: new ModalWidget(),
       body: new NestedScrollView(
         controller: _scrollViewController,

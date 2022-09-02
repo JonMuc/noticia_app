@@ -3,9 +3,10 @@ import 'package:app_noticia/models/view-noticia.model.dart';
 import 'package:app_noticia/repository/comentario.repository.dart';
 import 'package:app_noticia/repository/noticia.repository.dart';
 import 'package:app_noticia/services/usuario.service.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
-class NoticiaService extends ChangeNotifier {
+
+class NoticiaService extends GetxService {
   final noticiaRepository = new NoticiaRepository();
   final comentarioRepository = new ComentarioRepository();
   final usuarioService = new UsuarioService();
@@ -22,5 +23,4 @@ class NoticiaService extends ChangeNotifier {
       return await this.noticiaRepository.listarManchete(request);
     }
   }
-
 }

@@ -1,57 +1,64 @@
-import 'package:app_noticia/services/avaliacao.service.dart';
-import 'package:app_noticia/services/chat.service.dart';
-import 'package:app_noticia/services/comentario.service.dart';
-import 'package:app_noticia/services/noticia.service.dart';
-import 'package:app_noticia/views/pages/home.page.dart';
+import 'package:app_noticia/services/usuario.service.dart';
+import 'package:app_noticia/views/pages/cadastro-usuario/cadastro-usuario.controller.dart';
+import 'package:app_noticia/views/pages/cadastro-usuario/cadastro-usuario.page.dart';
+import 'package:app_noticia/views/pages/home/home.controller.dart';
+import 'package:app_noticia/views/pages/home/home.page.dart';
+import 'package:app_noticia/views/widgets/fazer-login/fazer-login.controller.dart';
+import 'package:app_noticia/views/widgets/lista-manchetes/lista-manchetes.controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'services/usuario.service.dart';
+import 'package:get/get.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(GetMaterialApp(
+    initialRoute: '/home',
+    getPages: [
+      GetPage(name: '/home', page: () => HomeViewPage(), binding: SampleBind()),
+      GetPage(name: '/cadastro-usuario', page: () => CadastroUsuarioViewPage(), binding: SampleBind()),
+    ],
+  ));
+}
 
-class MyApp extends StatelessWidget {
+class SampleBind extends Bindings {
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<NoticiaService>.value(value: NoticiaService()),
-        ChangeNotifierProvider<UsuarioService>.value(value: UsuarioService()),
-        ChangeNotifierProvider<AvaliacaoService>.value(value: AvaliacaoService()),
-        ChangeNotifierProvider<ComentarioService>.value(value: ComentarioService()),
-        ChangeNotifierProvider<ChatService>.value(value: ChatService()),
-      ],
-      child: Main(),
-    );
+  void dependencies() {
+    //Constrollers
+    Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<ListaMancheteController>(() => ListaMancheteController());
+    Get.lazyPut<FazerLoginController>(() => FazerLoginController());
+    Get.lazyPut<CadastroUsuarioController>(() => CadastroUsuarioController());
+
+    //Services
+    Get.lazyPut<UsuarioService>(() => UsuarioService());
   }
 }
 
-class Main extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    //TODO - ONESIGNAL
-    // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    // OneSignal.shared.setAppId("8cae9b11-beab-4ffc-afdb-c6bdd3800fe6");
-    //
-    // OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-    //   // print("Accepted permission: $accepted");
-    // });
-
-
-    return MaterialApp(
-      title: 'WoNew',
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [const Locale('pt', 'BR')],
-    );
-  }
-}
-
+//
+// class Main extends StatelessWidget {
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     //TODO - ONESIGNAL
+//     // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+//     // OneSignal.shared.setAppId("8cae9b11-beab-4ffc-afdb-c6bdd3800fe6");
+//     //
+//     // OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+//     //   // print("Accepted permission: $accepted");
+//     // });
+//
+//
+//     return MaterialApp(
+//       title: 'WoNew',
+//       debugShowCheckedModeBanner: false,
+//       home: HomePage(),
+//       localizationsDelegates: [
+//         GlobalMaterialLocalizations.delegate,
+//         GlobalWidgetsLocalizations.delegate,
+//         GlobalCupertinoLocalizations.delegate,
+//         DefaultWidgetsLocalizations.delegate,
+//       ],
+//       supportedLocales: [const Locale('pt', 'BR')],
+//     );
+//   }
+// }
+//

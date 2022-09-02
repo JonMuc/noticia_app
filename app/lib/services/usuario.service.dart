@@ -6,7 +6,7 @@ import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/repository/comentario.repository.dart';
 import 'package:app_noticia/repository/noticia.repository.dart';
 import 'package:app_noticia/repository/usuario.repository.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +14,7 @@ import 'package:path/path.dart';
 import 'package:async/async.dart';
 
 
-class UsuarioService extends ChangeNotifier {
+class UsuarioService extends GetxService {
   UsuarioModel usuarioModel = null;
   ResponseModel responseModel = null;
   final usuarioRepository = new UsuarioRepository();
@@ -22,6 +22,7 @@ class UsuarioService extends ChangeNotifier {
   final comentarioRepository = new ComentarioRepository();
   int quantPermissaoSolicita = 0;
   int quantPermissaoGaleria = 0;
+  bool usuarioLogado = false;
 
   Future criarUsuario(CriarContaModel criarContaModel) async{
     try{
@@ -59,8 +60,10 @@ class UsuarioService extends ChangeNotifier {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     print(sharedPreferences.get("usuario"));
     if(sharedPreferences.containsKey("usuario")){
+      usuarioLogado = true;
       return true;
     }
+    usuarioLogado = false;
     return false;
   }
 

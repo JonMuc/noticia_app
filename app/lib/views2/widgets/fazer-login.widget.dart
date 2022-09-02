@@ -3,7 +3,7 @@ import 'package:app_noticia/models/usuario-login.model.dart';
 import 'package:app_noticia/models/usuario.model.dart';
 import 'package:app_noticia/services/usuario.service.dart';
 import 'package:app_noticia/themes/style_app.dart';
-import 'package:app_noticia/views/pages/cadastro-usuario.page.dart';
+import 'package:app_noticia/views/pages/cadastro-usuario/cadastro-usuario.page.dart';
 import 'package:app_noticia/views/shared/progress-indicator.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';

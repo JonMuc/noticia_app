@@ -7,7 +7,7 @@ import 'package:app_noticia/views/widgets/resposta-comentario-noticia.widget.dar
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/cadastro-usuario/cadastro-usuario.page.dart';
+import '../pages/cadastro-usuario.page.dart';
 import '../pages/perfil.visitante.page..dart';
 
 class UsuarioCardWidget extends StatefulWidget {

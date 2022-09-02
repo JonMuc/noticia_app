@@ -12,6 +12,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  get: ^4.6.5
   cupertino_icons: ^1.0.2
   provider: any # DI
   dio: any
